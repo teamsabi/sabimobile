@@ -17,9 +17,6 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".newpasswordpage"
-            android:exported="false" />
-        <activity
             android:name=".Dashboard"
             android:exported="false" />
         <activity
@@ -33,7 +30,10 @@
             android:exported="false" />
         <activity
             android:name=".landing"
-            android:exported="true">
+            android:exported="false"/>
+        <activity
+            android:name=".newpasswordpage"
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
