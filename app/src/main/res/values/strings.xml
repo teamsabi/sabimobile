@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Register Application</string>
+    <string name="loginhere"><u>Register</u></string>
+    <string-array name="gender_options">
+        <item>Siswa</item>
+        <item>Pengajar</item>
+    </string-array>
+</resources>
