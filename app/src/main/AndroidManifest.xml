@@ -20,17 +20,14 @@
             android:name=".masukkanOTP"
             android:exported="false" />
         <activity
-            android:name=".resetpassword"
-            android:exported="false" />
-        <activity
             android:name=".Dashboard"
             android:exported="false" />
         <activity
             android:name=".lupapassword"
             android:exported="false" />
         <activity
-            android:name=".login"
-            android:exported="false" />
+            android:name=".newpasswordpage"
+            android:exported="false"/>
         <activity
             android:name=".MainActivity"
             android:exported="false" />
@@ -38,7 +35,7 @@
             android:name=".landing"
             android:exported="false" />
         <activity
-            android:name=".newpasswordpage"
+            android:name=".login"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

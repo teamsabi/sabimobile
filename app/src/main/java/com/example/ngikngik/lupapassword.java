@@ -17,6 +17,7 @@ import androidx.core.view.WindowInsetsCompat;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
@@ -37,20 +38,21 @@ public class lupapassword extends AppCompatActivity {
             return insets;
         });
         EditText editText = findViewById(R.id.etEmailLupaPw);
-        Button button = findViewById(R.id.lanjutpw);
+        Button button = findViewById(R.id.lanjutkatasandi);
         ProgressBar progressBar = findViewById(R.id.progress);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                progressBar.setVisibility(View.GONE);
+                progressBar.setVisibility(View.VISIBLE );
                 RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-                String url ="http://192.168.18.231/db_sabiproject/resetpassword.php";
+                String url ="http://10.10.180.157/db_sabiproject/resetpassword.php";
 
                 StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                         new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
-                                if (response.equals("Succes")){
+                                progressBar.setVisibility(View.GONE);
+                                if (response.equals("Success")){
                                     Intent intent = new Intent(getApplicationContext(), newpasswordpage.class);
                                     intent.putExtra("email", editText.getText().toString());
                                     startActivity(intent);
@@ -61,16 +63,32 @@ public class lupapassword extends AppCompatActivity {
                         }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                    progressBar.setVisibility(View.GONE);
+                        progressBar.setVisibility(View.GONE);
                         error.printStackTrace();
                     }
                 }){
                     protected Map<String, String> getParams(){
                         Map<String, String> paramV = new HashMap<>();
-                        paramV.put("param", editText.getText().toString());
+                        paramV.put("email", editText.getText().toString());
                         return paramV;
                     }
                 };
+                stringRequest.setRetryPolicy(new RetryPolicy() {
+                    @Override
+                    public int getCurrentTimeout() {
+                        return 30000;
+                    }
+
+                    @Override
+                    public int getCurrentRetryCount() {
+                        return 30000;
+                    }
+
+                    @Override
+                    public void retry(VolleyError error) throws VolleyError {
+
+                    }
+                });
                 queue.add(stringRequest);
             }
         });

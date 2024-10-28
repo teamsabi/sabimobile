@@ -86,7 +86,7 @@
         tools:layout_editor_absoluteY="507dp" />
 
     <Button
-        android:id="@+id/batalpw"
+        android:id="@+id/batalotp"
         android:layout_width="121dp"
         android:layout_height="59dp"
         android:layout_marginStart="60dp"
@@ -96,7 +96,7 @@
         app:layout_constraintTop_toBottomOf="@+id/masukkanotp" />
 
     <Button
-        android:id="@+id/lanjutpw2"
+        android:id="@+id/lanjutotp"
         android:layout_width="121dp"
         android:layout_height="59dp"
         android:layout_marginTop="316dp"
