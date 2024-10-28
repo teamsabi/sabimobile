@@ -1,5 +1,6 @@
 package com.example.ngikngik;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -26,7 +27,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class lupapassword extends AppCompatActivity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,26 +39,36 @@ public class lupapassword extends AppCompatActivity {
         });
         EditText editText = findViewById(R.id.etEmailLupaPw);
         Button button = findViewById(R.id.lanjutkatasandi);
+        Button batal = findViewById(R.id.batalpw);
         ProgressBar progressBar = findViewById(R.id.progress);
+        batal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), login.class);
+                startActivity(intent);
+            }
+        });
+
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 progressBar.setVisibility(View.VISIBLE );
                 RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-                String url ="http://10.10.180.157/db_sabiproject/resetpassword.php";
+                String url ="http://192.168.199.206/db_sabiproject/resetpassword.php";
 
                 StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                         new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
                                 progressBar.setVisibility(View.GONE);
-                                if (response.equals("Success")){
+                                if (response.equals("Success")) {
                                     Intent intent = new Intent(getApplicationContext(), newpasswordpage.class);
                                     intent.putExtra("email", editText.getText().toString());
                                     startActivity(intent);
                                     finish();
-                                } else
-                                    Toast.makeText(getApplicationContext(), response, Toast.LENGTH_SHORT).show();
+                                }
+//                                } else
+//                                    Toast.makeText(getApplicationContext(), response, Toast.LENGTH_SHORT).show();
                             }
                         }, new Response.ErrorListener() {
                     @Override
@@ -81,7 +91,7 @@ public class lupapassword extends AppCompatActivity {
 
                     @Override
                     public int getCurrentRetryCount() {
-                        return 30000;
+                        return 1;
                     }
 
                     @Override
