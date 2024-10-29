@@ -4,10 +4,10 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,6 +27,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class lupapassword extends AppCompatActivity {
+    Dialog dialog;
+    Button btnmengerti;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,8 +39,23 @@ public class lupapassword extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        dialog = new Dialog(lupapassword.this);
+        dialog.setContentView(R.layout.konfirmasiotp);
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        btnmengerti = dialog.findViewById(R.id.btn_mengerti);
+        btnmengerti.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(lupapassword.this, newpasswordpage.class);
+                startActivity(intent);
+                dialog.dismiss();
+            }
+        });
+
+
         EditText editText = findViewById(R.id.etEmailLupaPw);
-        Button button = findViewById(R.id.lanjutkatasandi);
+        Button buttonlanjut = findViewById(R.id.lanjutkatasandi);
         Button batal = findViewById(R.id.batalpw);
         ProgressBar progressBar = findViewById(R.id.progress);
         batal.setOnClickListener(new View.OnClickListener() {
@@ -49,23 +66,21 @@ public class lupapassword extends AppCompatActivity {
             }
         });
 
-        button.setOnClickListener(new View.OnClickListener() {
+        buttonlanjut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 progressBar.setVisibility(View.VISIBLE );
                 RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-                String url ="http://192.168.199.206/db_sabiproject/resetpassword.php";
+                String url ="http://192.168.1.8/db_sabiproject/resetpassword.php";
+                                    dialog.show();
 
                 StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                         new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
                                 progressBar.setVisibility(View.GONE);
-                                if (response.equals("Success")) {
-                                    Intent intent = new Intent(getApplicationContext(), newpasswordpage.class);
-                                    intent.putExtra("email", editText.getText().toString());
-                                    startActivity(intent);
-                                    finish();
+                                if (response.equals("Success")){
+
                                 }
 //                                } else
 //                                    Toast.makeText(getApplicationContext(), response, Toast.LENGTH_SHORT).show();
