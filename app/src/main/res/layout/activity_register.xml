@@ -76,13 +76,6 @@
                 android:hint=" Verification Password"
                 android:inputType="textPassword" />
 
-            <Spinner
-                android:id="@+id/spinnerGender"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
-                android:entries="@array/gender_options" />
-
 
             <EditText
                 android:id="@+id/etBirthdate"

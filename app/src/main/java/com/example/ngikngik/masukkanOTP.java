@@ -36,28 +36,27 @@ public class masukkanOTP extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        String email = getIntent().getExtras().getString("email");
         EditText editTextOTP = findViewById(R.id.masukkanotp);
-        Button button = findViewById(R.id.lanjutotp);
-        ProgressBar progressBar = findViewById(R.id.progress);
-        button.setOnClickListener(new View.OnClickListener() {
+        Button buttonlanjut = findViewById(R.id.lanjut);
+        ProgressBar progressBar = findViewById(R.id.progressBar2);
+        buttonlanjut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                progressBar.setVisibility(View.GONE);
+                progressBar.setVisibility(View.VISIBLE);
                 RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-                String url ="http://192.168.18.231/db_sabiproject/resetpassword.php";
+                String url = "http://10.10.181.237/db_sabiproject/masukkanotp.php";
 
                 StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                         new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
-                                if (response.equals("Succes")){
-                                    Toast.makeText(getApplicationContext(), "otp telah dikirim", Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(getApplicationContext(), newpasswordpage.class);
+                                progressBar.setVisibility(View.GONE);
+                                if (response.equals("Success")) {
+                                    Intent intent = new Intent(masukkanOTP.this, newpasswordpage.class);
                                     startActivity(intent);
-
-                                } else
-                                    Toast.makeText(getApplicationContext(), response, Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(getApplicationContext(), "OTP salah. Silakan coba lagi.", Toast.LENGTH_SHORT).show();
+                                }
                             }
                         }, new Response.ErrorListener() {
                     @Override
@@ -65,12 +64,10 @@ public class masukkanOTP extends AppCompatActivity {
                         progressBar.setVisibility(View.GONE);
                         error.printStackTrace();
                     }
-                }){
-                    protected Map<String, String> getParams(){
+                }) {
+                    protected Map<String, String> getParams() {
                         Map<String, String> paramV = new HashMap<>();
-
                         paramV.put("otp", editTextOTP.getText().toString());
-
                         return paramV;
                     }
                 };

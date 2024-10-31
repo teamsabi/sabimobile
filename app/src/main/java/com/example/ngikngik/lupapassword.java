@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,6 +30,7 @@ import java.util.Map;
 public class lupapassword extends AppCompatActivity {
     Dialog dialog;
     Button btnmengerti;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,13 +43,13 @@ public class lupapassword extends AppCompatActivity {
         });
         dialog = new Dialog(lupapassword.this);
         dialog.setContentView(R.layout.konfirmasiotp);
-        dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
         btnmengerti = dialog.findViewById(R.id.btn_mengerti);
         btnmengerti.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(lupapassword.this, newpasswordpage.class);
+                Intent intent = new Intent(lupapassword.this, masukkanOTP.class);
                 startActivity(intent);
                 dialog.dismiss();
             }
@@ -55,7 +57,7 @@ public class lupapassword extends AppCompatActivity {
 
 
         EditText editText = findViewById(R.id.etEmailLupaPw);
-        Button buttonlanjut = findViewById(R.id.lanjutkatasandi);
+        Button buttonlanjut = findViewById(R.id.lanjut);
         Button batal = findViewById(R.id.batalpw);
         ProgressBar progressBar = findViewById(R.id.progress);
         batal.setOnClickListener(new View.OnClickListener() {
@@ -69,52 +71,58 @@ public class lupapassword extends AppCompatActivity {
         buttonlanjut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                progressBar.setVisibility(View.VISIBLE );
-                RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-                String url ="http://192.168.1.8/db_sabiproject/resetpassword.php";
-                                    dialog.show();
 
-                StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
-                        new Response.Listener<String>() {
-                            @Override
-                            public void onResponse(String response) {
-                                progressBar.setVisibility(View.GONE);
-                                if (response.equals("Success")){
-
-                                }
+                String email = editText.getText().toString().trim();
+                if (email.isEmpty()) {
+                    // Tampilkan Toast jika kolom kosong
+                    Toast.makeText(getApplicationContext(), "Isi kolom email terlebih dahulu", Toast.LENGTH_SHORT).show();
+                } else {
+                    // Lanjutkan permintaan ke server jika kolom tidak kosong
+                    RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+                    progressBar.setVisibility(View.VISIBLE);
+                    String url = "http://10.10.181.237/db_sabiproject/resetpassword.php";
+                    dialog.show();
+                    StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                            new Response.Listener<String>() {
+                                @Override
+                                public void onResponse(String response) {
+                                    progressBar.setVisibility(View.GONE);
+                                    if (response.equals("Success")) {
+                                    }
 //                                } else
-//                                    Toast.makeText(getApplicationContext(), response, Toast.LENGTH_SHORT).show();
-                            }
-                        }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        progressBar.setVisibility(View.GONE);
-                        error.printStackTrace();
-                    }
-                }){
-                    protected Map<String, String> getParams(){
-                        Map<String, String> paramV = new HashMap<>();
-                        paramV.put("email", editText.getText().toString());
-                        return paramV;
-                    }
-                };
-                stringRequest.setRetryPolicy(new RetryPolicy() {
-                    @Override
-                    public int getCurrentTimeout() {
-                        return 30000;
-                    }
+//                                     Toast.makeText(getApplicationContext(), response, Toast.LENGTH_SHORT).show();
+                                }
+                            }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            progressBar.setVisibility(View.GONE);
+                            error.printStackTrace();
+                        }
+                    }) {
+                        protected Map<String, String> getParams() {
+                            Map<String, String> paramV = new HashMap<>();
+                            paramV.put("email", editText.getText().toString());
+                            return paramV;
+                        }
+                    };
+                    stringRequest.setRetryPolicy(new RetryPolicy() {
+                        @Override
+                        public int getCurrentTimeout() {
+                            return 30000;
+                        }
 
-                    @Override
-                    public int getCurrentRetryCount() {
-                        return 1;
-                    }
+                        @Override
+                        public int getCurrentRetryCount() {
+                            return 1;
+                        }
 
-                    @Override
-                    public void retry(VolleyError error) throws VolleyError {
+                        @Override
+                        public void retry(VolleyError error) throws VolleyError {
 
-                    }
-                });
-                queue.add(stringRequest);
+                        }
+                    });
+                    queue.add(stringRequest);
+                }
             }
         });
     }

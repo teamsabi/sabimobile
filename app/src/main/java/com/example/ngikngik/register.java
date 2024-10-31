@@ -49,10 +49,9 @@ public class register extends AppCompatActivity {
 
     private EditText etBirthdate;
     private EditText etFullname, etUsername, etEmail, etPassword, etVerificationPassword, etAddress, etPhone;
-    private Spinner spinnerGender;
     private Button btnRegister;
 
-    public void CreateDataToServer(final String username, final String email, final String password, final String gender, final String tanggal_lahir, final String alamat, final String nomertelepon) {
+    public void CreateDataToServer(final String username, final String email, final String password, final String tanggal_lahir, final String alamat, final String nomertelepon) {
         if (checkNetworkConnection()) {
             progressDialog.show();  // Tampilkan dialog sebelum memulai permintaan
             StringRequest stringRequest = new StringRequest(Request.Method.POST, DbContract.SERVER_REGISTER_URL,
@@ -92,7 +91,6 @@ public class register extends AppCompatActivity {
                     params.put("username", username);
                     params.put("email", email);
                     params.put("password", password);
-                    params.put("gender", gender);
                     params.put("tanggal_lahir", tanggal_lahir);
                     params.put("alamat", alamat);
                     params.put("nomertelepon", nomertelepon);
@@ -139,7 +137,6 @@ public class register extends AppCompatActivity {
         etVerificationPassword = (EditText)  findViewById(R.id.etVerificationPassword);
         etBirthdate = (EditText) findViewById(R.id.etBirthdate);
         etAddress = (EditText) findViewById(R.id.etAddress);
-        spinnerGender = (Spinner) findViewById(R.id.spinnerGender);
         btnRegister = (Button) findViewById(R.id.btnRegister);
         etPhone = (EditText) findViewById(R.id.etPhone);
         progressDialog = new ProgressDialog(register.this);
@@ -169,7 +166,6 @@ public class register extends AppCompatActivity {
                 String SverifyPassword = etVerificationPassword.getText().toString();
                 String Sbirthdate = etBirthdate.getText().toString();
                 String Saddress = etAddress.getText().toString();
-                String Sgender = spinnerGender.getSelectedItem().toString();
                 String Sphone = etPhone.getText().toString();
                 if (Susername.isEmpty() || Spassword.isEmpty() || Sbirthdate.isEmpty() || Saddress.isEmpty()) {
                     Toast.makeText(register.this, "Isi Semua Kolom di atas", Toast.LENGTH_SHORT).show();
@@ -180,7 +176,7 @@ public class register extends AppCompatActivity {
                 } else if (!android.text.TextUtils.isDigitsOnly(Sphone)) {
                     Toast.makeText(register.this, "Nomor telepon hanya boleh berisi angka", Toast.LENGTH_SHORT).show();
                 } else {
-                    CreateDataToServer(Susername, Semail, Spassword, Sgender, Sbirthdate, Saddress, Sphone);
+                    CreateDataToServer(Susername, Semail, Spassword, Sbirthdate, Saddress, Sphone);
                     Toast.makeText(register.this, "Registrasi berhasil", Toast.LENGTH_SHORT).show();
                     finish();
                 }
