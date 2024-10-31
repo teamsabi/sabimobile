@@ -22,9 +22,11 @@
         android:layout_width="151dp"
         android:layout_height="24dp"
         android:layout_marginTop="4dp"
+        app:layout_constraintEnd_toEndOf="@+id/imageView18"
+        app:layout_constraintStart_toStartOf="@+id/imageView18"
         app:layout_constraintTop_toBottomOf="@+id/imageView18"
         app:srcCompat="@drawable/sabichamps"
-        tools:layout_editor_absoluteX="130dp" />
+        tools:ignore="MissingConstraints" />
 
     <ImageView
         android:id="@+id/imageView17"
@@ -42,20 +44,24 @@
         android:layout_width="222dp"
         android:layout_height="39dp"
         android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="@+id/imageView17"
+        app:layout_constraintStart_toStartOf="@+id/imageView17"
         app:layout_constraintTop_toBottomOf="@+id/imageView17"
         app:srcCompat="@drawable/selamatdatang"
-        tools:layout_editor_absoluteX="94dp" />
+        tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/textView13"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="76dp"
         android:text="Masukkan Kode OTP"
         android:textSize="16sp"
         android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView20"
-        tools:layout_editor_absoluteX="34dp" />
+        tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/textView14"
@@ -71,38 +77,41 @@
         android:id="@+id/masukkanotp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
         android:ems="10"
         android:hint="Masukkan OTP"
         android:inputType="text"
-        tools:layout_editor_absoluteX="31dp"
-        tools:layout_editor_absoluteY="462dp" />
+        app:layout_constraintStart_toStartOf="@+id/textView13"
+        app:layout_constraintTop_toBottomOf="@+id/textView14"
+        tools:ignore="MissingConstraints" />
 
     <ProgressBar
         android:id="@+id/progressBar2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
+        tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="172dp"
         tools:layout_editor_absoluteY="507dp" />
+
+    <Button
+        android:id="@+id/lanjut"
+        android:layout_width="121dp"
+        android:layout_height="59dp"
+        android:layout_marginTop="284dp"
+        android:layout_marginEnd="44dp"
+        android:text="Lanjut"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/masukkanotp" />
 
     <Button
         android:id="@+id/batalotp"
         android:layout_width="121dp"
         android:layout_height="59dp"
-        android:layout_marginStart="60dp"
-        android:layout_marginTop="316dp"
+        android:layout_marginStart="68dp"
+        android:layout_marginTop="284dp"
         android:text="Batal"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/masukkanotp" />
-
-    <Button
-        android:id="@+id/lanjutotp"
-        android:layout_width="121dp"
-        android:layout_height="59dp"
-        android:layout_marginTop="316dp"
-        android:layout_marginEnd="60dp"
-        android:text="Lanjut"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/masukkanotp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
