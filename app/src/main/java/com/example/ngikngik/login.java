@@ -38,7 +38,7 @@ import java.util.Map;
 public class login extends AppCompatActivity {
     private EditText etEmail, etPassword;
     TextView textViewLogin, lupapw;
-    Button move;
+//    Button move;
     private Button btnLogin;
     ProgressDialog progressDialog;
 
