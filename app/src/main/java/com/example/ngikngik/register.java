@@ -9,11 +9,14 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -48,7 +51,7 @@ public class register extends AppCompatActivity {
     ProgressDialog progressDialog;
 
     private EditText etBirthdate;
-    private EditText  etEmail, etPassword, etVerificationPassword;
+    private EditText  etEmail, etPassRegister, etVerificationPassword;
     private Button btnRegister;
 
     public void CreateDataToServer(final String email, final String password) {
@@ -121,13 +124,85 @@ public class register extends AppCompatActivity {
 
             return insets;
         });
+//        //verifmata
+//        ImageView imageViewShowHidePw = findViewById(R.id.imageView_show_hide_pw);
+//        imageViewShowHidePw.setImageResource(R.drawable.tutupmatapw);
+//        imageViewShowHidePw.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+//        imageViewShowHidePw.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if (etVerificationPassword.getTransformationMethod().equals(HideReturnsTransformationMethod.getInstance())){
+//                    etVerificationPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+//                    imageViewShowHidePw.setImageResource(R.drawable.tutupmatapw);
+//                }else {
+//                    etVerificationPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+//                    imageViewShowHidePw.setImageResource(R.drawable.tampilmatapw);
+//                }
+//            }
+//        });
+//        imageViewShowHidePw.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                // Simpan posisi kursor saat ini
+//                int cursorPosition = etVerificationPassword.getSelectionStart();
+//
+//                if (etVerificationPassword.getTransformationMethod().equals(HideReturnsTransformationMethod.getInstance())) {
+//                    // Ganti ke mode sembunyi password
+//                    etVerificationPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+//                    imageViewShowHidePw.setImageResource(R.drawable.tutupmatapw);
+//                } else {
+//                    // Ganti ke mode tampil password
+//                    etVerificationPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+//                    imageViewShowHidePw.setImageResource(R.drawable.tampilmatapw);
+//                }
+//
+//                // Kembalikan posisi kursor ke tempat sebelumnya
+//                etVerificationPassword.setSelection(cursorPosition);
+//            }
+//        });
+        //katasandi
+        ImageView imageViewShowHidePw = findViewById(R.id.imageView_show_hide_pw);
+        imageViewShowHidePw.setImageResource(R.drawable.tutupmatapw);
+        imageViewShowHidePw.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+        imageViewShowHidePw.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (etPassRegister.getTransformationMethod().equals(HideReturnsTransformationMethod.getInstance())){
+                    etPassRegister.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    imageViewShowHidePw.setImageResource(R.drawable.tutupmatapw);
+                }else {
+                    etPassRegister.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    imageViewShowHidePw.setImageResource(R.drawable.tampilmatapw);
+                }
+            }
+        });
+        imageViewShowHidePw.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Simpan posisi kursor saat ini
+                int cursorPosition = etPassRegister.getSelectionStart();
+
+                if (etPassRegister.getTransformationMethod().equals(HideReturnsTransformationMethod.getInstance())) {
+                    // Ganti ke mode sembunyi password
+                    etPassRegister.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    imageViewShowHidePw.setImageResource(R.drawable.tutupmatapw);
+                } else {
+                    // Ganti ke mode tampil password
+                    etPassRegister.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    imageViewShowHidePw.setImageResource(R.drawable.tampilmatapw);
+                }
+
+                // Kembalikan posisi kursor ke tempat sebelumnya
+                etPassRegister.setSelection(cursorPosition);
+            }
+        });
 
 //        db=new SQLiteHandler(getApplicationContext()) {
 //        }
 
         txtmasuk = findViewById(R.id.txt_masuk);
         etEmail = (EditText) findViewById(R.id.etEmailRegister);
-        etPassword = (EditText) findViewById(R.id.etPasswordRegister);
+        etPassRegister = (EditText) findViewById(R.id.etPasswordRegister);
         etVerificationPassword = (EditText)  findViewById(R.id.etVerificationPassword);
         btnRegister = (Button) findViewById(R.id.btnRegister);
         progressDialog = new ProgressDialog(register.this);
@@ -160,7 +235,7 @@ public class register extends AppCompatActivity {
 //                String fullname = etFullname.getText().toString();
 //                String Susername = etUsername.getText().toString();
                 String Semail = etEmail.getText().toString();
-                String Spassword = etPassword.getText().toString();
+                String Spassword = etPassRegister.getText().toString();
                 String SverifyPassword = etVerificationPassword.getText().toString();
 //                String Sbirthdate = etBirthdate.getText().toString();
 //                String Saddress = etAddress.getText().toString();
