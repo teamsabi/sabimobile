@@ -130,15 +130,10 @@ public class register extends AppCompatActivity {
 //        }
 
 
-//        etFullname = (EditText) findViewById(R.id.etFullname);
-        etUsername = (EditText) findViewById(R.id.etUsername);
         etEmail = (EditText) findViewById(R.id.etEmailRegister);
         etPassword = (EditText) findViewById(R.id.etPasswordRegister);
         etVerificationPassword = (EditText)  findViewById(R.id.etVerificationPassword);
-        etBirthdate = (EditText) findViewById(R.id.etBirthdate);
-        etAddress = (EditText) findViewById(R.id.etAddress);
         btnRegister = (Button) findViewById(R.id.btnRegister);
-        etPhone = (EditText) findViewById(R.id.etPhone);
         progressDialog = new ProgressDialog(register.this);
 
         etBirthdate.setOnClickListener(new View.OnClickListener() {

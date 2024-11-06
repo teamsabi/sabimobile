@@ -12,7 +12,6 @@
         android:layout_width="418dp"
         android:layout_height="268dp"
         app:srcCompat="@drawable/backgroundmelengkung"
-        tools:layout_editor_absoluteX="-4dp"
         tools:layout_editor_absoluteY="0dp" />
 
     <ImageView
@@ -116,8 +115,8 @@
         android:layout_marginTop="8dp"
         android:text="Belum punya akun?"
         android:textSize="3mm"
-        app:layout_constraintTop_toBottomOf="@+id/txtLogin"
-        tools:layout_editor_absoluteX="32dp" />
+        app:layout_constraintStart_toStartOf="@+id/txtLogin"
+        app:layout_constraintTop_toBottomOf="@+id/txtLogin" />
 
     <TextView
         android:id="@+id/txt_donthaveaccount"
@@ -132,8 +131,8 @@
 
         android:textSize="3mm"
         android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@+id/txtLogin"
-        tools:layout_editor_absoluteX="19dp" />
+        app:layout_constraintStart_toStartOf="@+id/txtLogin"
+        app:layout_constraintTop_toBottomOf="@+id/txtLogin" />
 
     <TextView
         android:id="@+id/lupapw"
@@ -149,12 +148,13 @@
         android:id="@+id/txtLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="76dp"
         android:text="Login"
         android:textSize="24sp"
         android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@+id/imageView16"
-        tools:layout_editor_absoluteX="32dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView16" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
