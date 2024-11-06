@@ -43,15 +43,15 @@ import java.util.Map;
 public class register extends AppCompatActivity {
 
     Button buttonSignup;
-    TextView textViewLogin;
+    TextView textViewLogin, txtmasuk;
     ProgressBar progressBar;
     ProgressDialog progressDialog;
 
     private EditText etBirthdate;
-    private EditText etFullname, etUsername, etEmail, etPassword, etVerificationPassword, etAddress, etPhone;
+    private EditText  etEmail, etPassword, etVerificationPassword;
     private Button btnRegister;
 
-    public void CreateDataToServer(final String username, final String email, final String password, final String tanggal_lahir, final String alamat, final String nomertelepon) {
+    public void CreateDataToServer(final String email, final String password) {
         if (checkNetworkConnection()) {
             progressDialog.show();  // Tampilkan dialog sebelum memulai permintaan
             StringRequest stringRequest = new StringRequest(Request.Method.POST, DbContract.SERVER_REGISTER_URL,
@@ -88,12 +88,8 @@ public class register extends AppCompatActivity {
                 @Override
                 protected Map<String, String> getParams() throws AuthFailureError {
                     Map<String, String> params = new HashMap<>();
-                    params.put("username", username);
                     params.put("email", email);
                     params.put("password", password);
-                    params.put("tanggal_lahir", tanggal_lahir);
-                    params.put("alamat", alamat);
-                    params.put("nomertelepon", nomertelepon);
                     return params;
                 }
             };
@@ -129,19 +125,19 @@ public class register extends AppCompatActivity {
 //        db=new SQLiteHandler(getApplicationContext()) {
 //        }
 
-
+        txtmasuk = findViewById(R.id.txt_masuk);
         etEmail = (EditText) findViewById(R.id.etEmailRegister);
         etPassword = (EditText) findViewById(R.id.etPasswordRegister);
         etVerificationPassword = (EditText)  findViewById(R.id.etVerificationPassword);
         btnRegister = (Button) findViewById(R.id.btnRegister);
         progressDialog = new ProgressDialog(register.this);
 
-        etBirthdate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showDatePickerDialog();
-            }
-        });
+//        etBirthdate.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                showDatePickerDialog();
+//            }
+//        });
 
 
 //                        }
@@ -149,29 +145,32 @@ public class register extends AppCompatActivity {
 //                    }
 //                });    //End Write and Read data with URL
 //             }
+        txtmasuk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(register.this, login.class);
+                startActivity(intent);
+            }
+        });
         btnRegister.setOnClickListener(new View.OnClickListener() {
             private Object username;
 
             @Override
             public void onClick(View v) {
 //                String fullname = etFullname.getText().toString();
-                String Susername = etUsername.getText().toString();
+//                String Susername = etUsername.getText().toString();
                 String Semail = etEmail.getText().toString();
                 String Spassword = etPassword.getText().toString();
                 String SverifyPassword = etVerificationPassword.getText().toString();
-                String Sbirthdate = etBirthdate.getText().toString();
-                String Saddress = etAddress.getText().toString();
-                String Sphone = etPhone.getText().toString();
-                if (Susername.isEmpty() || Spassword.isEmpty() || Sbirthdate.isEmpty() || Saddress.isEmpty()) {
+//                String Sbirthdate = etBirthdate.getText().toString();
+//                String Saddress = etAddress.getText().toString();
+//                String Sphone = etPhone.getText().toString();
+                if (Spassword.isEmpty()) {
                     Toast.makeText(register.this, "Isi Semua Kolom di atas", Toast.LENGTH_SHORT).show();
-                } else if (Sphone.isEmpty()) {
-                    Toast.makeText(register.this, "Masukkan nomor telepon", Toast.LENGTH_SHORT).show();
                 } else if (!Spassword.equals(SverifyPassword)) {
                     Toast.makeText(register.this, "Password tidak sama", Toast.LENGTH_SHORT).show();
-                } else if (!android.text.TextUtils.isDigitsOnly(Sphone)) {
-                    Toast.makeText(register.this, "Nomor telepon hanya boleh berisi angka", Toast.LENGTH_SHORT).show();
                 } else {
-                    CreateDataToServer(Susername, Semail, Spassword, Sbirthdate, Saddress, Sphone);
+                    CreateDataToServer(Semail, Spassword);
                     Toast.makeText(register.this, "Registrasi berhasil", Toast.LENGTH_SHORT).show();
                     finish();
                 }

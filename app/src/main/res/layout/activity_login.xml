@@ -9,10 +9,12 @@
 
     <ImageView
         android:id="@+id/imageView16"
-        android:layout_width="418dp"
+        android:layout_width="match_parent"
         android:layout_height="268dp"
-        app:srcCompat="@drawable/backgroundmelengkung"
-        tools:layout_editor_absoluteY="0dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/backgroundmelengkung" />
 
     <ImageView
         android:id="@+id/imageView12"
@@ -50,40 +52,43 @@
 
     <EditText
         android:id="@+id/etEmailLogin"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="76dp"
         android:layout_marginEnd="32dp"
+        android:background="@drawable/edittextbg"
         android:ems="10"
-        android:hint="Email"
+        android:hint=" Email"
         android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txt_belumpunyakun" />
 
+
     <EditText
         android:id="@+id/etPasswordLogin"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
         android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="32dp"
+        android:background="@drawable/edittextbg"
         android:ems="10"
-        android:hint="Password"
+        android:hint=" Password"
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etEmailLogin" />
 
-
     <Button
         android:id="@+id/btn_login2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="220dp"
+        android:layout_marginTop="176dp"
         android:layout_marginEnd="32dp"
         android:backgroundTint="#229799"
         android:text="Masuk"
@@ -93,20 +98,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etPasswordLogin"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/etPasswordLogin" />
 
     <ImageView
         android:id="@+id/imageView_show_hide_pw"
         android:layout_width="30dp"
         android:layout_height="32dp"
         android:layout_marginTop="1dp"
-        android:layout_marginEnd="40dp"
+        android:layout_marginEnd="44dp"
         android:layout_marginBottom="12dp"
         android:scaleType="centerInside"
         app:layout_constraintBottom_toBottomOf="@+id/etPasswordLogin"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/etPasswordLogin" />
+        app:layout_constraintTop_toTopOf="@+id/etPasswordLogin"
+        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/txt_belumpunyakun"
@@ -120,17 +125,17 @@
 
     <TextView
         android:id="@+id/txt_donthaveaccount"
-        android:layout_width="249dp"
-        android:layout_height="26dp"
+        android:layout_width="198dp"
+        android:layout_height="29dp"
+        android:layout_marginStart="36dp"
         android:layout_marginTop="8dp"
         android:ems="10"
         android:inputType="text"
         android:text="@string/loginhere"
         android:textAlignment="textEnd"
-        android:textColor="#0080FF"
 
+        android:textColor="#0080FF"
         android:textSize="3mm"
-        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/txtLogin"
         app:layout_constraintTop_toBottomOf="@+id/txtLogin" />
 
@@ -149,7 +154,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="76dp"
+        android:layout_marginTop="92dp"
         android:text="Login"
         android:textSize="24sp"
         android:textStyle="bold"
