@@ -25,7 +25,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class masukkanOTP extends AppCompatActivity {
-
+    Button btnbatal;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,8 +37,17 @@ public class masukkanOTP extends AppCompatActivity {
             return insets;
         });
         EditText editTextOTP = findViewById(R.id.masukkanotp);
+        Button btnbatal = findViewById(R.id.batalotp);
         Button buttonlanjut = findViewById(R.id.lanjut);
         ProgressBar progressBar = findViewById(R.id.progressBar2);
+
+        btnbatal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(masukkanOTP.this, lupapassword.class);
+                startActivity(intent);
+            }
+        });
         buttonlanjut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

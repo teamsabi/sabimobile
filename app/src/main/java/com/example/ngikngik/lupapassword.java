@@ -81,15 +81,19 @@ public class lupapassword extends AppCompatActivity {
                     RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
                     progressBar.setVisibility(View.VISIBLE);
                     String url = "http://10.10.181.237/db_sabiproject/resetpassword.php";
-                    dialog.show();
                     StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                             new Response.Listener<String>() {
                                 @Override
                                 public void onResponse(String response) {
                                     progressBar.setVisibility(View.GONE);
                                     if (response.equals("Success")) {
-                                    }
-//                                } else
+                                        dialog.show();
+                                    } else if (response.equals("Email tidak ditemukan")) {
+                                        Toast.makeText(getApplicationContext(), "Email tidak ditemukan di database", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        Toast.makeText(getApplicationContext(), "Gagal mengirim permintaan. Coba lagi.", Toast.LENGTH_SHORT).show();
+                                  }
+//                                else
 //                                     Toast.makeText(getApplicationContext(), response, Toast.LENGTH_SHORT).show();
                                 }
                             }, new Response.ErrorListener() {
