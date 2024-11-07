@@ -125,41 +125,41 @@ public class register extends AppCompatActivity {
             return insets;
         });
 //        //verifmata
-//        ImageView imageViewShowHidePw = findViewById(R.id.imageView_show_hide_pw);
-//        imageViewShowHidePw.setImageResource(R.drawable.tutupmatapw);
-//        imageViewShowHidePw.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-//        imageViewShowHidePw.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                if (etVerificationPassword.getTransformationMethod().equals(HideReturnsTransformationMethod.getInstance())){
-//                    etVerificationPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
-//                    imageViewShowHidePw.setImageResource(R.drawable.tutupmatapw);
-//                }else {
-//                    etVerificationPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-//                    imageViewShowHidePw.setImageResource(R.drawable.tampilmatapw);
-//                }
-//            }
-//        });
-//        imageViewShowHidePw.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                // Simpan posisi kursor saat ini
-//                int cursorPosition = etVerificationPassword.getSelectionStart();
-//
-//                if (etVerificationPassword.getTransformationMethod().equals(HideReturnsTransformationMethod.getInstance())) {
-//                    // Ganti ke mode sembunyi password
-//                    etVerificationPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
-//                    imageViewShowHidePw.setImageResource(R.drawable.tutupmatapw);
-//                } else {
-//                    // Ganti ke mode tampil password
-//                    etVerificationPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-//                    imageViewShowHidePw.setImageResource(R.drawable.tampilmatapw);
-//                }
-//
-//                // Kembalikan posisi kursor ke tempat sebelumnya
-//                etVerificationPassword.setSelection(cursorPosition);
-//            }
-//        });
+        ImageView showhide = findViewById(R.id.showhideverif);
+        showhide.setImageResource(R.drawable.tutupmatapw);
+        showhide.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+        showhide.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (etVerificationPassword.getTransformationMethod().equals(HideReturnsTransformationMethod.getInstance())){
+                    etVerificationPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    showhide.setImageResource(R.drawable.tutupmatapw);
+                }else {
+                    etVerificationPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    showhide.setImageResource(R.drawable.tampilmatapw);
+                }
+            }
+        });
+        showhide.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Simpan posisi kursor saat ini
+                int cursorPosition = etVerificationPassword.getSelectionStart();
+
+                if (etVerificationPassword.getTransformationMethod().equals(HideReturnsTransformationMethod.getInstance())) {
+                    // Ganti ke mode sembunyi password
+                    etVerificationPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    showhide.setImageResource(R.drawable.tutupmatapw);
+                } else {
+                    // Ganti ke mode tampil password
+                    etVerificationPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    showhide.setImageResource(R.drawable.tampilmatapw);
+                }
+
+                // Kembalikan posisi kursor ke tempat sebelumnya
+                etVerificationPassword.setSelection(cursorPosition);
+            }
+        });
         //katasandi
         ImageView imageViewShowHidePw = findViewById(R.id.imageView_show_hide_pw);
         imageViewShowHidePw.setImageResource(R.drawable.tutupmatapw);
