@@ -15,10 +15,13 @@
             android:layout_width="130dp"
             android:layout_height="61dp"
             android:layout_gravity="center"
+            android:layout_marginStart="141dp"
             android:layout_marginTop="36dp"
+            android:layout_marginEnd="141dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/logootp"
-            tools:layout_editor_absoluteX="140dp" />
+            app:srcCompat="@drawable/logootp" />
 
         <TextView
             android:id="@+id/textView6"
