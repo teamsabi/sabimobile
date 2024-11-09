@@ -57,6 +57,7 @@ public class lupapassword extends AppCompatActivity {
         });
 
 
+
         EditText editText = findViewById(R.id.etEmailLupaPw);
         Button buttonlanjut = findViewById(R.id.lanjut);
         Button batal = findViewById(R.id.batalpw);
@@ -94,22 +95,15 @@ public class lupapassword extends AppCompatActivity {
                                     progressBar.setVisibility(View.GONE);
                                     Log.d("lupapassword", "Response dari server: " + response); // Debugging output
 
-                                    if (response.equals("Success")) {
-                                            runOnUiThread(new Runnable() {
-                                                @Override
-                                                public void run() {
-                                                    if (dialog != null && !dialog.isShowing()) {
-                                                        dialog.show();
-                                                    }
-                                                }
-                                            });
-
-                                    finish();
+                                    if (response.equals("Success")){
+                                        dialog.show();
+                                        finish();
                                     } else if (response.equals(" Email tidak ditemukan")) {
                                         // Menampilkan Toast jika email tidak ditemukan
                                         Toast.makeText(getApplicationContext(), "Email belum terdaftar", Toast.LENGTH_SHORT).show();
                                     } else {
                                         // Menampilkan respons lainnya dari server
+                                        Log.d("LupaPassword", "Pesan dari server: " + response);  // Debugging log
                                         Toast.makeText(getApplicationContext(), response, Toast.LENGTH_SHORT).show();
                                     }
 //                                } else
