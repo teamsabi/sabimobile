@@ -32,10 +32,10 @@
             android:name=".MainActivity"
             android:exported="false" />
         <activity
-            android:name=".landing"
+            android:name=".login"
             android:exported="false" />
         <activity
-            android:name=".login"
+            android:name=".landing"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -45,7 +45,7 @@
         </activity>
         <activity
             android:name=".register"
-            android:exported="true">
+            android:exported="false">
         </activity>
     </application>
 

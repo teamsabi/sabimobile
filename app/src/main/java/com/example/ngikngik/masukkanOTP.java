@@ -53,9 +53,7 @@ public class masukkanOTP extends AppCompatActivity {
             public void onClick(View view) {
                 progressBar.setVisibility(View.VISIBLE);
                 RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-                String url = "http://10.10.181.237/db_sabiproject/masukkanotp.php";
-
-                StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                StringRequest stringRequest = new StringRequest(Request.Method.POST, DbContract.SERVER_VERIF_OTP_URL,
                         new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {

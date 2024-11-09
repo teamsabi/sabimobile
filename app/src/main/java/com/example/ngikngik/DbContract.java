@@ -1,6 +1,9 @@
 package com.example.ngikngik;
 
 public class DbContract {
-    public static final String SERVER_LOGIN_URL = "http://192.168.18.231/db_sabiproject/checklogin.php";
-    public static final String SERVER_REGISTER_URL = "http://192.168.18.231/db_sabiproject/createData.php";
+    static final String IP = "192.168.18.231";
+    public static final String SERVER_LOGIN_URL = "http://" + IP + "/db_sabiproject/checklogin.php";
+    public static final String SERVER_REGISTER_URL = "http://" + IP + "/db_sabiproject/createData.php";
+    public static final String SERVER_LUPA_PASSWORD_URL = "http://" + IP + "/db_sabiproject/resetpassword.php";
+    public static final String SERVER_VERIF_OTP_URL = "http://" + IP + "/db_sabiproject/verifotp.php";
 }

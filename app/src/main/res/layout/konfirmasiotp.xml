@@ -51,7 +51,7 @@
             android:layout_width="277dp"
             android:layout_height="47dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="20dp"
             android:layout_weight="1"
             android:backgroundTint="#229799"
             android:duplicateParentState="true"
@@ -61,7 +61,7 @@
             android:textStyle="bold"
             app:cornerRadius="10dp"
             app:layout_constraintEnd_toEndOf="@+id/textView7"
-            app:layout_constraintHorizontal_bias="0.494"
+
             app:layout_constraintStart_toStartOf="@+id/textView7"
             app:layout_constraintTop_toBottomOf="@+id/textView7" />
 

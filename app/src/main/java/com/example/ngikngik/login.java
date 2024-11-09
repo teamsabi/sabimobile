@@ -144,7 +144,6 @@ public class login extends AppCompatActivity {
                                         Intent dashboardIntent = new Intent(login.this, Dashboard.class);
                                         dashboardIntent.putExtra("email", email);
                                         startActivity(dashboardIntent);
-                                        finish();
                                     } else {
                                         Toast.makeText(getApplicationContext(), "Email dan password salah", Toast.LENGTH_SHORT).show();
                                     }
@@ -177,6 +176,7 @@ public class login extends AppCompatActivity {
                     @Override
                     public void run() {
                         progressDialog.cancel();
+
                     }
                 }, 2000);
             }else {

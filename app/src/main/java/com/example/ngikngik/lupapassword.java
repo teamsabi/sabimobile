@@ -3,6 +3,7 @@ package com.example.ngikngik;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -60,6 +61,7 @@ public class lupapassword extends AppCompatActivity {
         Button buttonlanjut = findViewById(R.id.lanjut);
         Button batal = findViewById(R.id.batalpw);
         ProgressBar progressBar = findViewById(R.id.progress);
+
         batal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -76,24 +78,41 @@ public class lupapassword extends AppCompatActivity {
                 if (email.isEmpty()) {
                     // Tampilkan Toast jika kolom kosong
                     Toast.makeText(getApplicationContext(), "Isi kolom email terlebih dahulu", Toast.LENGTH_SHORT).show();
+                } else if (!email.endsWith("@gmail.com")) {
+                    // Tampilkan Toast jika email tidak berakhiran @gmail.com
+                    Toast.makeText(getApplicationContext(), "Format email tidak valid ", Toast.LENGTH_SHORT).show();
                 } else {
                     // Lanjutkan permintaan ke server jika kolom tidak kosong
                     RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
                     progressBar.setVisibility(View.VISIBLE);
-                    String url = "http://10.10.181.237/db_sabiproject/resetpassword.php";
-                    StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+
+                    StringRequest stringRequest = new StringRequest(Request.Method.POST, DbContract.SERVER_LUPA_PASSWORD_URL,
+
                             new Response.Listener<String>() {
                                 @Override
                                 public void onResponse(String response) {
                                     progressBar.setVisibility(View.GONE);
+                                    Log.d("lupapassword", "Response dari server: " + response); // Debugging output
+
                                     if (response.equals("Success")) {
-                                        dialog.show();
-                                    } else if (response.equals("Email tidak ditemukan")) {
-                                        Toast.makeText(getApplicationContext(), "Email tidak ditemukan di database", Toast.LENGTH_SHORT).show();
+                                            runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    if (dialog != null && !dialog.isShowing()) {
+                                                        dialog.show();
+                                                    }
+                                                }
+                                            });
+
+                                    finish();
+                                    } else if (response.equals(" Email tidak ditemukan")) {
+                                        // Menampilkan Toast jika email tidak ditemukan
+                                        Toast.makeText(getApplicationContext(), "Email belum terdaftar", Toast.LENGTH_SHORT).show();
                                     } else {
-                                        Toast.makeText(getApplicationContext(), "Gagal mengirim permintaan. Coba lagi.", Toast.LENGTH_SHORT).show();
-                                  }
-//                                else
+                                        // Menampilkan respons lainnya dari server
+                                        Toast.makeText(getApplicationContext(), response, Toast.LENGTH_SHORT).show();
+                                    }
+//                                } else
 //                                     Toast.makeText(getApplicationContext(), response, Toast.LENGTH_SHORT).show();
                                 }
                             }, new Response.ErrorListener() {

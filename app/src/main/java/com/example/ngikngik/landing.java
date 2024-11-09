@@ -28,8 +28,8 @@ public class landing extends AppCompatActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(landing.this, MainActivity.class);
-                startActivity(intent);
+               startActivity(new Intent(landing.this,login.class));
+                finish();
             };
         },3000);
     }
