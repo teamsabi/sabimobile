@@ -1,5 +1,6 @@
 package com.example.ngikngik;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -35,6 +36,7 @@ public class lupapassword extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_lupapassword);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -45,7 +47,7 @@ public class lupapassword extends AppCompatActivity {
         dialog = new Dialog(lupapassword.this);
         dialog.setContentView(R.layout.konfirmasiotp);
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         btnmengerti = dialog.findViewById(R.id.btn_mengerti);
         btnmengerti.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,6 +55,7 @@ public class lupapassword extends AppCompatActivity {
                 Intent intent = new Intent(lupapassword.this, masukkanOTP.class);
                 startActivity(intent);
                 dialog.dismiss();
+                finish();
             }
         });
 
@@ -93,19 +96,18 @@ public class lupapassword extends AppCompatActivity {
                                 @Override
                                 public void onResponse(String response) {
                                     progressBar.setVisibility(View.GONE);
-                                    Log.d("lupapassword", "Response dari server: " + response); // Debugging output
-
-                                    if (response.equals("Success")){
+                                    Log.d("Server Response", "Response received: " + response); // Debugging
+                                    if (response.contains("Success")) {
+                                        Log.d("Dialog", "Displaying dialog"); // Debugging
                                         dialog.show();
-                                        finish();
-                                    } else if (response.equals(" Email tidak ditemukan")) {
-                                        // Menampilkan Toast jika email tidak ditemukan
+                                } else if (response.trim().equals("Email tidak ditemukan")) {
                                         Toast.makeText(getApplicationContext(), "Email belum terdaftar", Toast.LENGTH_SHORT).show();
                                     } else {
-                                        // Menampilkan respons lainnya dari server
                                         Log.d("LupaPassword", "Pesan dari server: " + response);  // Debugging log
                                         Toast.makeText(getApplicationContext(), response, Toast.LENGTH_SHORT).show();
                                     }
+
+
 //                                } else
 //                                     Toast.makeText(getApplicationContext(), response, Toast.LENGTH_SHORT).show();
                                 }
