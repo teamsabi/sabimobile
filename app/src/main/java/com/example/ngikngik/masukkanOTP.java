@@ -26,6 +26,8 @@ import java.util.Map;
 
 public class masukkanOTP extends AppCompatActivity {
     Button btnbatal;
+    private EditText otp1,otp2,otp3,otp4,otp5,otp6;
+    private Button buttonlanjut;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,49 +38,17 @@ public class masukkanOTP extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        EditText editTextOTP = findViewById(R.id.masukkanotp);
         Button btnbatal = findViewById(R.id.batalotp);
         Button buttonlanjut = findViewById(R.id.lanjut);
         ProgressBar progressBar = findViewById(R.id.progressBar2);
+
+
 
         btnbatal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(masukkanOTP.this, lupapassword.class);
                 startActivity(intent);
-            }
-        });
-        buttonlanjut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                progressBar.setVisibility(View.VISIBLE);
-                RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-                StringRequest stringRequest = new StringRequest(Request.Method.POST, DbContract.SERVER_VERIF_OTP_URL,
-                        new Response.Listener<String>() {
-                            @Override
-                            public void onResponse(String response) {
-                                progressBar.setVisibility(View.GONE);
-                                if (response.equals("Success")) {
-                                    Intent intent = new Intent(masukkanOTP.this, newpasswordpage.class);
-                                    startActivity(intent);
-                                } else {
-                                    Toast.makeText(getApplicationContext(), "OTP salah. Silakan coba lagi.", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        progressBar.setVisibility(View.GONE);
-                        error.printStackTrace();
-                    }
-                }) {
-                    protected Map<String, String> getParams() {
-                        Map<String, String> paramV = new HashMap<>();
-                        paramV.put("otp", editTextOTP.getText().toString());
-                        return paramV;
-                    }
-                };
-                queue.add(stringRequest);
             }
         });
     }
