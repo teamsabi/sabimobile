@@ -1,44 +1,23 @@
 package com.example.ngikngik;
 
-import static androidx.core.content.ContextCompat.startActivity;
-import static java.security.AccessController.getContext;
-
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.Editable;
-import android.text.InputFilter;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethod;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class masukkanOTP extends Dialog {
     Button btnbatal;
@@ -51,6 +30,8 @@ public class masukkanOTP extends Dialog {
 
     //will be true after 60 seconds
     private boolean resendEnabled = false;
+
+    private int selectedEtPosition;
     public masukkanOTP(@NonNull Context context) {
         super(context);
     }
@@ -101,7 +82,11 @@ public class masukkanOTP extends Dialog {
             public void onClick(View view) {
 
 
+                final String getOtp = otp1.getText().toString()+otp2.getText().toString()+otp3.getText().toString()+otp4.getText().toString()+otp5.getText().toString()+otp6.getText().toString();
                 //handle verif process here
+                if(getOtp.length() == 4){
+
+                }
             }
         });
     }
@@ -118,6 +103,35 @@ public class masukkanOTP extends Dialog {
 
         @Override
         public void afterTextChanged(Editable editable) {
+            if(editable.length() > 0) {
+                 if(selectedEtPosition == 0){
+                     //select next edit text
+                     selectedEtPosition = 1;
+                     showKeyboard(otp2);
+
+                 } else if (selectedEtPosition == 1) {
+                     //select next edit text
+                     selectedEtPosition = 2;
+                     showKeyboard(otp3);
+
+                 } else if (selectedEtPosition == 2) {
+                     //select next edit text
+                     selectedEtPosition = 3;
+                     showKeyboard(otp4);
+
+                 } else if (selectedEtPosition == 2) {
+                     //select next edit text
+                     selectedEtPosition = 4;
+                     showKeyboard(otp5);
+
+                 } else if (selectedEtPosition == 2) {
+                     //select next edit text
+                     selectedEtPosition = 5;
+                     showKeyboard(otp6);
+            } else {
+                     lanjut.setBackgroundColor(R.drawable.colorlanjut);
+                 }
+            }
 
         }
     };
@@ -146,5 +160,39 @@ public class masukkanOTP extends Dialog {
                 kirimulang.setTextColor(getContext().getResources().getColor(android.R.color.holo_blue_dark));
             }
         }.start();
+    }
+
+    @Override
+    public boolean onKeyUp(int keyCode, @NonNull KeyEvent event) {
+        if(keyCode == KeyEvent.KEYCODE_DEL){
+
+            if(selectedEtPosition ==  5) {
+
+                //select provious edit text
+                selectedEtPosition = 4;
+                showKeyboard(otp5);
+
+            } else if (selectedEtPosition == 4){
+                //select provious edit text
+                selectedEtPosition = 3;
+                showKeyboard(otp4);
+            } else if (selectedEtPosition == 3){
+                //select provious edit text
+                selectedEtPosition = 2;
+                showKeyboard(otp3);
+            } else if (selectedEtPosition == 2){
+                //select provious edit text
+                selectedEtPosition = 1;
+                showKeyboard(otp2);
+            } else if (selectedEtPosition == 1){
+                //select provious edit text
+                selectedEtPosition = 0;
+                showKeyboard(otp1);
+            }
+            lanjut.setBackgroundResource(R.drawable.colorlanjut);
+            return true;
+        } else {
+            return super.onKeyUp(keyCode, event);
+        }
     }
 }
