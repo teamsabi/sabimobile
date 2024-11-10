@@ -1,9 +1,7 @@
 package com.example.ngikngik;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.Editable;
@@ -18,36 +16,26 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
-public class masukkanOTP extends Dialog {
-    Button btnbatal;
-    private EditText otp1,otp2,otp3,otp4,otp5,otp6;
+public class masukkanOTP extends AppCompatActivity {
+    private Button btnbatal, lanjut;
+    private EditText otp1, otp2, otp3, otp4, otp5, otp6;
     private TextView kirimulang;
-    private Button lanjut;
-
-    //resend otp time is seconds
+    private ProgressBar progressBar;
     private int resendTime = 60;
-
-    //will be true after 60 seconds
     private boolean resendEnabled = false;
-
-    private int selectedEtPosition;
-    public masukkanOTP(@NonNull Context context) {
-        super(context);
-    }
+    private int selectedEtPosition = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_masukkan_otp);
-        Button btnbatal = findViewById(R.id.batalotp);
-        Button buttonlanjut = findViewById(R.id.lanjut);
-        ProgressBar progressBar = findViewById(R.id.progressBar2);
 
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-        getWindow().setBackgroundDrawable(new ColorDrawable(getContext().getResources().getColor(android.R.color.transparent)));
-        setContentView(R.layout.activity_masukkan_otp);
-
+        btnbatal = findViewById(R.id.batalotp);
+        lanjut = findViewById(R.id.lanjut);
+        progressBar = findViewById(R.id.progressBar2);
+        kirimulang = findViewById(R.id.kirimulang);
 
         otp1 = findViewById(R.id.otp1);
         otp2 = findViewById(R.id.otp2);
@@ -56,143 +44,100 @@ public class masukkanOTP extends Dialog {
         otp5 = findViewById(R.id.otp5);
         otp6 = findViewById(R.id.otp6);
 
-    otp1.addTextChangedListener(textWatcher);
+        otp1.addTextChangedListener(textWatcher);
         otp2.addTextChangedListener(textWatcher);
         otp3.addTextChangedListener(textWatcher);
         otp4.addTextChangedListener(textWatcher);
         otp5.addTextChangedListener(textWatcher);
         otp6.addTextChangedListener(textWatcher);
 
-        //By default open Keyboard on first EditText
-        showKeyboard(otp1);
+        tampilkanKeyboard(otp1);
 
-        //start countdown timer
         kirimulang.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(resendEnabled){
-
-                    //resend code here
-                    starCountDownTimer();
+                if (resendEnabled) {
+                    mulaiTimerHitungMundur();
                 }
             }
         });
+
         lanjut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                final String getOtp = otp1.getText().toString() + otp2.getText().toString() +
+                        otp3.getText().toString() + otp4.getText().toString() + otp5.getText().toString() + otp6.getText().toString();
 
-
-                final String getOtp = otp1.getText().toString()+otp2.getText().toString()+otp3.getText().toString()+otp4.getText().toString()+otp5.getText().toString()+otp6.getText().toString();
-                //handle verif process here
-                if(getOtp.length() == 4){
-
+                if (getOtp.length() == 6) {
+                    // Proses verifikasi OTP di sini
                 }
             }
         });
     }
+
     private final TextWatcher textWatcher = new TextWatcher() {
         @Override
-        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-        }
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
 
         @Override
-        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-        }
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
 
         @Override
         public void afterTextChanged(Editable editable) {
-            if(editable.length() > 0) {
-                 if(selectedEtPosition == 0){
-                     //select next edit text
-                     selectedEtPosition = 1;
-                     showKeyboard(otp2);
-
-                 } else if (selectedEtPosition == 1) {
-                     //select next edit text
-                     selectedEtPosition = 2;
-                     showKeyboard(otp3);
-
-                 } else if (selectedEtPosition == 2) {
-                     //select next edit text
-                     selectedEtPosition = 3;
-                     showKeyboard(otp4);
-
-                 } else if (selectedEtPosition == 2) {
-                     //select next edit text
-                     selectedEtPosition = 4;
-                     showKeyboard(otp5);
-
-                 } else if (selectedEtPosition == 2) {
-                     //select next edit text
-                     selectedEtPosition = 5;
-                     showKeyboard(otp6);
-            } else {
-                     lanjut.setBackgroundColor(R.drawable.colorlanjut);
-                 }
+            if (editable.length() > 0) {
+                switch (selectedEtPosition) {
+                    case 0: selectedEtPosition = 1; tampilkanKeyboard(otp2); break;
+                    case 1: selectedEtPosition = 2; tampilkanKeyboard(otp3); break;
+                    case 2: selectedEtPosition = 3; tampilkanKeyboard(otp4); break;
+                    case 3: selectedEtPosition = 4; tampilkanKeyboard(otp5); break;
+                    case 4: selectedEtPosition = 5; tampilkanKeyboard(otp6); break;
+                    case 5: lanjut.setBackgroundResource(R.drawable.colorlanjut); break;
+                }
             }
-
         }
     };
-    private void showKeyboard(EditText otp){
-        otp.requestFocus();
 
-        InputMethodManager inputMethodManager = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+    private void tampilkanKeyboard(EditText otp) {
+        otp.requestFocus();
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         inputMethodManager.showSoftInput(otp, InputMethodManager.SHOW_IMPLICIT);
     }
-    private void starCountDownTimer() {
+
+    private void mulaiTimerHitungMundur() {
         resendEnabled = false;
         kirimulang.setTextColor(Color.parseColor("#99000000"));
 
-        new CountDownTimer(resendTime * 1000, 1000){
-
-
+        new CountDownTimer(resendTime * 1000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
-                kirimulang.setText("Kirim Ulang ("+(millisUntilFinished / 1000 )+")");
+                kirimulang.setText("Kirim Ulang (" + (millisUntilFinished / 1000) + ")");
             }
 
             @Override
             public void onFinish() {
                 resendEnabled = true;
                 kirimulang.setText("Kirim Ulang");
-                kirimulang.setTextColor(getContext().getResources().getColor(android.R.color.holo_blue_dark));
+                kirimulang.setTextColor(getResources().getColor(android.R.color.holo_blue_dark));
             }
         }.start();
     }
 
     @Override
     public boolean onKeyUp(int keyCode, @NonNull KeyEvent event) {
-        if(keyCode == KeyEvent.KEYCODE_DEL){
-
-            if(selectedEtPosition ==  5) {
-
-                //select provious edit text
-                selectedEtPosition = 4;
-                showKeyboard(otp5);
-
-            } else if (selectedEtPosition == 4){
-                //select provious edit text
-                selectedEtPosition = 3;
-                showKeyboard(otp4);
-            } else if (selectedEtPosition == 3){
-                //select provious edit text
-                selectedEtPosition = 2;
-                showKeyboard(otp3);
-            } else if (selectedEtPosition == 2){
-                //select provious edit text
-                selectedEtPosition = 1;
-                showKeyboard(otp2);
-            } else if (selectedEtPosition == 1){
-                //select provious edit text
-                selectedEtPosition = 0;
-                showKeyboard(otp1);
+        if (keyCode == KeyEvent.KEYCODE_DEL) {
+            if (selectedEtPosition > 0) {
+                selectedEtPosition--;
+                switch (selectedEtPosition) {
+                    case 0: tampilkanKeyboard(otp1); break;
+                    case 1: tampilkanKeyboard(otp2); break;
+                    case 2: tampilkanKeyboard(otp3); break;
+                    case 3: tampilkanKeyboard(otp4); break;
+                    case 4: tampilkanKeyboard(otp5); break;
+                }
+                lanjut.setBackgroundResource(R.drawable.colorlanjut);
+                return true;
             }
-            lanjut.setBackgroundResource(R.drawable.colorlanjut);
-            return true;
-        } else {
-            return super.onKeyUp(keyCode, event);
         }
+        return super.onKeyUp(keyCode, event);
     }
 }
