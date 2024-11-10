@@ -51,13 +51,13 @@ public class masukkanOTP extends AppCompatActivity {
         otp5.addTextChangedListener(textWatcher);
         otp6.addTextChangedListener(textWatcher);
 
-        tampilkanKeyboard(otp1);
+        showKeyboard(otp1);
 
         kirimulang.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (resendEnabled) {
-                    mulaiTimerHitungMundur();
+                    startCountDownTimer();
                 }
             }
         });
@@ -69,7 +69,7 @@ public class masukkanOTP extends AppCompatActivity {
                         otp3.getText().toString() + otp4.getText().toString() + otp5.getText().toString() + otp6.getText().toString();
 
                 if (getOtp.length() == 6) {
-                    // Proses verifikasi OTP di sini
+                    // Handle OTP verification here
                 }
             }
         });
@@ -86,24 +86,24 @@ public class masukkanOTP extends AppCompatActivity {
         public void afterTextChanged(Editable editable) {
             if (editable.length() > 0) {
                 switch (selectedEtPosition) {
-                    case 0: selectedEtPosition = 1; tampilkanKeyboard(otp2); break;
-                    case 1: selectedEtPosition = 2; tampilkanKeyboard(otp3); break;
-                    case 2: selectedEtPosition = 3; tampilkanKeyboard(otp4); break;
-                    case 3: selectedEtPosition = 4; tampilkanKeyboard(otp5); break;
-                    case 4: selectedEtPosition = 5; tampilkanKeyboard(otp6); break;
+                    case 0: selectedEtPosition = 1; showKeyboard(otp2); break;
+                    case 1: selectedEtPosition = 2; showKeyboard(otp3); break;
+                    case 2: selectedEtPosition = 3; showKeyboard(otp4); break;
+                    case 3: selectedEtPosition = 4; showKeyboard(otp5); break;
+                    case 4: selectedEtPosition = 5; showKeyboard(otp6); break;
                     case 5: lanjut.setBackgroundResource(R.drawable.colorlanjut); break;
                 }
             }
         }
     };
 
-    private void tampilkanKeyboard(EditText otp) {
+    private void showKeyboard(EditText otp) {
         otp.requestFocus();
         InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         inputMethodManager.showSoftInput(otp, InputMethodManager.SHOW_IMPLICIT);
     }
 
-    private void mulaiTimerHitungMundur() {
+    private void startCountDownTimer() {
         resendEnabled = false;
         kirimulang.setTextColor(Color.parseColor("#99000000"));
 
@@ -128,11 +128,11 @@ public class masukkanOTP extends AppCompatActivity {
             if (selectedEtPosition > 0) {
                 selectedEtPosition--;
                 switch (selectedEtPosition) {
-                    case 0: tampilkanKeyboard(otp1); break;
-                    case 1: tampilkanKeyboard(otp2); break;
-                    case 2: tampilkanKeyboard(otp3); break;
-                    case 3: tampilkanKeyboard(otp4); break;
-                    case 4: tampilkanKeyboard(otp5); break;
+                    case 0: showKeyboard(otp1); break;
+                    case 1: showKeyboard(otp2); break;
+                    case 2: showKeyboard(otp3); break;
+                    case 3: showKeyboard(otp4); break;
+                    case 4: showKeyboard(otp5); break;
                 }
                 lanjut.setBackgroundResource(R.drawable.colorlanjut);
                 return true;
