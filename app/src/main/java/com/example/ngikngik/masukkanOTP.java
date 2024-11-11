@@ -56,9 +56,9 @@ public class masukkanOTP extends AppCompatActivity {
         kirimulang.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (resendEnabled) {
+//                if (resendEnabled) {
                     startCountDownTimer();
-                }
+//                }
             }
         });
 
@@ -105,6 +105,7 @@ public class masukkanOTP extends AppCompatActivity {
 
     private void startCountDownTimer() {
         resendEnabled = false;
+        kirimulang.setEnabled(false);
         kirimulang.setTextColor(Color.parseColor("#99000000"));
 
         new CountDownTimer(resendTime * 1000, 1000) {
@@ -115,7 +116,8 @@ public class masukkanOTP extends AppCompatActivity {
 
             @Override
             public void onFinish() {
-                resendEnabled = true;
+                resendEnabled = true; // Pastikan resendEnabled diatur menjadi true setelah timer selesai
+                kirimulang.setEnabled(true);
                 kirimulang.setText("Kirim Ulang");
                 kirimulang.setTextColor(getResources().getColor(android.R.color.holo_blue_dark));
             }
