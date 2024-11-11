@@ -33,7 +33,7 @@ import java.util.Map;
 
 public class masukkanOTP extends AppCompatActivity {
     private Button btnbatal, lanjut;
-    private EditText otp1, otp2, otp3, otp4, otp5, otp6;
+    private EditText otp1, otp2, otp3, otp4, otp5;
     private TextView kirimulang;
     private ProgressBar progressBar;
     private int resendTime = 60;
@@ -63,7 +63,6 @@ public class masukkanOTP extends AppCompatActivity {
         otp3.addTextChangedListener(textWatcher);
         otp4.addTextChangedListener(textWatcher);
         otp5.addTextChangedListener(textWatcher);
-        otp6.addTextChangedListener(textWatcher);
 
         showKeyboard(otp1);
 
@@ -81,12 +80,12 @@ public class masukkanOTP extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String otp = otp1.getText().toString().trim() + otp2.getText().toString().trim() + otp3.getText().toString().trim() + otp4.getText().toString().trim() +
-                        otp5.getText().toString().trim() + otp6.getText().toString().trim();
+                        otp5.getText().toString().trim();
 
 
                 if  (otp.isEmpty()) {
                     Toast.makeText(getApplicationContext(), "OTP harus diisi", Toast.LENGTH_SHORT).show();
-                } else if (otp.length() != 6) {
+                } else if (otp.length() != 5) {
                     // Tampilkan Toast jika OTP tidak terdiri dari 6 digit
                     Toast.makeText(getApplicationContext(), "OTP harus terdiri dari 5 digit", Toast.LENGTH_SHORT).show();
                 }else {
