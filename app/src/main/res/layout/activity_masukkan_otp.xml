@@ -89,6 +89,8 @@
         android:layout_marginTop="256dp"
         android:layout_marginEnd="60dp"
         android:text="Lanjut"
+        android:backgroundTint="@color/purple_500"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView16" />
 
@@ -98,6 +100,8 @@
         android:layout_height="59dp"
         android:layout_marginStart="68dp"
         android:text="Batal"
+        android:textColor="#229799"
+        android:backgroundTint="#30229799"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/lanjut" />
 
@@ -109,6 +113,7 @@
         android:layout_marginStart="4dp"
         android:layout_marginTop="20dp"
         android:text="Kirim ulang"
+
         android:textColor="#0080FF"
         app:layout_constraintStart_toEndOf="@+id/textView16"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
@@ -201,22 +206,6 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginStart="10dp"
-            android:layout_weight="1"
-            android:background="@drawable/backgroundotp"
-            android:gravity="center"
-            android:inputType="number"
-            android:lines="1"
-            android:maxLength="1"
-            android:textColor="#000000"
-            android:textSize="30sp"
-            android:textStyle="bold" />
-
-        <EditText
-            android:id="@+id/otp6"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
             android:layout_weight="1"
             android:background="@drawable/backgroundotp"
             android:gravity="center"

@@ -23,7 +23,7 @@
             android:name=".Dashboard"
             android:exported="false" />
         <activity
-            android:name=".lupapassword"
+            android:name=".landing"
             android:exported="false" />
         <activity
             android:name=".newpasswordpage"
@@ -35,7 +35,7 @@
             android:name=".login"
             android:exported="false" />
         <activity
-            android:name=".landing"
+            android:name=".lupapassword"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

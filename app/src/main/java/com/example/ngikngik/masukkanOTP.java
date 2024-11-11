@@ -1,11 +1,13 @@
 package com.example.ngikngik;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -14,9 +16,20 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class masukkanOTP extends AppCompatActivity {
     private Button btnbatal, lanjut;
@@ -42,7 +55,8 @@ public class masukkanOTP extends AppCompatActivity {
         otp3 = findViewById(R.id.otp3);
         otp4 = findViewById(R.id.otp4);
         otp5 = findViewById(R.id.otp5);
-        otp6 = findViewById(R.id.otp6);
+
+
 
         otp1.addTextChangedListener(textWatcher);
         otp2.addTextChangedListener(textWatcher);
@@ -62,17 +76,57 @@ public class masukkanOTP extends AppCompatActivity {
             }
         });
 
+        // Di dalam activity yang menangani OTP
         lanjut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final String getOtp = otp1.getText().toString() + otp2.getText().toString() +
-                        otp3.getText().toString() + otp4.getText().toString() + otp5.getText().toString() + otp6.getText().toString();
+                String otp = otp1.getText().toString().trim() + otp2.getText().toString().trim() + otp3.getText().toString().trim() + otp4.getText().toString().trim() +
+                        otp5.getText().toString().trim() + otp6.getText().toString().trim();
 
-                if (getOtp.length() == 6) {
-                    // Handle OTP verification here
+
+                if  (otp.isEmpty()) {
+                    Toast.makeText(getApplicationContext(), "OTP harus diisi", Toast.LENGTH_SHORT).show();
+                } else if (otp.length() != 6) {
+                    // Tampilkan Toast jika OTP tidak terdiri dari 6 digit
+                    Toast.makeText(getApplicationContext(), "OTP harus terdiri dari 5 digit", Toast.LENGTH_SHORT).show();
+                }else {
+
+                    RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+
+                    StringRequest stringRequest = new StringRequest(Request.Method.POST, DbContract.SERVER_VERIF_OTP_URL,
+                            new Response.Listener<String>() {
+                                @Override
+                                public void onResponse(String response) {
+                                    if (response.equals("Success")) {
+                                        // Jika OTP valid, pindah ke halaman New Password
+                                        Intent intent = new Intent(masukkanOTP.this, newpasswordpage.class);
+                                        startActivity(intent);
+                                    } else {
+                                        // Jika OTP salah
+                                        Toast.makeText(getApplicationContext(), "OTP Salah", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            },
+                            new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    error.printStackTrace();
+                                    Toast.makeText(getApplicationContext(), "Terjadi kesalahan jaringan", Toast.LENGTH_SHORT).show();
+                                }
+                            }) {
+                        @Override
+                        protected Map<String, String> getParams() {
+                            Map<String, String> params = new HashMap<>();
+                            params.put("otp", otp);
+                            return params;
+                        }
+                    };
+
+                    queue.add(stringRequest);
                 }
             }
         });
+
     }
 
     private final TextWatcher textWatcher = new TextWatcher() {
@@ -85,13 +139,13 @@ public class masukkanOTP extends AppCompatActivity {
         @Override
         public void afterTextChanged(Editable editable) {
             if (editable.length() > 0) {
+
                 switch (selectedEtPosition) {
                     case 0: selectedEtPosition = 1; showKeyboard(otp2); break;
                     case 1: selectedEtPosition = 2; showKeyboard(otp3); break;
                     case 2: selectedEtPosition = 3; showKeyboard(otp4); break;
                     case 3: selectedEtPosition = 4; showKeyboard(otp5); break;
-                    case 4: selectedEtPosition = 5; showKeyboard(otp6); break;
-                    case 5: lanjut.setBackgroundResource(R.drawable.colorlanjut); break;
+                    case 4: lanjut.setBackgroundResource(R.drawable.colorlanjut); break;
                 }
             }
         }
@@ -134,7 +188,6 @@ public class masukkanOTP extends AppCompatActivity {
                     case 1: showKeyboard(otp2); break;
                     case 2: showKeyboard(otp3); break;
                     case 3: showKeyboard(otp4); break;
-                    case 4: showKeyboard(otp5); break;
                 }
                 lanjut.setBackgroundResource(R.drawable.colorlanjut);
                 return true;
