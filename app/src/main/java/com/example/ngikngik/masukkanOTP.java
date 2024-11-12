@@ -2,6 +2,7 @@ package com.example.ngikngik;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -82,7 +83,6 @@ public class masukkanOTP extends AppCompatActivity {
                 String otp = otp1.getText().toString().trim() + otp2.getText().toString().trim() + otp3.getText().toString().trim() + otp4.getText().toString().trim() +
                         otp5.getText().toString().trim();
 
-
                 if  (otp.isEmpty()) {
                     Toast.makeText(getApplicationContext(), "OTP harus diisi", Toast.LENGTH_SHORT).show();
                 } else if (otp.length() != 5) {
@@ -96,6 +96,8 @@ public class masukkanOTP extends AppCompatActivity {
                             new Response.Listener<String>() {
                                 @Override
                                 public void onResponse(String response) {
+                                    SharedPreferences sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
+                                    String email = sharedPreferences.getString("email", null);
                                     if (response.equals("Success")) {
                                         // Jika OTP valid, pindah ke halaman New Password
                                         Intent intent = new Intent(masukkanOTP.this, newpasswordpage.class);

@@ -1,6 +1,7 @@
 package com.example.ngikngik;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -23,7 +24,7 @@ import java.util.Map;
 public class newpasswordpage extends AppCompatActivity {
     private EditText newPassword, confirmPassword;
     private Button savePasswordButton;
-
+    private String email;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +37,8 @@ public class newpasswordpage extends AppCompatActivity {
         // Ambil email dari intent jika dikirim dari halaman sebelumnya
 //        email = getIntent().getStringExtra("email");
 
+        SharedPreferences sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
+        email = sharedPreferences.getString("email", null);
 
         savePasswordButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,6 +78,7 @@ public class newpasswordpage extends AppCompatActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                            Log.d("Server Response", response); // Tambahkan log ini untuk debugging
                         if (response.contains("Password Berhasil diubah")) {
                             Toast.makeText(getApplicationContext(), "Password telah diganti", Toast.LENGTH_SHORT).show();
                             finish();  // Tutup halaman setelah berhasil
@@ -91,6 +95,7 @@ public class newpasswordpage extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
+                params.put("email", email); // Kirim email pengguna
                 params.put("password", newPassword);
                 return params;
             }
