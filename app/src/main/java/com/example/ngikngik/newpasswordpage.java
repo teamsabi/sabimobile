@@ -2,6 +2,7 @@ package com.example.ngikngik;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,7 +23,6 @@ import java.util.Map;
 public class newpasswordpage extends AppCompatActivity {
     private EditText newPassword, confirmPassword;
     private Button savePasswordButton;
-    private String email;  // Ambil email dari halaman sebelumnya
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +34,8 @@ public class newpasswordpage extends AppCompatActivity {
         savePasswordButton = findViewById(R.id.btnsavepassword);
 
         // Ambil email dari intent jika dikirim dari halaman sebelumnya
-        email = getIntent().getStringExtra("email");
+//        email = getIntent().getStringExtra("email");
+
 
         savePasswordButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,12 +49,24 @@ public class newpasswordpage extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Password Tidak Sama", Toast.LENGTH_SHORT).show();
                 } else {
                     updatePassword(newPass);
-                    Intent intent = new Intent(newpasswordpage.this, login.class );
-                    startActivity(intent);
+//                    Intent intent = new Intent(newpasswordpage.this, login.class );
+//                    startActivity(intent);
                 }
             }
+
         });
+//        Intent intent = new Intent(newpasswordpage.this, login.class);
+//        intent.putExtra("email", email);  // Pastikan 'email' memiliki nilai yang valid sebelum mengirim
+//        startActivity(intent);
+//
+//        email = getIntent().getStringExtra("email");
+//        if (email == null || email.isEmpty()) {
+//            Toast.makeText(this, "Error: Email tidak ditemukan", Toast.LENGTH_SHORT).show();
+//            finish();  // Keluar dari halaman jika email tidak valid
+//            return;
+//        }
     }
+
 
     private void updatePassword(String newPassword) {
         RequestQueue queue = Volley.newRequestQueue(this);
@@ -62,7 +75,7 @@ public class newpasswordpage extends AppCompatActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        if (response.equals("Password Berhasil diubah")) {
+                        if (response.contains("Password Berhasil diubah")) {
                             Toast.makeText(getApplicationContext(), "Password telah diganti", Toast.LENGTH_SHORT).show();
                             finish();  // Tutup halaman setelah berhasil
                         } else {
@@ -78,8 +91,7 @@ public class newpasswordpage extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                params.put("pass", email);
-                params.put("new_password", newPassword);
+                params.put("password", newPassword);
                 return params;
             }
         };
