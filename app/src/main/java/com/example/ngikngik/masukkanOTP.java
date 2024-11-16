@@ -59,6 +59,7 @@ public class masukkanOTP extends AppCompatActivity {
 
 
 
+
         otp1.addTextChangedListener(textWatcher);
         otp2.addTextChangedListener(textWatcher);
         otp3.addTextChangedListener(textWatcher);

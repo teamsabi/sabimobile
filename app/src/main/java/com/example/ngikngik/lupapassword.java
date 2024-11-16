@@ -132,7 +132,7 @@ public class lupapassword extends AppCompatActivity {
                     stringRequest.setRetryPolicy(new RetryPolicy() {
                         @Override
                         public int getCurrentTimeout() {
-                            return 30000;
+                            return 20000;
                         }
 
                         @Override

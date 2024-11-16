@@ -138,6 +138,7 @@ public class login extends AppCompatActivity {
 
                                     JSONObject jsonObject = new JSONObject(response);
                                     String serverResponse = jsonObject.getString("server_response");
+                                    Log.d("response",serverResponse);
 
                                     if (serverResponse.equals("login berhasil")) {
                                         Toast.makeText(getApplicationContext(), "Login berhasil", Toast.LENGTH_SHORT).show();
