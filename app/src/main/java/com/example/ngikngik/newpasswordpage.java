@@ -59,7 +59,7 @@ public class newpasswordpage extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Harap isi kolom", Toast.LENGTH_SHORT).show();
                 } else if (!newPass.equals(confirmPass)) {
                     Toast.makeText(getApplicationContext(), "Password Tidak Sama", Toast.LENGTH_SHORT).show();
-                }  else {
+                } else {
                     // Cek apakah email valid sebelum mencoba update password
                     if (email != null && !email.isEmpty()) {
                         // Call updatePassword jika form valid
@@ -73,21 +73,30 @@ public class newpasswordpage extends AppCompatActivity {
     }
 
     private void updatePassword(String newPass) {
+        // Ambil email dari SharedPreferences
+        SharedPreferences sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
+        String email = sharedPreferences.getString("email", null);
+
+        if (email == null) {
+            Toast.makeText(getApplicationContext(), "Email tidak ditemukan", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Kirim password baru ke server
         RequestQueue queue = Volley.newRequestQueue(this);
 
-        // URL API PHP untuk mengganti password
         StringRequest stringRequest = new StringRequest(Request.Method.POST, DbContract.SERVER_NEWPASSWORD_URL,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.d("Server Response", response);  // Cek respons server yang diterima
+                        Log.d("Server Response", response);
                         try {
                             JSONObject jsonResponse = new JSONObject(response);
                             String status = jsonResponse.getString("status");
                             String message = jsonResponse.getString("message");
 
                             if ("success".equals(status)) {
-                                Toast.makeText(getApplicationContext(), "Password telah diganti", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), "Password berhasil diganti", Toast.LENGTH_SHORT).show();
                                 finish(); // Tutup halaman setelah berhasil
                             } else {
                                 Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
@@ -107,8 +116,7 @@ public class newpasswordpage extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                params.put("email", email); // Kirimkan email pengguna untuk referensi di server
-                params.put("password", newPass); // Kirimkan password baru
+                params.put("password", newPass);  // Kirimkan password baru
                 return params;
             }
         };
