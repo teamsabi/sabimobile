@@ -27,7 +27,6 @@ import java.util.Map;
 public class newpasswordpage extends AppCompatActivity {
     private EditText newPassword, confirmPassword;
     private Button savePasswordButton;
-    private String email, otp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,17 +36,6 @@ public class newpasswordpage extends AppCompatActivity {
         newPassword = findViewById(R.id.sandi_baru);
         confirmPassword = findViewById(R.id.konfirmasi_sandi_baru);
         savePasswordButton = findViewById(R.id.btnsavepassword);
-
-        // Ambil email dan OTP dari SharedPreferences
-        SharedPreferences sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
-        email = sharedPreferences.getString("email", null);
-
-
-        // Cek jika otp atau email kosong
-//        if (email == null || otp == null) {
-//            Toast.makeText(this, "Error: Email atau OTP tidak ditemukan", Toast.LENGTH_SHORT).show();
-//            finish();  // Keluar dari halaman jika email atau OTP tidak valid
-//        }
 
         savePasswordButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,67 +48,49 @@ public class newpasswordpage extends AppCompatActivity {
                 } else if (!newPass.equals(confirmPass)) {
                     Toast.makeText(getApplicationContext(), "Password Tidak Sama", Toast.LENGTH_SHORT).show();
                 } else {
-                    // Cek apakah email valid sebelum mencoba update password
-                    if (email != null && !email.isEmpty()) {
-                        // Call updatePassword jika form valid
-                        updatePassword(newPass);
-                    } else {
-                        Toast.makeText(getApplicationContext(), "Email tidak ditemukan", Toast.LENGTH_SHORT).show();
-                    }
+                    // Melakukan request untuk mengganti password
+                    RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+                    StringRequest stringRequest = new StringRequest(Request.Method.POST, DbContract.SERVER_NEWPASSWORD_URL,
+                            new Response.Listener<String>() {
+                                @Override
+                                public void onResponse(String response) {
+                                    Log.d("Server Response", response);
+                                    try {
+                                        JSONObject jsonResponse = new JSONObject(response);
+                                        String status = jsonResponse.getString("status");
+                                        String message = jsonResponse.getString("message");
+
+                                        if ("success".equals(status)) {
+                                            Toast.makeText(getApplicationContext(), "Password berhasil diganti", Toast.LENGTH_SHORT).show();
+                                            finish();  // Tutup halaman setelah berhasil
+                                        } else {
+                                            Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+                                        }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                        Toast.makeText(getApplicationContext(), "Kesalahan dalam memproses respons server", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            },
+                            new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    Log.e("Network Error", error.toString());
+                                    Toast.makeText(getApplicationContext(), "Network error", Toast.LENGTH_SHORT).show();
+                                }
+                            }) {
+                        @Override
+                        protected Map<String, String> getParams() {
+                            Map<String, String> params = new HashMap<>();
+                            params.put("password", newPass);  // Kirimkan password baru
+                            return params;
+                        }
+                    };
+
+                    queue.add(stringRequest);
                 }
             }
         });
     }
-
-    private void updatePassword(String newPass) {
-        // Ambil email dari SharedPreferences
-        SharedPreferences sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
-        String email = sharedPreferences.getString("email", null);
-
-        if (email == null) {
-            Toast.makeText(getApplicationContext(), "Email tidak ditemukan", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        // Kirim password baru ke server
-        RequestQueue queue = Volley.newRequestQueue(this);
-
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, DbContract.SERVER_NEWPASSWORD_URL,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Log.d("Server Response", response);
-                        try {
-                            JSONObject jsonResponse = new JSONObject(response);
-                            String status = jsonResponse.getString("status");
-                            String message = jsonResponse.getString("message");
-
-                            if ("success".equals(status)) {
-                                Toast.makeText(getApplicationContext(), "Password berhasil diganti", Toast.LENGTH_SHORT).show();
-                                finish(); // Tutup halaman setelah berhasil
-                            } else {
-                                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            Toast.makeText(getApplicationContext(), "Kesalahan dalam memproses respons server", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e("Network Error", error.toString());
-                Toast.makeText(getApplicationContext(), "Network error", Toast.LENGTH_SHORT).show();
-            }
-        }) {
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-                params.put("password", newPass);  // Kirimkan password baru
-                return params;
-            }
-        };
-
-        queue.add(stringRequest);
-    }
 }
+

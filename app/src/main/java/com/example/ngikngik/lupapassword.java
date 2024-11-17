@@ -3,7 +3,6 @@ package com.example.ngikngik;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -26,6 +25,9 @@ import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -60,8 +62,6 @@ public class lupapassword extends AppCompatActivity {
             }
         });
 
-
-
         EditText editText = findViewById(R.id.etEmailLupaPw);
         Button buttonlanjut = findViewById(R.id.lanjut);
         Button batal = findViewById(R.id.batalpw);
@@ -80,10 +80,7 @@ public class lupapassword extends AppCompatActivity {
             public void onClick(View view) {
 
                 String email = editText.getText().toString().trim();
-                SharedPreferences sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString("email", email);
-                editor.apply();
+
                 if (email.isEmpty()) {
                     // Tampilkan Toast jika kolom kosong
                     Toast.makeText(getApplicationContext(), "Isi kolom email terlebih dahulu", Toast.LENGTH_SHORT).show();
@@ -102,25 +99,34 @@ public class lupapassword extends AppCompatActivity {
                                 public void onResponse(String response) {
                                     progressBar.setVisibility(View.GONE);
                                     Log.d("Server Response", "Response received: " + response); // Debugging
-                                    if (response.contains("Success")) {
-                                        Log.d("Dialog", "Displaying dialog"); // Debugging
-                                        dialog.show();
-                                } else if (response.trim().equals("Email tidak ditemukan")) {
-                                        Toast.makeText(getApplicationContext(), "Email belum terdaftar", Toast.LENGTH_SHORT).show();
-                                    } else {
-                                        Log.d("LupaPassword", "Pesan dari server: " + response);  // Debugging log
-                                        Toast.makeText(getApplicationContext(), response, Toast.LENGTH_SHORT).show();
+
+                                    try {
+                                        // Parse JSON response
+                                        JSONObject jsonResponse = new JSONObject(response);
+                                        String status = jsonResponse.getString("status");
+                                        String message = jsonResponse.getString("message");
+
+                                        if (status.equals("success")) {
+                                            // Menyimpan email dan menampilkan dialog
+                                            getIntent().putExtra("email", email);
+                                            Log.d("Dialog", "Displaying dialog");
+                                            dialog.show();
+                                        } else {
+                                            // Menampilkan pesan error jika status tidak success
+                                            Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+                                        }
+
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                        Toast.makeText(getApplicationContext(), "Kesalahan dalam memproses respons server", Toast.LENGTH_SHORT).show();
                                     }
-
-
-//                                } else
-//                                     Toast.makeText(getApplicationContext(), response, Toast.LENGTH_SHORT).show();
                                 }
                             }, new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
                             progressBar.setVisibility(View.GONE);
                             error.printStackTrace();
+                            Toast.makeText(getApplicationContext(), "Terjadi kesalahan jaringan", Toast.LENGTH_SHORT).show();
                         }
                     }) {
                         protected Map<String, String> getParams() {
