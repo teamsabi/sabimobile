@@ -8,4 +8,6 @@ public class DbContract {
     public static final String SERVER_LUPA_PASSWORD_URL = "http://" + IP + "/db_sabiproject/resetpassword.php";
     public static final String SERVER_VERIF_OTP_URL = "http://" + IP + "/db_sabiproject/verifotp.php";
     public static final String SERVER_NEWPASSWORD_URL= "http://" + IP + "/db_sabiproject/newpassword.php";
+    public static final String SERVER_RESEND_OTP_URL = "http://" + IP + "/db_sabiproject/resend_otp";
+
 }

@@ -73,6 +73,7 @@ public class masukkanOTP extends AppCompatActivity {
         kirimulang.setOnClickListener(view -> {
             if (resendEnabled) {
                 startCountDownTimer();
+                // Tambahkan logika pengiriman ulang OTP jika diperlukan.
             } else {
                 Toast.makeText(getApplicationContext(), "Tunggu beberapa saat untuk mengirim ulang", Toast.LENGTH_SHORT).show();
             }
@@ -139,27 +140,15 @@ public class masukkanOTP extends AppCompatActivity {
                     }
                 };
 
-                stringRequest.setRetryPolicy(new RetryPolicy() {
-                    @Override
-                    public int getCurrentTimeout() {
-                        return 20000;
-                    }
-
-                    @Override
-                    public int getCurrentRetryCount() {
-                        return 1;
-                    }
-
-                    @Override
-                    public void retry(VolleyError error) {
-                    }
-                });
-
                 queue.add(stringRequest);
             }
         });
 
+        // Langsung mulai countdown saat halaman dibuka
+        startCountDownTimer();
     }
+
+
 
     private final TextWatcher textWatcher = new TextWatcher() {
         @Override
@@ -190,7 +179,6 @@ public class masukkanOTP extends AppCompatActivity {
                         break;
                     case 4:
                         lanjut.setEnabled(true);
-                        lanjut.setBackgroundResource(R.drawable.colorlanjut);
                         break;
                 }
             }
