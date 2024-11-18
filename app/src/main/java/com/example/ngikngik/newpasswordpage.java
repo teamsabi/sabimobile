@@ -48,42 +48,51 @@ public class newpasswordpage extends AppCompatActivity {
                 } else if (!newPass.equals(confirmPass)) {
                     Toast.makeText(getApplicationContext(), "Password Tidak Sama", Toast.LENGTH_SHORT).show();
                 } else {
+                    // Ambil PHPSESSID dari SharedPreferences
+                    SharedPreferences preferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+                    String phpsessid = preferences.getString("PHPSESSID", "");
+
                     // Melakukan request untuk mengganti password
                     RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
                     StringRequest stringRequest = new StringRequest(Request.Method.POST, DbContract.SERVER_NEWPASSWORD_URL,
-                            new Response.Listener<String>() {
-                                @Override
-                                public void onResponse(String response) {
-                                    Log.d("Server Response", response);
-                                    try {
-                                        JSONObject jsonResponse = new JSONObject(response);
-                                        String status = jsonResponse.getString("status");
-                                        String message = jsonResponse.getString("message");
+                            response -> {
+                                Log.d("Server Response", response);
+                                try {
+                                    JSONObject jsonResponse = new JSONObject(response);
+                                    String status = jsonResponse.getString("status");
+                                    String message = jsonResponse.getString("message");
 
-                                        if ("success".equals(status)) {
-                                            Toast.makeText(getApplicationContext(), "Password berhasil diganti", Toast.LENGTH_SHORT).show();
-                                            finish();  // Tutup halaman setelah berhasil
-                                        } else {
-                                            Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
-                                        }
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                        Toast.makeText(getApplicationContext(), "Kesalahan dalam memproses respons server", Toast.LENGTH_SHORT).show();
+                                    if ("success".equals(status)) {
+                                        Intent intent = new Intent (newpasswordpage.this, login.class);
+                                        startActivity(intent);
+                                        Toast.makeText(getApplicationContext(), "Password berhasil diganti", Toast.LENGTH_SHORT).show();
+                                        finish();  // Tutup halaman setelah berhasil
+                                    } else {
+                                        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
                                     }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                    Toast.makeText(getApplicationContext(), "Kesalahan dalam memproses respons server", Toast.LENGTH_SHORT).show();
                                 }
                             },
-                            new Response.ErrorListener() {
-                                @Override
-                                public void onErrorResponse(VolleyError error) {
-                                    Log.e("Network Error", error.toString());
-                                    Toast.makeText(getApplicationContext(), "Network error", Toast.LENGTH_SHORT).show();
-                                }
+                            error -> {
+                                Log.e("Network Error", error.toString());
+                                Toast.makeText(getApplicationContext(), "Network error", Toast.LENGTH_SHORT).show();
                             }) {
                         @Override
                         protected Map<String, String> getParams() {
                             Map<String, String> params = new HashMap<>();
-                            params.put("password", newPass);  // Kirimkan password baru
+                            params.put("password", newPass); // Kirimkan password baru
                             return params;
+                        }
+
+                        @Override
+                        public Map<String, String> getHeaders() {
+                            Map<String, String> headers = new HashMap<>();
+                            if (!phpsessid.isEmpty()) {
+                                headers.put("Cookie", "PHPSESSID=" + phpsessid); // Sertakan PHPSESSID
+                            }
+                            return headers;
                         }
                     };
 

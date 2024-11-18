@@ -2,7 +2,9 @@ package com.example.ngikngik;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -107,6 +109,11 @@ public class lupapassword extends AppCompatActivity {
                                         String message = jsonResponse.getString("message");
 
                                         if (status.equals("success")) {
+                                            String phpsessid = jsonResponse.getString("phpsessid");
+                                            SharedPreferences preferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+                                            SharedPreferences.Editor editor = preferences.edit();
+                                            editor.putString("PHPSESSID", phpsessid);
+                                            editor.apply();
                                             // Menyimpan email dan menampilkan dialog
                                             getIntent().putExtra("email", email);
                                             Log.d("Dialog", "Displaying dialog");

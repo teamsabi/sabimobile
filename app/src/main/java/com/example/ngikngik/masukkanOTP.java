@@ -3,6 +3,7 @@ package com.example.ngikngik;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -91,6 +92,11 @@ public class masukkanOTP extends AppCompatActivity {
             } else {
                 progressBar.setVisibility(View.VISIBLE);
 
+                // Ambil PHPSESSID dari SharedPreferences
+                SharedPreferences preferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+                String phpsessid = preferences.getString("PHPSESSID", "");
+
+                // Request API dengan menyertakan cookie PHPSESSID
                 RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
                 StringRequest stringRequest = new StringRequest(Request.Method.POST, DbContract.SERVER_VERIF_OTP_URL,
                         response -> {
@@ -103,6 +109,7 @@ public class masukkanOTP extends AppCompatActivity {
                                 if ("success".equals(status)) {
                                     Intent intent = new Intent(masukkanOTP.this, newpasswordpage.class);
                                     startActivity(intent);
+                                    finish();
                                 } else {
                                     Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
                                 }
@@ -120,6 +127,15 @@ public class masukkanOTP extends AppCompatActivity {
                         Map<String, String> params = new HashMap<>();
                         params.put("otp", otp);
                         return params;
+                    }
+
+                    @Override
+                    public Map<String, String> getHeaders() {
+                        Map<String, String> headers = new HashMap<>();
+                        if (!phpsessid.isEmpty()) {
+                            headers.put("Cookie", "PHPSESSID=" + phpsessid); // Kirim PHPSESSID
+                        }
+                        return headers;
                     }
                 };
 
@@ -142,6 +158,7 @@ public class masukkanOTP extends AppCompatActivity {
                 queue.add(stringRequest);
             }
         });
+
     }
 
     private final TextWatcher textWatcher = new TextWatcher() {
