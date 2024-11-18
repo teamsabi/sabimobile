@@ -48,5 +48,7 @@ dependencies {
     implementation("androidx.recyclerview:recyclerview-selection:1.1.0")
     implementation("mysql:mysql-connector-java:5.1.49")
     implementation("com.android.volley:volley:1.2.1")
+    implementation ("org.json:json:20210307") // Versi terbaru dari org.json
+
 
 }
