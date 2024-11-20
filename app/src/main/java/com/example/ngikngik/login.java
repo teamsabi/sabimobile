@@ -6,10 +6,8 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,6 +26,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.example.ngikngik.IsiDashboard.Dashboard;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -126,65 +125,56 @@ public class login extends AppCompatActivity {
             }
         });
     }
-        public void CheckLogin(final String email, final String password){
-            if(checkNetworkConnection()){
-                progressDialog.show();
-                StringRequest stringRequest = new StringRequest(Request.Method.POST, DbContract.SERVER_LOGIN_URL,
-                        new Response.Listener<String>() {
-                            @Override
-                                public void onResponse(String response) {
-                                try {
-                                    Log.d("LoginResponse", "Response: " + response);
 
-                                    JSONObject jsonObject = new JSONObject(response);
-                                    String serverResponse = jsonObject.getString("server_response");
-                                    Log.d("response",serverResponse);
+    public void CheckLogin(final String email, final String password) {
+        if (checkNetworkConnection()) {
+            progressDialog.show();
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, DbContract.SERVER_LOGIN_URL,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            try {
+                                JSONObject jsonObject = new JSONObject(response);
+                                String serverResponse = jsonObject.getString("server_response");
 
-                                    if (serverResponse.equals("login berhasil")) {
-                                        Toast.makeText(getApplicationContext(), "Login berhasil", Toast.LENGTH_SHORT).show();
-                                        Intent dashboardIntent = new Intent(login.this, Dashboard.class);
-                                        dashboardIntent.putExtra("email", email);
-                                        startActivity(dashboardIntent);
-                                    } else {
-                                        Toast.makeText(getApplicationContext(), "Email dan password salah", Toast.LENGTH_SHORT).show();
-                                    }
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                    Toast.makeText(getApplicationContext(), "Terjadi kesalahan dalam parsing respon server", Toast.LENGTH_SHORT).show();
-                                } finally {
-                                    progressDialog.dismiss();
+                                if (serverResponse.equals("login berhasil")) {
+                                    Toast.makeText(getApplicationContext(), "Login berhasil", Toast.LENGTH_SHORT).show();
+                                    Intent dashboardIntent = new Intent(login.this, Dashboard.class);
+                                    dashboardIntent.putExtra("email", email);
+                                    startActivity(dashboardIntent);
+                                } else {
+                                    Toast.makeText(getApplicationContext(), "Email dan password salah", Toast.LENGTH_SHORT).show();
                                 }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                                Toast.makeText(getApplicationContext(), "Terjadi kesalahan dalam parsing respon server", Toast.LENGTH_SHORT).show();
+                            } finally {
+                                progressDialog.dismiss();
                             }
-                        }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
                     progressDialog.dismiss();
                     Toast.makeText(getApplicationContext(), "Terjadi kesalahan, coba lagi", Toast.LENGTH_SHORT).show();
-                    }
-                }){
-                    @Override
-                    protected Map<String, String> getParams() throws AuthFailureError {
-                        Map<String, String> params = new HashMap<>();
-                        params.put("email", email);
-                        params.put("password", password);
-                        return params;
-                    }
-                };
+                }
+            }) {
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<>();
+                    params.put("email", email);
+                    params.put("password", password); // Password plaintext
+                    return params;
+                }
+            };
 
-                VolleyConnection.getInstance(login.this).addToRequestQue(stringRequest);
-
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        progressDialog.cancel();
-
-                    }
-                }, 2000);
-            }else {
-                Toast.makeText(getApplicationContext(), "Tidak ada koneksi internet", Toast.LENGTH_SHORT).show();
-            }
+            VolleyConnection.getInstance(login.this).addToRequestQue(stringRequest);
+        } else {
+            Toast.makeText(getApplicationContext(), "Tidak ada koneksi internet", Toast.LENGTH_SHORT).show();
         }
-        // Inisialisasi EditText untuk email dan password
+    }
+
+    // Inisialisasi EditText untuk email dan password
 
 
 

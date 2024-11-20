@@ -20,7 +20,7 @@
             android:name=".masukkanOTP"
             android:exported="false" />
         <activity
-            android:name=".Dashboard"
+            android:name=".IsiDashboard.Dashboard"
             android:exported="false" />
         <activity
             android:name=".landing"
