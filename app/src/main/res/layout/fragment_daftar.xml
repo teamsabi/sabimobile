@@ -18,7 +18,8 @@
         android:layout_height="wrap_content"
 
         android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
+        android:textSize="25dp"
+        android:layout_marginTop="30dp"
         android:fontFamily="sans-serif-black"
         android:text="Selamat Datang SabiChamps !"
         android:textColor="#ffffff" />
@@ -88,8 +89,94 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
             android:text="Jenjang *" />
+
+        <CheckBox
+            android:id="@+id/checkBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="10dp"
+            android:text="SMA" />
+
+        <TextView
+            android:id="@+id/textView26"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="15dp"
+            android:text="Kelas *" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:id="@+id/kelas11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="20dp"
+                android:text="11" />
+
+            <CheckBox
+                android:id="@+id/kelas12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="20dp"
+                android:text="12" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="158dp"
+            android:orientation="vertical" />
+
+        <TextView
+                android:id="@+id/textView17"
+                android:layout_width="wrap_content"
+                android:layout_height="127dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginStart="22dp"
+                android:layout_marginEnd="22dp"
+                android:gravity="center"
+                android:text="Dengan melakukan pendaftaran, Anda dianggap telah menyetujui Syarat dan Ketentuan Pengguna serta Kebijakan Privasi dari SABI. Informasi pribadimu akan kami simpan secara hati-hati." />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_bataldaftar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="#229799"
+                android:backgroundTint="#30229799"
+                android:layout_marginStart="22dp"
+                android:layout_marginEnd="10dp"
+                android:text="batal" />
+
+            <Button
+                android:id="@+id/btnlanjutdaftar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="22dp"
+                android:backgroundTint="@color/purple_500"
+                android:textColor="@android:color/white"
+                android:layout_weight="1"
+                android:text="Lanjut" />
+        </LinearLayout>
 
     </LinearLayout>
 

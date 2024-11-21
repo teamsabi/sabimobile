@@ -26,6 +26,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.example.ngikngik.Dashboard.dashboard;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -138,7 +139,7 @@ public class login extends AppCompatActivity {
 
                                 if (serverResponse.equals("login berhasil")) {
                                     Toast.makeText(getApplicationContext(), "Login berhasil", Toast.LENGTH_SHORT).show();
-                                    Intent dashboardIntent = new Intent(login.this, Dashboard.class);
+                                    Intent dashboardIntent = new Intent(login.this, dashboard.class);
                                     dashboardIntent.putExtra("email", email);
                                     startActivity(dashboardIntent);
                                 } else {

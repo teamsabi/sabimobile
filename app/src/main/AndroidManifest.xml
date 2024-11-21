@@ -17,17 +17,7 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31" >
         <activity
-            android:name=".Dashboard.SettingsActivity"
-            android:exported="false"
-            android:label="@string/title_activity_settings" />
-        <activity
-            android:name=".IsiDashboard.MainActivity"
-            android:exported="false" />
-        <activity
             android:name=".masukkanOTP"
-            android:exported="false" />
-        <activity
-            android:name=".IsiDashboard.Dashboard"
             android:exported="false" />
         <activity
             android:name=".landing"
@@ -40,6 +30,12 @@
             android:exported="false" />
         <activity
             android:name=".login"
+            android:exported="false" />
+        <activity
+            android:name=".Dashboard.daftar"
+            android:exported="false" />
+        <activity
+            android:name=".Dashboard.dashboard"
             android:exported="false" />
         <activity
             android:name=".lupapassword"
