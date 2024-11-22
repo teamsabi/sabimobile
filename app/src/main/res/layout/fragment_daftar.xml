@@ -9,9 +9,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_gravity="top"
-        android:background="@color/purple_500">
+        android:background="@color/purple_500"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/textView3"
@@ -19,8 +18,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="30dp"
-            android:paddingBottom="20dp"
             android:fontFamily="sans-serif-black"
+            android:paddingBottom="20dp"
             android:text="Selamat Datang SabiChamps !"
             android:textColor="#ffffff"
             android:textSize="25dp" />
@@ -31,10 +30,11 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
                 android:background="@drawable/shapedashboard"
                 android:orientation="vertical">
+
                 <TextView
                     android:id="@+id/textView21"
                     android:layout_width="wrap_content"
@@ -116,7 +116,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="164dp"
                     android:orientation="horizontal"
                     android:paddingBottom="120dp">
 
@@ -151,7 +151,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
                     <Button
@@ -180,15 +180,6 @@
             </LinearLayout>
         </ScrollView>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:background="@drawable/shapedashboard"
-            android:orientation="vertical">
-
-
-        </LinearLayout>
     </LinearLayout>
 
 </FrameLayout>
