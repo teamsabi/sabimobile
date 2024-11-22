@@ -24,14 +24,14 @@ public class dashboard extends AppCompatActivity {
         binding.bottomNavigation.setBackground(null);
 
         binding.bottomNavigation.setOnItemSelectedListener(item -> {
-            switch (item.getItemId()){
-                case R.id.daftar:
-                    replaceFragment(new fragment_daftar());
-                    break;
-
-             }
-             return true;
+            if (item.getItemId() == R.id.daftar) {
+                replaceFragment(new fragment_daftar());
+            } else if (item.getItemId() == R.id.beranda) {
+                replaceFragment(new beranda());
+            }
+            return true;
         });
+
     }
 
     private void replaceFragment(Fragment fragment) {
