@@ -32,7 +32,7 @@
             android:name=".login"
             android:exported="false" />
         <activity
-            android:name=".Dashboard.daftar"
+            android:name=".Dashboard.fragment_daftar"
             android:exported="false" />
         <activity
             android:name=".Dashboard.dashboard"

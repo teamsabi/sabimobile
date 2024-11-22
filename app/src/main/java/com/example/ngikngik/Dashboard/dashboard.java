@@ -1,32 +1,43 @@
 package com.example.ngikngik.Dashboard;
 
 import android.os.Bundle;
-import android.view.View;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.ngikngik.R;
+import com.example.ngikngik.databinding.ActivityDashboardBinding;
 
 public class dashboard extends AppCompatActivity {
-    FrameLayout fragmentcontainer;
-    LinearLayout berandadaftar;
+
+    ActivityDashboardBinding binding;
+
     @Override
-    protected void onCreate(Bundle savedInstanceState){
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.dashboard);
+        binding = ActivityDashboardBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
-        fragmentcontainer = (FrameLayout) findViewById(R.id.fragment_container);
-        berandadaftar = (LinearLayout) findViewById(R.id.linearLayout2);
+        replaceFragment(new fragment_daftar());
+        binding.bottomNavigation.setBackground(null);
 
-        berandadaftar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Fragment fragment = null;
-                switch (;)
-            }
+        binding.bottomNavigation.setOnItemSelectedListener(item -> {
+            switch (item.getItemId()){
+                case R.id.daftar:
+                    replaceFragment(new fragment_daftar());
+                    break;
+
+             }
+             return true;
         });
-        }
     }
+
+    private void replaceFragment(Fragment fragment) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.framelayout, fragment);
+        fragmentTransaction.commit();
+    }
+}
