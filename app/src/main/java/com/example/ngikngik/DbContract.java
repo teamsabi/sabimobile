@@ -9,5 +9,6 @@ public class DbContract {
     public static final String SERVER_VERIF_OTP_URL = "http://" + IP + "/db_sabiproject/verifotp.php";
     public static final String SERVER_NEWPASSWORD_URL= "http://" + IP + "/db_sabiproject/newpassword.php";
     public static final String SERVER_RESEND_OTP_URL = "http://" + IP + "/db_sabiproject/resend_otp";
+    public static final String SERVER_DAFTAR_URL = "http://" + IP + "db_sabiproject/daftaruser";
 
 }
