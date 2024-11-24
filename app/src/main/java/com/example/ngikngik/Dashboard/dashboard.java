@@ -20,18 +20,20 @@ public class dashboard extends AppCompatActivity {
         binding = ActivityDashboardBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        replaceFragment(new fragment_daftar());
-        binding.bottomNavigation.setBackground(null);
+        // Langsung tampilkan fragment beranda saat pertama kali memasuki dashboard
+        if (savedInstanceState == null) {
+            replaceFragment(new beranda()); // Menampilkan beranda pertama kali
+        }
 
+        binding.bottomNavigation.setBackground(null);
         binding.bottomNavigation.setOnItemSelectedListener(item -> {
-            if (item.getItemId() == R.id.daftar) {
-                replaceFragment(new fragment_daftar());
-            } else if (item.getItemId() == R.id.beranda) {
+            if (item.getItemId() == R.id.beranda) {
                 replaceFragment(new beranda());
+            } else if (item.getItemId() == R.id.daftar) {
+                replaceFragment(new fragment_daftar());
             }
             return true;
         });
-
     }
 
     private void replaceFragment(Fragment fragment) {

@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -17,6 +18,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.ngikngik.databinding.ActivityDashboardBinding;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -27,10 +29,19 @@ import java.util.Map;
 public class newpasswordpage extends AppCompatActivity {
     private EditText newPassword, confirmPassword;
     private Button savePasswordButton;
+    ActivityDashboardBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Menghilangkan status bar
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        // Menetapkan tampilan konten
+        binding = ActivityDashboardBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         setContentView(R.layout.activity_newpasswordpage);
 
         newPassword = findViewById(R.id.sandi_baru);

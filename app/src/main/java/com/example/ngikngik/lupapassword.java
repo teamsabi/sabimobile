@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -27,6 +28,7 @@ import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.ngikngik.databinding.ActivityDashboardBinding;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,11 +38,20 @@ import java.util.Map;
 
 public class lupapassword extends AppCompatActivity {
     Dialog dialog;
+    ActivityDashboardBinding binding;
     Button btnmengerti;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Menghilangkan status bar
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        // Menetapkan tampilan konten
+        binding = ActivityDashboardBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_lupapassword);

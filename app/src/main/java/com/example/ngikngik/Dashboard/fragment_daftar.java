@@ -1,6 +1,6 @@
 package com.example.ngikngik.Dashboard;
 
-import static com.example.ngikngik.DbContract.IP;
+import static com.example.ngikngik.DbContract.SERVER_DAFTAR_URL;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -9,6 +9,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +23,9 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.ngikngik.R;
+import com.example.ngikngik.databinding.ActivityDashboardBinding;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -77,8 +80,8 @@ public class fragment_daftar extends Fragment {
         btnLanjutDaftar.setOnClickListener(v -> {
             String namalengkapText = namalengkap.getText().toString().trim();
             String nomerwaText = nomerwa.getText().toString().trim();
-            String selectedKelas = kelas11.isChecked() ? "Kelas 11" : kelas12.isChecked() ? "Kelas 12" : null;
-            String selectedJenjang = jenjangCheck.isChecked() ? "Jenjang Terpilih" : null;
+            String selectedKelas = kelas11.isChecked() ? "11" : kelas12.isChecked() ? "12" : null;
+            String selectedJenjang = jenjangCheck.isChecked() ? "SMA" : null;
 
             // Validasi input
             if (namalengkapText.isEmpty() || nomerwaText.isEmpty() || selectedJenjang == null || selectedKelas == null) {
@@ -86,12 +89,15 @@ public class fragment_daftar extends Fragment {
                 return;
             }
 
+            // Menambahkan log untuk debug
+            Log.d("FragmentDaftar", "Input valid, mengirim data ke server...");
+
             // Kirim data ke server
             registerUser(namalengkapText, nomerwaText, selectedJenjang, selectedKelas);
         });
-    }
 
-    private void registerUser(String namalengkap, String nomerwa, String jenjang, String kelas) {
+    }
+        private void registerUser(String namalengkap, String nomerwa, String jenjang, String kelas) {
         if (checkNetworkConnection()) {
             new RegisterTask().execute(namalengkap, nomerwa, jenjang, kelas);
         } else {
@@ -105,22 +111,27 @@ public class fragment_daftar extends Fragment {
         return (networkInfo != null && networkInfo.isConnected());
     }
 
-    private void showOtpDialog() {
+    private void showDaftarDialog() {
         dialog = new Dialog(getActivity());
-        dialog.setContentView(R.layout.daftar_berhasil);
+        dialog.setContentView(R.layout.daftarberhasil);  // pastikan layout sudah benar
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
 
         Button lanjut = dialog.findViewById(R.id.btnlanjutdaftar);
-        lanjut.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), beranda.class);
-            startActivity(intent);
-            dialog.dismiss();
-            getActivity().finish();
-        });
+        if (lanjut != null) {
+            lanjut.setOnClickListener(v -> {
+                Intent intent = new Intent(getActivity(), beranda.class);
+                startActivity(intent);
+                dialog.dismiss();
+                getActivity().finish();
+            });
+        } else {
+            Log.e("FragmentDaftar", "Tombol 'btnlanjutdaftar' tidak ditemukan!");
+        }
 
         dialog.show();
     }
+
 
     // AsyncTask untuk proses HTTP POST
     private class RegisterTask extends AsyncTask<String, Void, String> {
@@ -131,19 +142,21 @@ public class fragment_daftar extends Fragment {
             String nomerwa = params[1];
             String jenjang = params[2];
             String kelas = params[3];
-            String urlString = "http://" + IP + "/db_sabiproject/daftaruser";
 
             try {
-                URL url = new URL(urlString);
+                URL url = new URL(SERVER_DAFTAR_URL);
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestMethod("POST");
                 connection.setDoOutput(true);
                 connection.setDoInput(true);
 
+                // Log URL
+                System.out.println("Connecting to: " + SERVER_DAFTAR_URL);
+
                 OutputStream outputStream = connection.getOutputStream();
                 BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
-                writer.write("namalengkap=" + URLEncoder.encode(namalengkap, "UTF-8") +
-                        "&nomerwa=" + URLEncoder.encode(nomerwa, "UTF-8") +
+                writer.write("nama_lengkap=" + URLEncoder.encode(namalengkap, "UTF-8") +
+                        "&nomor_whatsapp=" + URLEncoder.encode(nomerwa, "UTF-8") +
                         "&jenjang=" + URLEncoder.encode(jenjang, "UTF-8") +
                         "&kelas=" + URLEncoder.encode(kelas, "UTF-8"));
                 writer.flush();
@@ -158,11 +171,15 @@ public class fragment_daftar extends Fragment {
                     response.append(line);
                 }
                 reader.close();
+
+                // Log response
+                System.out.println("Server response: " + response.toString());
+
                 return response.toString();
 
             } catch (Exception e) {
                 e.printStackTrace();
-                return null;
+                return null; // Tambahkan log jika ada kesalahan
             }
         }
 
@@ -170,15 +187,22 @@ public class fragment_daftar extends Fragment {
         protected void onPostExecute(String result) {
             try {
                 if (result != null) {
-                    JSONObject jsonResponse = new JSONObject(result);
-                    String status = jsonResponse.getString("status");
-                    String message = jsonResponse.getString("message");
+                    // Log response dari server
+                    Log.d("RegisterTask", "Server response: " + result);
 
-                    if ("OK".equalsIgnoreCase(status)) {
-                        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
-                        showOtpDialog();
-                    } else {
-                        Toast.makeText(getActivity(), "Registrasi gagal: " + message, Toast.LENGTH_SHORT).show();
+                    // Parsing JSON response dan cek status
+                    JSONArray jsonArray = new JSONArray(result);
+                    if (jsonArray.length() > 0) {
+                        JSONObject jsonResponse = jsonArray.getJSONObject(0);
+                        String status = jsonResponse.getString("status");
+                        String message = jsonResponse.getString("message");
+
+                        if ("OK".equalsIgnoreCase(status)) {
+                            Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+                            showDaftarDialog(); // Menampilkan dialog setelah berhasil
+                        } else {
+                            Toast.makeText(getActivity(), "Registrasi gagal: " + message, Toast.LENGTH_SHORT).show();
+                        }
                     }
                 } else {
                     Toast.makeText(getActivity(), "Gagal terhubung ke server", Toast.LENGTH_SHORT).show();
@@ -189,4 +213,4 @@ public class fragment_daftar extends Fragment {
             }
         }
     }
-}
+    }
