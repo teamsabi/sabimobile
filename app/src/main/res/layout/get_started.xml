@@ -8,35 +8,44 @@
     app:flow_horizontalAlign="center">
 
     <ImageView
-        android:id="@+id/sliderImage"
         android:layout_width="match_parent"
         android:layout_height="300dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="70dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/upload"/>
+        android:src="@drawable/start"/>
 
     <TextView
-        android:id="@+id/sliderTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
         android:fontFamily="@font/poppins_semibold"
-        android:text="@string/screen1"
+        android:text="Explore YouTube"
         android:textAlignment="center"
         android:textColor="@color/lavender"
         android:textSize="30sp"
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/sliderDesc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="30dp"
-        android:text="@string/screen1desc"
+        android:text="@string/startDesc"
         android:fontFamily="@font/poppins_semibold"
         android:layout_marginTop="20dp"
         android:textAlignment="center"
         android:textColor="@color/lavender"
         android:textSize="20sp"/>
+
+    <Button
+        android:id="@+id/startButton"
+        android:layout_width="180dp"
+        android:layout_height="60dp"
+        android:text="Get Started"
+        android:padding="8dp"
+        android:fontFamily="@font/poppins_semibold"
+        android:textSize="20sp"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center"
+        app:cornerRadius = "12dp"/>
 
 </LinearLayout>

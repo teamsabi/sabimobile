@@ -17,16 +17,13 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".Navigation"
-            android:exported="false" />
-        <activity
             android:name=".Dashboard.DaftarDialogFragment"
             android:exported="false" />
         <activity
             android:name=".masukkanOTP"
             android:exported="false" />
         <activity
-            android:name=".landing"
+            android:name=".lupapassword"
             android:exported="false" />
         <activity
             android:name=".newpasswordpage"
@@ -47,7 +44,16 @@
             android:name=".Dashboard.beranda"
             android:exported="false" />
         <activity
-            android:name=".lupapassword"
+            android:name=".onBoarding.Navigation"
+            android:exported="true">
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+        </activity>
+        <activity
+            android:name=".landing"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -55,10 +61,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".register"
-            android:exported="false" />
-
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
