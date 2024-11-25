@@ -6,8 +6,8 @@
         android:icon="@drawable/baseline_home_24"
          />
     <item
-        android:id="@+id/daftar"
-        android:title="Daftar"
+        android:id="@+id/profil"
+        android:title="profil"
         android:icon="@drawable/daftar"
         />
 </menu>

@@ -29,8 +29,8 @@ public class dashboard extends AppCompatActivity {
         binding.bottomNavigation.setOnItemSelectedListener(item -> {
             if (item.getItemId() == R.id.beranda) {
                 replaceFragment(new beranda());
-            } else if (item.getItemId() == R.id.daftar) {
-                replaceFragment(new fragment_daftar());
+            } else if (item.getItemId() == R.id.profil) {
+                replaceFragment(new ProfilDashboard());
             }
             return true;
         });

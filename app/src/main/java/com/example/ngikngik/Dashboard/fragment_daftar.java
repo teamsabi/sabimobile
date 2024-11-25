@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -48,7 +49,6 @@ public class fragment_daftar extends Fragment {
     public fragment_daftar() {
         super(R.layout.fragment_daftar);
     }
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -214,3 +214,4 @@ public class fragment_daftar extends Fragment {
         }
     }
     }
+
