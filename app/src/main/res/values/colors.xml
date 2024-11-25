@@ -1,3 +1,5 @@
 <resources>
     <color name="purple_500">#229799</color> 
+    <color name="lavender">#8692f7</color>
+    <color name="grey">#808080</color>
 </resources>

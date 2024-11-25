@@ -17,6 +17,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".Navigation"
+            android:exported="false" />
+        <activity
             android:name=".Dashboard.DaftarDialogFragment"
             android:exported="false" />
         <activity
@@ -55,6 +58,10 @@
         <activity
             android:name=".register"
             android:exported="false" />
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>
