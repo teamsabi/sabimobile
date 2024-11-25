@@ -11,6 +11,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.ngikngik.onBoarding.Navigation;
+
 public class landing extends AppCompatActivity {
     Handler handler;
     @Override
@@ -28,7 +30,7 @@ public class landing extends AppCompatActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-               startActivity(new Intent(landing.this,login.class));
+               startActivity(new Intent(landing.this, Navigation.class));
                 finish();
             };
         },3000);

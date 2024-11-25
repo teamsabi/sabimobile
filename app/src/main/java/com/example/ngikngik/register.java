@@ -34,6 +34,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.example.ngikngik.Dashboard.beranda;
 import com.example.ngikngik.databinding.ActivityDashboardBinding;
 
 import org.json.JSONException;
@@ -242,14 +243,11 @@ public class register extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-//                String fullname = etFullname.getText().toString();
-//                String Susername = etUsername.getText().toString();
+
                 String Semail = etEmail.getText().toString();
                 String Spassword = etPassRegister.getText().toString();
                 String SverifyPassword = etVerificationPassword.getText().toString();
-//                String Sbirthdate = etBirthdate.getText().toString();
-//                String Saddress = etAddress.getText().toString();
-//                String Sphone = etPhone.getText().toString();
+
                 if (Spassword.isEmpty()) {
                     Toast.makeText(register.this, "Isi Semua Kolom di atas", Toast.LENGTH_SHORT).show();
                 } else if (!Spassword.equals(SverifyPassword)) {
@@ -257,6 +255,8 @@ public class register extends AppCompatActivity {
                 } else {
                     CreateDataToServer(Semail, Spassword);
                     Toast.makeText(register.this, "Registrasi berhasil", Toast.LENGTH_SHORT).show();
+//                    Intent intent = new Intent(register.this, beranda.class);
+//                    startActivity(intent);
                     finish();
                 }
             }
