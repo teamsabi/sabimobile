@@ -30,7 +30,7 @@ public class JadwalAdapter extends RecyclerView.Adapter<JadwalAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-//        Jadwal jadwal = jadwalList.get(position);
+        Jadwal jadwal = jadwalList.get(position);
         holder.tvHari.setText(jadwal.getHari());
         holder.tvMatkul.setText(jadwal.getMataPelajaran());
     }
