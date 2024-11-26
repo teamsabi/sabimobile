@@ -38,14 +38,9 @@
             android:name=".register"
             android:exported="false" />
         <activity
-            android:name=".Dashboard.fragment_daftar"
-            android:exported="false" />
-        <activity
             android:name=".Dashboard.dashboard"
             android:exported="false" />
-        <activity
-            android:name=".Dashboard.beranda"
-            android:exported="false" />
+
         <activity
             android:name=".landing"
             android:exported="true">

@@ -35,6 +35,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.ngikngik.Dashboard.beranda;
+import com.example.ngikngik.Dashboard.fragment_daftar;
 import com.example.ngikngik.databinding.ActivityDashboardBinding;
 
 import org.json.JSONException;
@@ -255,8 +256,8 @@ public class register extends AppCompatActivity {
                 } else {
                     CreateDataToServer(Semail, Spassword);
                     Toast.makeText(register.this, "Registrasi berhasil", Toast.LENGTH_SHORT).show();
-//                    Intent intent = new Intent(register.this, beranda.class);
-//                    startActivity(intent);
+                    Intent intent = new Intent(register.this, fragment_daftar.class);
+                    startActivity(intent);
                     finish();
                 }
             }

@@ -61,21 +61,12 @@
             android:padding="16dp">
 
             <!-- Profile Image -->
-            <ImageView
-                android:id="@+id/imgProfile"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_profile" />
 
             <!-- Profile Name -->
             <TextView
                 android:id="@+id/tvName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toEndOf="@id/imgProfile"
                 android:layout_marginStart="16dp"
                 android:text="Saiful"
                 android:textColor="#000000"
@@ -88,7 +79,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tvName"
-                android:layout_toEndOf="@id/imgProfile"
                 android:layout_marginStart="16dp"
                 android:text="Kelas 12"
                 android:textColor="#888888"
@@ -142,13 +132,13 @@
 
         <!-- Delete Account -->
         <TextView
-            android:id="@+id/tvDeleteAccount"
+            android:id="@+id/Logout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:padding="16dp"
             android:background="@drawable/ambismetershape"
-            android:text="Hapus Akun"
+            android:text="Logout"
             android:textColor="#FF0000"
             android:textSize="16sp" />
     </LinearLayout>
