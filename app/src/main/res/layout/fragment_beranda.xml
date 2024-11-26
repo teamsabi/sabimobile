@@ -1,21 +1,147 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp">
 
-    <TextView
-        android:id="@+id/tvTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Jadwal Belajar"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:layout_marginBottom="16dp" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="289dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text="Jadwal Belajar"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Fitur"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/poppins_semibold"
+        />
+
+    <androidx.gridlayout.widget.GridLayout
+        android:layout_width="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_height="62dp">
+
+        <ImageView
+            android:id="@+id/imageView27"
+            android:layout_width="59dp"
+            android:layout_height="44dp"
+            android:layout_marginStart="10dp"
+            android:src="@drawable/testsoal" />
+
+        <TextView
+            android:id="@+id/textView21"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins"
+            android:text="Latian Soal"
+            app:layout_column="0"
+            app:layout_row="1" />
+
+        <ImageView
+            android:id="@+id/imageView28"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_marginStart="20dp"
+            android:src="@drawable/konsultasi"
+            app:layout_column="1"
+            app:layout_row="0" />
+
+        <TextView
+            android:id="@+id/textView22"
+            android:layout_width="87dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins"
+            android:gravity="center"
+            android:text="Konsultasi"
+            app:layout_column="1"
+            app:layout_row="1" />
+
+    </androidx.gridlayout.widget.GridLayout>
+
+    <TextView
+        android:id="@+id/textView23"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins_semibold"
+        android:text="Mata Pelajaran"
+        android:layout_marginTop="20dp"/>
+
+    <androidx.gridlayout.widget.GridLayout
+        android:layout_width="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_height="88dp">
+
+        <ImageView
+            android:id="@+id/imageView29"
+            android:layout_width="48dp"
+            android:layout_height="44dp"
+            android:layout_marginStart="10dp"
+            android:src="@drawable/kimia"
+            app:layout_column="0"
+            app:layout_row="0" />
+
+        <TextView
+            android:id="@+id/textView25"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Kimia"
+            app:layout_column="0"
+            app:layout_row="1" />
+
+        <ImageView
+            android:id="@+id/imageView30"
+            android:layout_width="75dp"
+            android:layout_height="44dp"
+            android:src="@drawable/matematika"
+            app:layout_column="1"
+            app:layout_row="0" />
+
+        <TextView
+            android:id="@+id/textView26"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Matematika"
+            android:gravity="center"
+            app:layout_column="1"
+            app:layout_row="1" />
+
+        <ImageView
+            android:id="@+id/imageView31"
+            android:layout_width="48dp"
+            android:layout_height="44dp"
+            android:layout_marginStart="10dp"
+            android:src="@drawable/biologi"
+            app:layout_column="2"
+            app:layout_row="0" />
+
+        <TextView
+            android:id="@+id/textView29"
+            android:layout_width="72dp"
+            android:layout_height="wrap_content"
+            android:text="Biologi"
+            android:gravity="center"
+            app:layout_column="2"
+            app:layout_row="1" />
+    </androidx.gridlayout.widget.GridLayout>
+
 </LinearLayout>
