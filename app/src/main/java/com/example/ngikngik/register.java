@@ -9,112 +9,41 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.DatePicker;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.example.ngikngik.Dashboard.beranda;
-import com.example.ngikngik.Dashboard.fragment_daftar;
-import com.example.ngikngik.databinding.ActivityDashboardBinding;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-
 public class register extends AppCompatActivity {
 
-    Button buttonSignup;
-    ActivityDashboardBinding binding;
-    TextView textViewLogin, txtmasuk;
-    ProgressBar progressBar;
-    ProgressDialog progressDialog;
+    private EditText etEmail, etPassRegister, etVerificationPassword;
+    private ProgressDialog progressDialog;
+    private CheckBox checkBoxJenjang, checkBoxKelas11, checkBoxKelas12;
 
-    private EditText etBirthdate;
-    private EditText  etEmail, etPassRegister, etVerificationPassword;
-    private Button btnRegister;
-
-    public void CreateDataToServer(final String email, final String password) {
-        if (checkNetworkConnection()) {
-            progressDialog.show();  // Tampilkan dialog sebelum memulai permintaan
-            StringRequest stringRequest = new StringRequest(Request.Method.POST, DbContract.SERVER_REGISTER_URL,
-                    new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-                            try {
-                                Log.e("response", response.toString());
-                                JSONObject jsonObject = new JSONObject(response);
-                                String resp = jsonObject.getString("server_response");
-                                if (resp.equals("[{\"status\":\"OK\"}]")) {
-                                } else {
-                                    Toast.makeText(getApplicationContext(), resp, Toast.LENGTH_SHORT).show();
-                                }
-                            } catch (JSONException e) {
-                                Log.e("JSON Error", e.toString());
-                            } finally {
-                                // Pastikan untuk menutup dialog di sini
-                                if (progressDialog.isShowing()) {
-                                    progressDialog.dismiss();
-                                }
-                            }
-                        }
-                    }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Toast.makeText(getApplicationContext(), "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
-                    if (progressDialog.isShowing()) {
-                        progressDialog.dismiss();
-                    }
-                }
-            }) {
-                @Override
-                protected Map<String, String> getParams() throws AuthFailureError {
-                    Map<String, String> params = new HashMap<>();
-                    params.put("email", email);
-                    params.put("password", password);
-                    return params;
-                }
-            };
-
-            VolleyConnection.getInstance(register.this).addToRequestQue(stringRequest);
-
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    progressDialog.cancel();
-                }
-            }, 2000);
-        }else {
-            Toast.makeText(getApplicationContext(),"Tidak ada koneksi Internet", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    Handler handler = new Handler(Looper.getMainLooper());
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -123,168 +52,118 @@ public class register extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        // Menetapkan tampilan konten
-        binding = ActivityDashboardBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_register);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            progressDialog.setMessage("Memproses..."); // Menambahkan pesan untuk dialog
-            progressDialog.setCancelable(false); // Menonaktifkan kemampuan untuk membatalkan dialog
 
-            return insets;
-        });
-//        //verifmata
-        ImageView showhide = findViewById(R.id.showhideverif);
-        showhide.setImageResource(R.drawable.tutupmatapw);
-        showhide.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-        showhide.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (etVerificationPassword.getTransformationMethod().equals(HideReturnsTransformationMethod.getInstance())){
-                    etVerificationPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                    showhide.setImageResource(R.drawable.tutupmatapw);
-                }else {
-                    etVerificationPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                    showhide.setImageResource(R.drawable.tampilmatapw);
-                }
-            }
-        });
-        showhide.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Simpan posisi kursor saat ini
-                int cursorPosition = etVerificationPassword.getSelectionStart();
+        // Inisialisasi view
+        etEmail = findViewById(R.id.etEmailRegister);
+        etPassRegister = findViewById(R.id.etPasswordRegister);
+        etVerificationPassword = findViewById(R.id.etVerificationPassword);
+        Button btnRegister = findViewById(R.id.btnRegister);
+        TextView txtMasuk = findViewById(R.id.txt_masuk);
+        progressDialog = new ProgressDialog(this);
 
-                if (etVerificationPassword.getTransformationMethod().equals(HideReturnsTransformationMethod.getInstance())) {
-                    // Ganti ke mode sembunyi password
-                    etVerificationPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                    showhide.setImageResource(R.drawable.tutupmatapw);
-                } else {
-                    // Ganti ke mode tampil password
-                    etVerificationPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                    showhide.setImageResource(R.drawable.tampilmatapw);
-                }
+        checkBoxJenjang = findViewById(R.id.jenjangcheck2); // SMA
+        checkBoxKelas11 = findViewById(R.id.kelas); // Kelas 11
+        checkBoxKelas12 = findViewById(R.id.kelas2); // Kelas 12
 
-                // Kembalikan posisi kursor ke tempat sebelumnya
-                etVerificationPassword.setSelection(cursorPosition);
-            }
-        });
-        //katasandi
-        ImageView imageViewShowHidePw = findViewById(R.id.imageView_show_hide_pw);
-        imageViewShowHidePw.setImageResource(R.drawable.tutupmatapw);
-        imageViewShowHidePw.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-        imageViewShowHidePw.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (etPassRegister.getTransformationMethod().equals(HideReturnsTransformationMethod.getInstance())){
-                    etPassRegister.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                    imageViewShowHidePw.setImageResource(R.drawable.tutupmatapw);
-                }else {
-                    etPassRegister.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                    imageViewShowHidePw.setImageResource(R.drawable.tampilmatapw);
-                }
-            }
-        });
-        imageViewShowHidePw.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Simpan posisi kursor saat ini
-                int cursorPosition = etPassRegister.getSelectionStart();
+        progressDialog.setMessage("Memproses...");
+        progressDialog.setCancelable(false);
 
-                if (etPassRegister.getTransformationMethod().equals(HideReturnsTransformationMethod.getInstance())) {
-                    // Ganti ke mode sembunyi password
-                    etPassRegister.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                    imageViewShowHidePw.setImageResource(R.drawable.tutupmatapw);
-                } else {
-                    // Ganti ke mode tampil password
-                    etPassRegister.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                    imageViewShowHidePw.setImageResource(R.drawable.tampilmatapw);
-                }
-
-                // Kembalikan posisi kursor ke tempat sebelumnya
-                etPassRegister.setSelection(cursorPosition);
-            }
+        // Aksi tombol masuk
+        txtMasuk.setOnClickListener(view -> {
+            Intent intent = new Intent(register.this, login.class);
+            startActivity(intent);
         });
 
-//        db=new SQLiteHandler(getApplicationContext()) {
-//        }
+        // Aksi tombol registrasi
+        btnRegister.setOnClickListener(view -> {
+            String email = etEmail.getText().toString().trim();
+            String password = etPassRegister.getText().toString().trim();
+            String verifyPassword = etVerificationPassword.getText().toString().trim();
 
-        txtmasuk = findViewById(R.id.txt_masuk);
-        etEmail = (EditText) findViewById(R.id.etEmailRegister);
-        etPassRegister = (EditText) findViewById(R.id.etPasswordRegister);
-        etVerificationPassword = (EditText)  findViewById(R.id.etVerificationPassword);
-        btnRegister = (Button) findViewById(R.id.btnRegister);
-        progressDialog = new ProgressDialog(register.this);
-
-//        etBirthdate.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                showDatePickerDialog();
-//            }
-//        });
-
-
-//                        }
-//                        //End Write and Read data with URL
-//                    }
-//                });    //End Write and Read data with URL
-//             }
-        txtmasuk.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(register.this, login.class);
-                startActivity(intent);
+            // Validasi data
+            if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password) || TextUtils.isEmpty(verifyPassword)) {
+                Toast.makeText(register.this, "Harap isi semua kolom", Toast.LENGTH_SHORT).show();
+                return;
             }
-        });
-        btnRegister.setOnClickListener(new View.OnClickListener() {
-            private Object username;
 
-            @Override
-            public void onClick(View v) {
-
-                String Semail = etEmail.getText().toString();
-                String Spassword = etPassRegister.getText().toString();
-                String SverifyPassword = etVerificationPassword.getText().toString();
-
-                if (Spassword.isEmpty()) {
-                    Toast.makeText(register.this, "Isi Semua Kolom di atas", Toast.LENGTH_SHORT).show();
-                } else if (!Spassword.equals(SverifyPassword)) {
-                    Toast.makeText(register.this, "Password tidak sama", Toast.LENGTH_SHORT).show();
-                } else {
-                    CreateDataToServer(Semail, Spassword);
-                    Toast.makeText(register.this, "Registrasi berhasil", Toast.LENGTH_SHORT).show();
-                    finish();
-                }
+            if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                Toast.makeText(register.this, "Email tidak valid", Toast.LENGTH_SHORT).show();
+                return;
             }
+
+            if (password.length() < 6) {
+                Toast.makeText(register.this, "Password harus minimal 6 karakter", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if (!password.equals(verifyPassword)) {
+                Toast.makeText(register.this, "Password tidak sama", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // Ambil data dari checkbox
+            String jenjang = checkBoxJenjang.isChecked() ? "SMA" : "";
+            String kelas = checkBoxKelas11.isChecked() ? "11" : checkBoxKelas12.isChecked() ? "12" : "";
+
+            if (TextUtils.isEmpty(jenjang) || TextUtils.isEmpty(kelas)) {
+                Toast.makeText(register.this, "Harap pilih jenjang dan kelas", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // Kirim data ke server
+            CreateDataToServer(email, password, jenjang, kelas);
         });
     }
 
+    private void CreateDataToServer(final String email, final String password, final String jenjang, final String kelas) {
+        if (checkNetworkConnection()) {
+            progressDialog.show();
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, DbContract.SERVER_REGISTER_URL,
+                    response -> {
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            String serverResponse = jsonObject.getString("server_response");
+                            if (serverResponse.contains("\"status\":\"OK\"")) {
+                                Toast.makeText(register.this, "Registrasi berhasil", Toast.LENGTH_SHORT).show();
+                                finish();
+                            } else {
+                                Toast.makeText(register.this, "Registrasi gagal: " + serverResponse, Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (JSONException e) {
+                            Toast.makeText(register.this, "Kesalahan JSON: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        } finally {
+                            if (progressDialog.isShowing()) {
+                                progressDialog.dismiss();
+                            }
+                        }
+                    },
+                    error -> {
+                        Toast.makeText(register.this, "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                        if (progressDialog.isShowing()) {
+                            progressDialog.dismiss();
+                        }
+                    }) {
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<>();
+                    params.put("email", email);
+                    params.put("password", password);
+                    params.put("jenjang", jenjang);
+                    params.put("kelas", kelas);
+                    return params;
+                }
+            };
 
-    public boolean checkNetworkConnection() {
-            ConnectivityManager connectivityManager = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
-            NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-            return (networkInfo != null && networkInfo.isConnected());
+            VolleyConnection.getInstance(this).addToRequestQue(stringRequest);
+        } else {
+            Toast.makeText(this, "Tidak ada koneksi internet", Toast.LENGTH_SHORT).show();
         }
+    }
 
-    private void showDatePickerDialog() {
-        Calendar calendar = Calendar.getInstance();
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
-
-        DatePickerDialog datePickerDialog = new DatePickerDialog(
-                this,
-                new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        etBirthdate.setText(year + "-" + (month + 1) + "-" +dayOfMonth );
-                    }
-                },
-                year, month, day);
-        datePickerDialog.getDatePicker().setMaxDate(calendar.getTimeInMillis());
-        datePickerDialog.show();
+    private boolean checkNetworkConnection() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        return networkInfo != null && networkInfo.isConnected();
     }
 }
