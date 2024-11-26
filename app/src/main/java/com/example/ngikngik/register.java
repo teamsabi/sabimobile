@@ -256,8 +256,6 @@ public class register extends AppCompatActivity {
                 } else {
                     CreateDataToServer(Semail, Spassword);
                     Toast.makeText(register.this, "Registrasi berhasil", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(register.this, fragment_daftar.class);
-                    startActivity(intent);
                     finish();
                 }
             }

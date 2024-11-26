@@ -52,6 +52,7 @@
         app:srcCompat="@drawable/sabichamps" />
 
     <ScrollView
+        android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:layout_editor_absoluteX="16dp"
@@ -108,8 +109,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:layout_marginStart="32dp"
-                android:layout_marginTop="12dp"
-
                 android:layout_marginEnd="32dp"
                 android:background="@drawable/edittextbg"
                 android:ems="10"
@@ -122,7 +121,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="32dp"
                 android:text="Kata Sandi"
                 android:textSize="16sp"
@@ -214,9 +213,9 @@
                 android:id="@+id/textView24"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Jenjang *"
-                android:layout_marginTop="10dp"
                 android:layout_marginStart="32dp"
+                android:layout_marginTop="10dp"
+                android:text="Jenjang *"
                 android:textStyle="bold" />
 
             <CheckBox
@@ -230,8 +229,8 @@
                 android:id="@+id/textView27"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Kelas *"
                 android:layout_marginStart="32dp"
+                android:text="Kelas *"
 
                 android:textStyle="bold"
 
@@ -240,9 +239,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal"
                 android:layout_marginStart="32dp"
-                android:layout_marginEnd="32dp">
+                android:layout_marginEnd="32dp"
+                android:orientation="horizontal">
 
                 <CheckBox
                     android:id="@+id/kelas"
@@ -266,11 +265,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
+        android:layout_marginTop="36dp"
         android:backgroundTint="@color/purple_500"
         android:text="Daftar"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
         android:textColor="@android:color/white"
         app:cornerRadius="10dp"
-        tools:layout_editor_absoluteX="32dp"
-        tools:layout_editor_absoluteY="850dp" />
+        app:layout_constraintTop_toBottomOf="@+id/scrollView2"
+        tools:layout_editor_absoluteX="16dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
