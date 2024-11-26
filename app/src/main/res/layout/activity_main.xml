@@ -30,10 +30,10 @@
         android:id="@+id/imageView21"
         android:layout_width="222dp"
         android:layout_height="39dp"
-        android:layout_marginTop="24dp"
+        app:layout_constraintEnd_toEndOf="@+id/imageView2"
+        app:layout_constraintStart_toStartOf="@+id/imageView2"
         app:layout_constraintTop_toBottomOf="@+id/imageView2"
-        app:srcCompat="@drawable/selamatdatang"
-        tools:layout_editor_absoluteX="94dp" />
+        app:srcCompat="@drawable/selamatdatang" />
 
     <ImageView
         android:id="@+id/imageView22"
@@ -72,6 +72,7 @@
             android:layout_marginTop="2dp"
             android:backgroundTint="#26999B"
             android:text="Login"
+            android:fontFamily="@font/poppins_semibold"
             app:cornerRadius="10dp" />
 
         <TextView
@@ -90,6 +91,7 @@
             android:layout_marginBottom="32dp"
             android:backgroundTint="#3026999B"
             android:text="Registrasi"
+            android:fontFamily="@font/poppins_semibold"
             android:textColor="#26999B"
             app:cornerRadius="10dp" />
     </LinearLayout>

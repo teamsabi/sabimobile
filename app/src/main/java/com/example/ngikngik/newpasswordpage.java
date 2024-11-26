@@ -54,8 +54,13 @@ public class newpasswordpage extends AppCompatActivity {
                 String newPass = newPassword.getText().toString().trim();
                 String confirmPass = confirmPassword.getText().toString().trim();
 
+                // Regex untuk validasi password
+                String passwordPattern = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{6,}$";
+
                 if (newPass.isEmpty() || confirmPass.isEmpty()) {
                     Toast.makeText(getApplicationContext(), "Harap isi kolom", Toast.LENGTH_SHORT).show();
+                } else if (!newPass.matches(passwordPattern)) {
+                    Toast.makeText(getApplicationContext(), "Kata sandi harus berisi minimal 6 karakter yang terdiri dari huruf dan angka!", Toast.LENGTH_SHORT).show();
                 } else if (!newPass.equals(confirmPass)) {
                     Toast.makeText(getApplicationContext(), "Password Tidak Sama", Toast.LENGTH_SHORT).show();
                 } else {
@@ -74,7 +79,7 @@ public class newpasswordpage extends AppCompatActivity {
                                     String message = jsonResponse.getString("message");
 
                                     if ("success".equals(status)) {
-                                        Intent intent = new Intent (newpasswordpage.this, login.class);
+                                        Intent intent = new Intent(newpasswordpage.this, login.class);
                                         startActivity(intent);
                                         Toast.makeText(getApplicationContext(), "Password berhasil diganti", Toast.LENGTH_SHORT).show();
                                         finish();  // Tutup halaman setelah berhasil
