@@ -3,6 +3,7 @@ package com.example.ngikngik;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -144,11 +145,21 @@ public class login extends AppCompatActivity {
                                 String serverResponse = jsonObject.getString("server_response");
 
                                 if (serverResponse.equals("login berhasil")) {
+                                    String kelas = jsonObject.getString("kelas"); // Ambil data kelas dari respons
+
+                                    // Simpan data kelas ke SharedPreferences
+                                    SharedPreferences preferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+                                    SharedPreferences.Editor editor = preferences.edit();
+                                    editor.putString("kelas", kelas); // Simpan kelas
+                                    editor.apply();
+
+                                    // Lanjutkan ke dashboard
                                     Toast.makeText(getApplicationContext(), "Login berhasil", Toast.LENGTH_SHORT).show();
                                     Intent dashboardIntent = new Intent(login.this, dashboard.class);
-                                    dashboardIntent.putExtra("email", email);
                                     startActivity(dashboardIntent);
-                                } else {
+                                }
+
+                                else {
                                     Toast.makeText(getApplicationContext(), "Email dan password salah", Toast.LENGTH_SHORT).show();
                                 }
                             } catch (JSONException e) {

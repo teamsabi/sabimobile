@@ -19,6 +19,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.ngikngik.Dashboard.Jadwal;
 import com.example.ngikngik.Dashboard.JadwalAdapter;
+import com.example.ngikngik.DbContract;
 import com.example.ngikngik.R;
 
 import org.json.JSONArray;
@@ -54,10 +55,10 @@ public class beranda extends Fragment {
     }
 
     private void loadJadwal(String kelas) {
-        String url = "http://your-server-url/get_jadwal.php";
+
 
         RequestQueue queue = Volley.newRequestQueue(requireContext());
-        StringRequest request = new StringRequest(Request.Method.POST, url,
+        StringRequest request = new StringRequest(Request.Method.POST, DbContract.SERVER_DAFTAR_URL,
                 response -> {
                     try {
                         JSONArray jadwalArray = new JSONArray(response);
