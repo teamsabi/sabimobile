@@ -31,6 +31,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Fitur"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="20dp"
         android:fontFamily="@font/poppins_semibold"
         />
@@ -38,6 +39,7 @@
     <androidx.gridlayout.widget.GridLayout
         android:layout_width="match_parent"
         android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
         android:layout_height="62dp">
 
         <ImageView
@@ -81,6 +83,7 @@
         android:id="@+id/textView23"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
         android:fontFamily="@font/poppins_semibold"
         android:text="Mata Pelajaran"
         android:layout_marginTop="20dp"/>
@@ -88,6 +91,7 @@
     <androidx.gridlayout.widget.GridLayout
         android:layout_width="match_parent"
         android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
         android:layout_height="88dp">
 
         <ImageView
