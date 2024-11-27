@@ -10,23 +10,28 @@
         All you need is an idea and a phone to record and share Shorts. </string>
     <string name="screen3desc">YouTube live streaming allows you to reach your community in real time.
     Go live on YouTube from webcam, mobile and encoder streaming.</string>
-    <string name="startDesc">Create a long video or shorts and upload on youtube. Interact with your subscribers on youtube live.
-    </string>
-    <!--    <string-array name="gender_options">-->
-    <!--        <item>Siswa</item>-->
-    <!--        <item>Pengajar</item>-->
-    <!--    </string-array>-->
+    <string name="startDesc">Create a long video or shorts and upload on youtube. Interact with your subscribers on youtube live.</string>
+
+    <!-- Gender Spinner Options -->
+    <string name="select_gender">Pilih Jenis Kelamin</string>
+    <string-array name="gender_options">
+        <item>Pilih Jenis Kelamin</item>
+        <item>Laki-Laki</item>
+        <item>Perempuan</item>
+    </string-array>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
-    <string name="welcome">"Welcome!"</string>
+    <string name="welcome">Welcome!</string>
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
-    <string name="login_failed">"Login failed"</string>
+    <string name="login_failed">Login failed</string>
     <string name="title_activity_settings">SettingsActivity</string>
 
     <!-- Preference Titles -->

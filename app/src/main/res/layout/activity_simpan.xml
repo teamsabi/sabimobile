@@ -12,7 +12,7 @@
     <FrameLayout
         android:id="@+id/framelayoutsimpan"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="751dp" />
 
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/bottomAppbarSimpan"
