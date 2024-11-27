@@ -17,6 +17,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".Dashboard.edit_profil.simpan"
+            android:exported="false" />
+        <activity
             android:name=".Dashboard.DaftarDialogFragment"
             android:exported="false" />
         <activity
@@ -40,7 +43,6 @@
         <activity
             android:name=".Dashboard.dashboard"
             android:exported="false" />
-
         <activity
             android:name=".landing"
             android:exported="true">
@@ -52,13 +54,11 @@
         </activity>
         <activity
             android:name=".onBoarding.Navigation"
-            android:exported="false"/>
-<!--        <intent-filter>-->
-<!--            <action android:name="android.intent.action.MAIN" />-->
-
-<!--            <category android:name="android.intent.category.LAUNCHER" />-->
-<!--        </intent-filter>-->
-<!--        </activity>-->
+            android:exported="false" /> <!-- <intent-filter> -->
+        <!-- <action android:name="android.intent.action.MAIN" /> -->
+        <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+        <!-- </intent-filter> -->
+        <!-- </activity> -->
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
