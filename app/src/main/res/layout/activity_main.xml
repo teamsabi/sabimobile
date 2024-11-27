@@ -11,9 +11,10 @@
         android:id="@+id/imageView"
         android:layout_width="418dp"
         android:layout_height="268dp"
-        app:srcCompat="@drawable/backgroundmelengkung"
-        tools:layout_editor_absoluteX="-4dp"
-        tools:layout_editor_absoluteY="0dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/backgroundmelengkung" />
 
     <ImageView
         android:id="@+id/imageView2"
@@ -40,9 +41,10 @@
         android:layout_width="151dp"
         android:layout_height="24dp"
         android:layout_marginTop="12dp"
+        app:layout_constraintEnd_toEndOf="@+id/imageView21"
+        app:layout_constraintStart_toStartOf="@+id/imageView21"
         app:layout_constraintTop_toBottomOf="@+id/imageView21"
-        app:srcCompat="@drawable/sabichamps"
-        tools:layout_editor_absoluteX="130dp" />
+        app:srcCompat="@drawable/sabichamps" />
 
     <LinearLayout
         android:layout_width="match_parent"
