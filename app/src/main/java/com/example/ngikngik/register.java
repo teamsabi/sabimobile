@@ -102,6 +102,17 @@ public class register extends AppCompatActivity {
                 return;
             }
 
+            checkBoxKelas11.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                if (isChecked) {
+                    checkBoxKelas12.setChecked(false);
+                }
+            });
+
+            checkBoxKelas12.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                if (isChecked) {
+                    checkBoxKelas11.setChecked(false);
+                }
+            });
             // Ambil data dari checkbox
             String jenjang = checkBoxJenjang.isChecked() ? "SMA" : "";
             String kelas = checkBoxKelas11.isChecked() ? "11" : checkBoxKelas12.isChecked() ? "12" : "";

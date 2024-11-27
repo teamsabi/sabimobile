@@ -33,8 +33,6 @@ public class simpan extends AppCompatActivity {
         binding.bottomNavigationSimpan.setOnItemSelectedListener(item -> {
 
             if (item.getItemId() == R.id.simpann) {
-                Log.e("DEBUG", "BottomNavigationView not found in layout.");
-
                 replaceFragment(new profil_edit());
             }
             return true;

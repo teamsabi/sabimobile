@@ -3,7 +3,7 @@
     <item
         android:id="@+id/beranda"
         android:title="Beranda"
-        android:icon="@drawable/baseline_home_24"
+        android:icon="@drawable/outline_home_24"
          />
     <item
         android:id="@+id/profil"
