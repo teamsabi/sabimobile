@@ -19,17 +19,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="#FFFFFF"
         app:fabCradleMargin="10dp"
         app:fabCradleRoundedCornerRadius="50dp">
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_navigation_simpan"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="match_parent"
             android:layout_marginEnd="2dp"
-            android:background="@drawable/simpan"
-            app:labelVisibilityMode="labeled" />
+            app:labelVisibilityMode="labeled"
+            />
     </com.google.android.material.bottomappbar.BottomAppBar>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

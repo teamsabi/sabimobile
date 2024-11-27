@@ -1,8 +1,12 @@
 package com.example.ngikngik.Dashboard.edit_profil;
 
+import static androidx.core.view.ViewCompat.setBackground;
+
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -20,17 +24,18 @@ public class simpan extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivitySimpanBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
         // Langsung tampilkan fragment beranda saat pertama kali memasuki dashboard
         if (savedInstanceState == null) {
-            replaceFragment(new beranda()); // Menampilkan beranda pertama kali
+            replaceFragment(new profil_edit()); // Menampilkan beranda pertama kali
         }
         binding.bottomNavigationSimpan.setBackground(null);
         binding.bottomNavigationSimpan.setOnItemSelectedListener(item -> {
-            if (item.getItemId() == R.id.beranda) {
-                replaceFragment(new beranda());
-            } else if (item.getItemId() == R.id.profil) {
-                replaceFragment(new ProfilDashboard());
+
+            if (item.getItemId() == R.id.simpann) {
+                Log.e("DEBUG", "BottomNavigationView not found in layout.");
+
+                replaceFragment(new profil_edit());
             }
             return true;
         });
