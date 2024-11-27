@@ -2,7 +2,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/simpann"
-        android:title="Simpan"
-        android:icon="@drawable/simpan"
-        />
+        android:title=""
+        android:icon="@drawable/simpan">
+
+    </item>
 </menu>
