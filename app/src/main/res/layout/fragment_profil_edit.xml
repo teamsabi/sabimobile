@@ -29,7 +29,7 @@
 
 
                     <ImageView
-                        android:id="@+id/imageView16"
+                        android:id="@+id/imgBack"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
@@ -46,9 +46,9 @@
                         android:fontFamily="@font/poppins_semibold"
                         android:text="Edit Profil"
                         android:textSize="16sp"
-                        app:layout_constraintBottom_toBottomOf="@+id/imageView16"
-                        app:layout_constraintStart_toEndOf="@+id/imageView16"
-                        app:layout_constraintTop_toTopOf="@+id/imageView16"
+                        app:layout_constraintBottom_toBottomOf="@+id/imgBack"
+                        app:layout_constraintStart_toEndOf="@+id/imgBack"
+                        app:layout_constraintTop_toTopOf="@+id/imgBack"
                         app:layout_constraintVertical_bias="0.55" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </LinearLayout>
