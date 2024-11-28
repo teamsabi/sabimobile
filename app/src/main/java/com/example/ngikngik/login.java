@@ -151,6 +151,7 @@ public class login extends AppCompatActivity {
                                     SharedPreferences preferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
                                     SharedPreferences.Editor editor = preferences.edit();
                                     editor.putString("kelas", kelas); // Simpan kelas
+                                    editor.putString("email", email);
                                     editor.apply();
 
                                     // Lanjutkan ke dashboard

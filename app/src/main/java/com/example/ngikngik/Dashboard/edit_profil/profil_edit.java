@@ -1,16 +1,10 @@
 package com.example.ngikngik.Dashboard.edit_profil;
 
-import static androidx.core.content.ContextCompat.startActivity;
-
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,29 +17,28 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.example.ngikngik.Dashboard.Jadwal;
-import com.example.ngikngik.Dashboard.JadwalAdapter;
-import com.example.ngikngik.Dashboard.ProfilDashboard;
 import com.example.ngikngik.Dashboard.dashboard;
 import com.example.ngikngik.R;
 
-import java.util.Arrays;
 import java.util.Calendar;
-import java.util.List;
 
 public class profil_edit extends Fragment {
     private ImageView imageView;
-    EditText etBirhdate;
+    private EditText etBirhdate;
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profil_edit, container, false);
         Log.d("DEBUG", "profil_edit fragment loaded.");
 
-
+        // Inisialisasi View
         Spinner spGender = view.findViewById(R.id.spGender);
         imageView = view.findViewById(R.id.imgBack);
         etBirhdate = view.findViewById(R.id.etBirthDate);
 
+
+        // Atur RecyclerView
         // Buat adapter untuk spinner
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(requireContext(),
                 R.array.gender_options, android.R.layout.simple_spinner_item);
@@ -56,14 +49,9 @@ public class profil_edit extends Fragment {
         // Pasang adapter ke spinner
         spGender.setAdapter(adapter);
 
-
-
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), dashboard.class);
-                startActivity(intent);
-            }
+        imageView.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), dashboard.class);
+            startActivity(intent);
         });
 
         etBirhdate.setOnClickListener(v -> {
@@ -93,8 +81,7 @@ public class profil_edit extends Fragment {
                 // Tidak ada aksi saat tidak ada yang dipilih
             }
         });
+
         return view;
-
-
     }
-  }
+}
