@@ -42,11 +42,14 @@ public class profil_edit extends Fragment {
         etBirhdate = view.findViewById(R.id.etBirthDate);
         recyclerView = view.findViewById(R.id.rvKelas);
         recyclerViewEmail = view.findViewById(R.id.rvEmail);
+        recyclerViewEmail.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         // Inisialisasi SharedPreferences
         sharedPreferences = requireContext().getSharedPreferences("MyPrefs", getContext().MODE_PRIVATE);
         String email = sharedPreferences.getString("email", "Email tidak ditemukan");
+        Log.d("DEBUG", "Email yang diambil dari SharedPreferences: " + email);
+
         String kelas = sharedPreferences.getString("kelas", "Kelas tidak ditemukan");
 
         emailList = new ArrayList<>();

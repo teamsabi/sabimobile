@@ -9,6 +9,7 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -21,7 +22,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -146,12 +146,18 @@ public class login extends AppCompatActivity {
 
                                 if (serverResponse.equals("login berhasil")) {
                                     String kelas = jsonObject.getString("kelas"); // Ambil data kelas dari respons
-                                    String emaildariserver = jsonObject.getString("email");
+                                    if (jsonObject.has("email")) {
+                                        String emaildariserver = jsonObject.getString("email");
+                                        Log.d("DEBUG", "Email dari server: " + emaildariserver);
+                                    } else {
+                                        Log.e("ERROR", "Kunci 'email' tidak ditemukan dalam respons JSON");
+                                    }
+
                                     // Simpan data kelas ke SharedPreferences
                                     SharedPreferences preferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
                                     SharedPreferences.Editor editor = preferences.edit();
                                     editor.putString("kelas", kelas); // Simpan kelas
-                                    editor.putString("email", emaildariserver);
+                                    editor.putString("email", email);
                                     editor.apply();
 
                                     // Lanjutkan ke dashboard
