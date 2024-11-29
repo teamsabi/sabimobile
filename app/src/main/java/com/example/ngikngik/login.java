@@ -40,7 +40,6 @@ public class login extends AppCompatActivity {
     private EditText etEmail, etPassword;
     ActivityDashboardBinding binding;
     TextView textViewLogin, lupapw;
-//    Button move;
     private Button btnLogin;
     ProgressDialog progressDialog;
 
@@ -147,12 +146,12 @@ public class login extends AppCompatActivity {
 
                                 if (serverResponse.equals("login berhasil")) {
                                     String kelas = jsonObject.getString("kelas"); // Ambil data kelas dari respons
-//                                    String email = jsonObject.getString("email");
+                                    String emaildariserver = jsonObject.getString("email");
                                     // Simpan data kelas ke SharedPreferences
                                     SharedPreferences preferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
                                     SharedPreferences.Editor editor = preferences.edit();
                                     editor.putString("kelas", kelas); // Simpan kelas
-                                    editor.putString("email", email);
+                                    editor.putString("email", emaildariserver);
                                     editor.apply();
 
                                     // Lanjutkan ke dashboard

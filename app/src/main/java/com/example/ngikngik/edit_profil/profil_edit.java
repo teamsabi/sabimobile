@@ -57,26 +57,22 @@ public class profil_edit extends Fragment {
 
 
         emailAdapter = new EmailAdapter(emailList, emailItem -> {
-            // Aksi ketika item kelas diklik
             Log.d("DEBUG", "email yang dipilih: " + emailItem.getEmailName());
         });
 
-        // Inisialisasi adapter dengan listener klik item
+
         kelasAdapter = new ClassAdapter(kelasList, classItem -> {
-            // Aksi ketika item kelas diklik
             Log.d("DEBUG", "Kelas yang dipilih: " + classItem.getClassName());
         });
 
         recyclerViewEmail.setAdapter(emailAdapter);
         recyclerView.setAdapter(kelasAdapter);
 
-        // Event listener untuk tombol kembali
         imageView.setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), dashboard.class);
             startActivity(intent);
         });
 
-        // Event listener untuk memilih tanggal
         etBirhdate.setOnClickListener(v -> {
             Calendar calendar = Calendar.getInstance();
             int year = calendar.get(Calendar.YEAR);

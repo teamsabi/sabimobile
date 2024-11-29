@@ -47,8 +47,8 @@ public class beranda extends Fragment {
 
         // Load data jadwal berdasarkan kelas
         SharedPreferences preferences = requireContext().getSharedPreferences("MyPrefs", getContext().MODE_PRIVATE);
-        String kelas = preferences.getString("kelas", ""); // Ambil data kelas dari SharedPreferences
-
+        String kelas = preferences.getString("kelas", "kelas tidak ditemukan"); // Ambil data kelas dari SharedPreferences
+        String email = preferences.getString("email", "Email tidak ditemukan");
         loadJadwal(kelas); // Memuat jadwal
 
         return view;
