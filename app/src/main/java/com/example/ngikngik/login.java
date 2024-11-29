@@ -106,6 +106,7 @@ public class login extends AppCompatActivity {
         progressDialog = new ProgressDialog(login.this);
         lupapw = findViewById(R.id.lupapw);
         textViewLogin = findViewById(R.id.txt_donthaveaccount);
+
         textViewLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

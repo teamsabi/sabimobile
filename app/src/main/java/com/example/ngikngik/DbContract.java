@@ -11,5 +11,6 @@ public class DbContract {
     public static final String SERVER_NEWPASSWORD_URL= "http://" + IP + "/db_sabiproject/newpassword.php";
 //    public static final String SERVER_RESEND_OTP_URL = "http://" + IP + "/db_sabiproject/resend_otp";
     public static final String SERVER_DAFTAR_URL = "http://" + IP + "/db_sabiproject/JadwalKelas.php";
+    public static final String SERVER_EDIT_PROFIL_URL = "http://" + IP + "/db_sabiproject/munculkelas.php";
 
 }

@@ -2,30 +2,32 @@ package com.example.ngikngik.Dashboard.edit_profil;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Spinner;
-import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ngikngik.Dashboard.dashboard;
 import com.example.ngikngik.R;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class profil_edit extends Fragment {
     private ImageView imageView;
     private EditText etBirhdate;
-
+    private RecyclerView recyclerView;
+    private ClassAdapter kelasAdapter;
+    private ArrayList<item_class> kelasList;
+    private SharedPreferences sharedPreferences;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -33,27 +35,34 @@ public class profil_edit extends Fragment {
         Log.d("DEBUG", "profil_edit fragment loaded.");
 
         // Inisialisasi View
-        Spinner spGender = view.findViewById(R.id.spGender);
         imageView = view.findViewById(R.id.imgBack);
         etBirhdate = view.findViewById(R.id.etBirthDate);
+        recyclerView = view.findViewById(R.id.rvKelas);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        // Inisialisasi SharedPreferences
+        sharedPreferences = requireContext().getSharedPreferences("MyPrefs", getContext().MODE_PRIVATE);
+        String kelas = sharedPreferences.getString("kelas", "Kelas tidak ditemukan");
 
-        // Atur RecyclerView
-        // Buat adapter untuk spinner
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(requireContext(),
-                R.array.gender_options, android.R.layout.simple_spinner_item);
+        // Inisialisasi kelasList
+        kelasList = new ArrayList<>();
+        kelasList.add(new item_class(kelas)); // Tambahkan data kelas ke dalam kelasList
 
-        // Set style dropdown
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Inisialisasi adapter dengan listener klik item
+        kelasAdapter = new ClassAdapter(kelasList, classItem -> {
+            // Aksi ketika item kelas diklik
+            Log.d("DEBUG", "Kelas yang dipilih: " + classItem.getClassName());
+        });
 
-        // Pasang adapter ke spinner
-        spGender.setAdapter(adapter);
+        recyclerView.setAdapter(kelasAdapter);
 
+        // Event listener untuk tombol kembali
         imageView.setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), dashboard.class);
             startActivity(intent);
         });
 
+        // Event listener untuk memilih tanggal
         etBirhdate.setOnClickListener(v -> {
             Calendar calendar = Calendar.getInstance();
             int year = calendar.get(Calendar.YEAR);
@@ -64,22 +73,6 @@ public class profil_edit extends Fragment {
                     (datePicker, year1, month1, day1) -> etBirhdate.setText(day1 + "/" + (month1 + 1) + "/" + year1),
                     year, month, day);
             datePickerDialog.show();
-        });
-
-        // Set listener untuk spinner
-        spGender.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position > 0) { // Hindari posisi default
-                    String selectedGender = parent.getItemAtPosition(position).toString();
-                    Toast.makeText(requireContext(), "Anda memilih: " + selectedGender, Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                // Tidak ada aksi saat tidak ada yang dipilih
-            }
         });
 
         return view;
