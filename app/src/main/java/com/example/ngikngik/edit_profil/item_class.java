@@ -1,4 +1,4 @@
-package com.example.ngikngik.Dashboard.edit_profil;
+package com.example.ngikngik.edit_profil;
 
 public class item_class {
     private String className;

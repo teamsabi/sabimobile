@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Dashboard.edit_profil.profil_edit">
+    tools:context=".edit_profil.profil_edit">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -118,17 +118,13 @@
                     android:layout_marginEnd="32dp"
                     android:text="Email" />
 
-                <EditText
-                    android:id="@+id/etEmailProfil"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvEmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="32dp"
-                    android:layout_marginEnd="32dp"
-                    android:paddingStart="10dp"
-                    android:ems="10"
-                    android:hint="Email Anda"
-                    android:inputType="textEmailAddress"
-                    android:padding="10dp" />
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="32dp" />
 
                 <!-- Jenis Kelamin -->
                 <TextView

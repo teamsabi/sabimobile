@@ -81,6 +81,10 @@ public class masukkanOTP extends AppCompatActivity {
         otp4.addTextChangedListener(textWatcher);
         otp5.addTextChangedListener(textWatcher);
 
+        btnbatal.setOnClickListener(view ->{
+            Intent intent = new Intent(masukkanOTP.this, lupapassword.class);
+            startActivity(intent);
+        });
         kirimulang.setOnClickListener(view -> {
             if (resendEnabled) {
                 startCountDownTimer();

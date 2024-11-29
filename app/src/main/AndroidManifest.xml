@@ -17,7 +17,7 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".Dashboard.edit_profil.simpan"
+            android:name=".edit_profil.simpan"
             android:exported="false" />
         <activity
             android:name=".Dashboard.DaftarDialogFragment"

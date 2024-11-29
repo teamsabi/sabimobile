@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:layout_gravity="bottom"
     android:orientation="horizontal"
-    tools:context=".Dashboard.edit_profil.simpan">
+    tools:context=".edit_profil.simpan">
 
     <FrameLayout
         android:id="@+id/framelayoutsimpan"
@@ -38,8 +38,7 @@
                     android:id="@+id/button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Button"
-                     />
+                    android:text="Button" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.bottomnavigation.BottomNavigationView>
     </com.google.android.material.bottomappbar.BottomAppBar>

@@ -1,4 +1,4 @@
-package com.example.ngikngik.Dashboard.edit_profil;
+package com.example.ngikngik.edit_profil;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
@@ -26,6 +26,9 @@ public class profil_edit extends Fragment {
     private EditText etBirhdate;
     private RecyclerView recyclerView;
     private ClassAdapter kelasAdapter;
+    private EmailAdapter emailAdapter;
+    private RecyclerView recyclerViewEmail;
+    private ArrayList<item_email> emailList;
     private ArrayList<item_class> kelasList;
     private SharedPreferences sharedPreferences;
 
@@ -38,15 +41,25 @@ public class profil_edit extends Fragment {
         imageView = view.findViewById(R.id.imgBack);
         etBirhdate = view.findViewById(R.id.etBirthDate);
         recyclerView = view.findViewById(R.id.rvKelas);
+        recyclerViewEmail = view.findViewById(R.id.rvEmail);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         // Inisialisasi SharedPreferences
         sharedPreferences = requireContext().getSharedPreferences("MyPrefs", getContext().MODE_PRIVATE);
+        String email = sharedPreferences.getString("email", "Email tidak ditemukan");
         String kelas = sharedPreferences.getString("kelas", "Kelas tidak ditemukan");
 
-        // Inisialisasi kelasList
+        emailList = new ArrayList<>();
+        emailList.add(new item_email(email));
+
         kelasList = new ArrayList<>();
         kelasList.add(new item_class(kelas)); // Tambahkan data kelas ke dalam kelasList
+
+
+        emailAdapter = new EmailAdapter(emailList, emailItem -> {
+            // Aksi ketika item kelas diklik
+            Log.d("DEBUG", "email yang dipilih: " + emailItem.getEmailName());
+        });
 
         // Inisialisasi adapter dengan listener klik item
         kelasAdapter = new ClassAdapter(kelasList, classItem -> {
@@ -54,6 +67,7 @@ public class profil_edit extends Fragment {
             Log.d("DEBUG", "Kelas yang dipilih: " + classItem.getClassName());
         });
 
+        recyclerViewEmail.setAdapter(emailAdapter);
         recyclerView.setAdapter(kelasAdapter);
 
         // Event listener untuk tombol kembali

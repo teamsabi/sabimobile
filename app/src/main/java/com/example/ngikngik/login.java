@@ -147,7 +147,7 @@ public class login extends AppCompatActivity {
 
                                 if (serverResponse.equals("login berhasil")) {
                                     String kelas = jsonObject.getString("kelas"); // Ambil data kelas dari respons
-
+//                                    String email = jsonObject.getString("email");
                                     // Simpan data kelas ke SharedPreferences
                                     SharedPreferences preferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
                                     SharedPreferences.Editor editor = preferences.edit();

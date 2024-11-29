@@ -8,11 +8,9 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 
-import com.example.ngikngik.Dashboard.edit_profil.profil_edit;
-import com.example.ngikngik.Dashboard.edit_profil.simpan;
+import com.example.ngikngik.edit_profil.simpan;
 import com.example.ngikngik.R;
 
 public class ProfilDashboard extends Fragment {

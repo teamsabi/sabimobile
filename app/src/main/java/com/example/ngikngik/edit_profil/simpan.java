@@ -1,9 +1,6 @@
-package com.example.ngikngik.Dashboard.edit_profil;
-
-import static androidx.core.view.ViewCompat.setBackground;
+package com.example.ngikngik.edit_profil;
 
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -11,8 +8,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.ngikngik.Dashboard.ProfilDashboard;
-import com.example.ngikngik.Dashboard.beranda;
 import com.example.ngikngik.R;
 import com.example.ngikngik.databinding.ActivitySimpanBinding;
 
