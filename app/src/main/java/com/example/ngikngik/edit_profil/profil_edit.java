@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -50,7 +51,14 @@ public class profil_edit extends Fragment {
         etNomorWhatsApp = view.findViewById(R.id.etPhoneNumber);
         etNamaOrangTua = view.findViewById(R.id.etNamaOrangTua);
         etAlamat = view.findViewById(R.id.etAlamatEdit);
+
         spinnerJenisKelamin = view.findViewById(R.id.spGender);
+        String[] genderOptions = {"Pilih Jenis Kelamin", "Laki-laki", "Perempuan"};
+        ArrayAdapter<String> genderAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, genderOptions);
+        genderAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerJenisKelamin.setAdapter(genderAdapter);
+
+
         recyclerViewKelas = view.findViewById(R.id.rvKelas);
         recyclerViewEmail = view.findViewById(R.id.rvEmail);
 
@@ -110,11 +118,50 @@ public class profil_edit extends Fragment {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                selectedGender = ""; // Jika tidak ada yang dipilih
+                selectedGender = "Pilih Jenis Kelamin"; // Set default value
             }
         });
 
+        // Set OnFocusChangeListener untuk EditText untuk menyembunyikan keyboard saat fokus hilang
+        etNama.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                hideKeyboard();
+            }
+        });
+
+        etNomorWhatsApp.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                hideKeyboard();
+            }
+        });
+        etBirthdate.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                hideKeyboard();
+            }
+        });
+
+
+        etNamaOrangTua.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                hideKeyboard();
+            }
+        });
+        etAlamat.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                hideKeyboard();
+            }
+        });
+
+
         return view;
+    }
+
+    // Fungsi untuk menyembunyikan keyboard
+    private void hideKeyboard() {
+        InputMethodManager imm = (InputMethodManager) requireContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm != null && getView() != null) {
+            imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
+        }
     }
 
     // Fungsi validasi input
@@ -126,10 +173,7 @@ public class profil_edit extends Fragment {
             isValid = false;
         }
 
-        if (etBirthdate.getText().toString().trim().isEmpty()) {
-            etBirthdate.setError("Tanggal lahir harus diisi!");
-            isValid = false;
-        }
+
 
         if (etAlamat.getText().toString().trim().isEmpty()) {
             etAlamat.setError("Alamat harus diisi!");
@@ -141,13 +185,17 @@ public class profil_edit extends Fragment {
             isValid = false;
         }
 
+//        String birthdate = etBirthdate.getText().toString().trim();
+//        if (birthdate.isEmpty() || birthdate.equals("Pilih Tanggal Lahir")) {  // Tambahkan pengecekan ini
+//            etBirthdate.setError("Tanggal lahir harus diisi!");
+//            isValid = false;
+//        }
         if (etNamaOrangTua.getText().toString().trim().isEmpty()) {
             etNamaOrangTua.setError("Nama orang tua harus diisi!");
             isValid = false;
-        }
 
-        if (selectedGender.isEmpty()) {
-            Toast.makeText(getContext(), "Pilih jenis kelamin!", Toast.LENGTH_SHORT).show();
+        }
+        if (selectedGender.equals("Pilih Jenis Kelamin")) {
             isValid = false;
         }
 
