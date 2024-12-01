@@ -1,6 +1,7 @@
 package com.example.ngikngik.edit_profil;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -26,12 +28,11 @@ import java.util.Calendar;
 
 public class profil_edit extends Fragment {
     private ImageView imageView;
-    private EditText etBirhdate, etNama, etNomorwhatsapp, etNamaorangtua, etAlamat;
-    private Spinner spinnerJeniskelamin;
-    private RecyclerView recyclerView;
+    private EditText etBirthdate, etNama, etNomorWhatsApp, etNamaOrangTua, etAlamat;
+    private Spinner spinnerJenisKelamin;
+    private RecyclerView recyclerViewKelas, recyclerViewEmail;
     private ClassAdapter kelasAdapter;
     private EmailAdapter emailAdapter;
-    private RecyclerView recyclerViewEmail;
     private ArrayList<item_email> emailList;
     private ArrayList<item_class> kelasList;
     private SharedPreferences sharedPreferences;
@@ -45,57 +46,62 @@ public class profil_edit extends Fragment {
         // Inisialisasi View
         imageView = view.findViewById(R.id.imgBack);
         etNama = view.findViewById(R.id.etnamaprofil);
-        spinnerJeniskelamin = view.findViewById(R.id.spGender);
-        etNamaorangtua = view.findViewById(R.id.etNamaOrangTua);
+        etBirthdate = view.findViewById(R.id.etBirthDate);
+        etNomorWhatsApp = view.findViewById(R.id.etPhoneNumber);
+        etNamaOrangTua = view.findViewById(R.id.etNamaOrangTua);
         etAlamat = view.findViewById(R.id.etAlamatEdit);
-        etBirhdate = view.findViewById(R.id.etBirthDate);
-        recyclerView = view.findViewById(R.id.rvKelas);
+        spinnerJenisKelamin = view.findViewById(R.id.spGender);
+        recyclerViewKelas = view.findViewById(R.id.rvKelas);
         recyclerViewEmail = view.findViewById(R.id.rvEmail);
+
         recyclerViewEmail.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerViewKelas.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        sharedPreferences = requireContext().getSharedPreferences("MyPrefs", getContext().MODE_PRIVATE);
+        sharedPreferences = requireContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         String email = sharedPreferences.getString("email", "Email tidak ditemukan");
-        Log.d("DEBUG", "Email yang diambil dari SharedPreferences: " + email);
-
         String kelas = sharedPreferences.getString("kelas", "Kelas tidak ditemukan");
 
+        // Inisialisasi data email dan kelas
         emailList = new ArrayList<>();
         emailList.add(new item_email(email));
-
         kelasList = new ArrayList<>();
         kelasList.add(new item_class(kelas));
 
+        // Adapter untuk email
+        emailAdapter = new EmailAdapter(emailList, emailItem ->
+                Log.d("DEBUG", "Email yang dipilih: " + emailItem.getEmailName())
+        );
 
-        emailAdapter = new EmailAdapter(emailList, emailItem -> {
-            Log.d("DEBUG", "email yang dipilih: " + emailItem.getEmailName());
-        });
-
-
-        kelasAdapter = new ClassAdapter(kelasList, classItem -> {
-            Log.d("DEBUG", "Kelas yang dipilih: " + classItem.getClassName());
-        });
+        // Adapter untuk kelas
+        kelasAdapter = new ClassAdapter(kelasList, classItem ->
+                Log.d("DEBUG", "Kelas yang dipilih: " + classItem.getClassName())
+        );
 
         recyclerViewEmail.setAdapter(emailAdapter);
-        recyclerView.setAdapter(kelasAdapter);
+        recyclerViewKelas.setAdapter(kelasAdapter);
 
+        // Navigasi kembali ke dashboard
         imageView.setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), dashboard.class);
             startActivity(intent);
         });
 
-        etBirhdate.setOnClickListener(v -> {
+        // Dialog tanggal lahir
+        etBirthdate.setOnClickListener(v -> {
             Calendar calendar = Calendar.getInstance();
             int year = calendar.get(Calendar.YEAR);
             int month = calendar.get(Calendar.MONTH);
             int day = calendar.get(Calendar.DAY_OF_MONTH);
 
             DatePickerDialog datePickerDialog = new DatePickerDialog(requireContext(),
-                    (datePicker, year1, month1, day1) -> etBirhdate.setText(day1 + "/" + (month1 + 1) + "/" + year1),
+                    (datePicker, year1, month1, day1) ->
+                            etBirthdate.setText(day1 + "/" + (month1 + 1) + "/" + year1),
                     year, month, day);
             datePickerDialog.show();
         });
-        spinnerJeniskelamin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+        // Listener spinner jenis kelamin
+        spinnerJenisKelamin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 selectedGender = parent.getItemAtPosition(position).toString();
@@ -119,33 +125,38 @@ public class profil_edit extends Fragment {
             etNama.setError("Nama harus diisi!");
             isValid = false;
         }
-        if (etBirhdate.getText().toString().trim().isEmpty()) {
-            etBirhdate.setError("Tanggal lahir harus diisi!");
+
+        if (etBirthdate.getText().toString().trim().isEmpty()) {
+            etBirthdate.setError("Tanggal lahir harus diisi!");
             isValid = false;
-
-            if (etAlamat.getText().toString().trim().isEmpty()) {
-                etAlamat.setError("Alamat harus diisi!");
-                isValid = false;
-            }
-
-            if (etNomorwhatsapp.getText().toString().trim().isEmpty()) {
-                etNomorwhatsapp.setError("Nomor WhatsApp harus diisi!");
-                isValid = false;
-            }
-
-            if (etBirhdate.getText().toString().trim().isEmpty()) {
-                etBirhdate.setError("Tanggal lahir harus diisi!");
-                isValid = false;
-            }
-            if (etNamaorangtua.getText().toString().trim().isEmpty()) {
-                etNamaorangtua.setError("Tanggal lahir harus diisi!");
-                isValid = false;
-            }
-            if (selectedGender.isEmpty()) {
-                Toast.makeText(getContext(), "Pilih jenis kelamin!", Toast.LENGTH_SHORT).show();
-                isValid = false;
-            }
-}
-            return isValid;
         }
+
+        if (etAlamat.getText().toString().trim().isEmpty()) {
+            etAlamat.setError("Alamat harus diisi!");
+            isValid = false;
+        }
+
+        if (etNomorWhatsApp.getText().toString().trim().isEmpty()) {
+            etNomorWhatsApp.setError("Nomor WhatsApp harus diisi!");
+            isValid = false;
+        }
+
+        if (etNamaOrangTua.getText().toString().trim().isEmpty()) {
+            etNamaOrangTua.setError("Nama orang tua harus diisi!");
+            isValid = false;
+        }
+
+        if (selectedGender.isEmpty()) {
+            Toast.makeText(getContext(), "Pilih jenis kelamin!", Toast.LENGTH_SHORT).show();
+            isValid = false;
+        }
+
+        // Sembunyikan keyboard jika validasi selesai
+        InputMethodManager imm = (InputMethodManager) requireContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm != null) {
+            imm.hideSoftInputFromWindow(requireView().getWindowToken(), 0);
+        }
+
+        return isValid;
+    }
 }
