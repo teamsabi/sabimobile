@@ -1,6 +1,7 @@
 package com.example.ngikngik.edit_profil;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -28,15 +29,33 @@ public class simpan extends AppCompatActivity {
         binding.bottomNavigationSimpan.setOnItemSelectedListener(item -> {
 
             if (item.getItemId() == R.id.simpann) {
-                replaceFragment(new profil_edit());
+                Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.framelayoutsimpan);
+
+                if (currentFragment instanceof profil_edit) {
+                    profil_edit profilEditFragment = (profil_edit) currentFragment;
+
+                    // Validasi input di fragment
+                    if (profilEditFragment.validateFields()) {
+                        saveData();
+                    } else {
+                        Log.d("DEBUG", "Validasi gagal! Data tidak lengkap.");
+                        return false;
+                    }
+                }
             }
             return true;
         });
     }
+
     private void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.framelayoutsimpan, fragment);
         fragmentTransaction.commit();
+    }
+
+    private void saveData() {
+        // Logika untuk menyimpan data ke database atau backend
+        Log.d("DEBUG", "Data berhasil disimpan!");
     }
 }

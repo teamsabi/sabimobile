@@ -112,7 +112,6 @@ public class masukkanOTP extends AppCompatActivity {
                 SharedPreferences preferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
                 String phpsessid = preferences.getString("PHPSESSID", "");
 
-                // Request API dengan menyertakan cookie PHPSESSID
                 RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
                 StringRequest stringRequest = new StringRequest(Request.Method.POST, DbContract.SERVER_VERIF_OTP_URL,
                         response -> {

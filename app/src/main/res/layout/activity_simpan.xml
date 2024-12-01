@@ -39,6 +39,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Button" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.bottomnavigation.BottomNavigationView>
     </com.google.android.material.bottomappbar.BottomAppBar>
