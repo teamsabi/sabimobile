@@ -105,6 +105,7 @@
                     android:paddingStart="10dp"
                     android:ems="10"
                     android:hint="Nama anda"
+                    android:focusableInTouchMode="true"
                     android:inputType="text"
                     android:padding="10dp" />
 
@@ -145,6 +146,7 @@
                     android:background="@drawable/spinner_background_selector"
                     android:padding="10dp"
                     android:paddingStart="10dp"
+                    android:focusableInTouchMode="true"
                     android:entries="@array/gender_options"
                     android:spinnerMode="dropdown"/>
 
@@ -166,6 +168,7 @@
                     android:layout_marginEnd="32dp"
                     android:background="@drawable/edit_text_background"
                     android:hint="+62 8123456789"
+                    android:focusableInTouchMode="true"
                     android:inputType="phone"
                     android:paddingStart="15dp"
                     android:padding="10dp" />
@@ -189,11 +192,11 @@
                     android:background="@drawable/edit_text_background"
                     android:clickable="true"
                     android:focusable="false"
-                    android:paddingStart="15dp"
-
                     android:hint="Masukkan Tanggal Lahir"
+                    android:focusableInTouchMode="true"
                     android:inputType="date"
-                    android:padding="10dp" />
+                    android:padding="10dp"
+                    android:paddingStart="15dp" />
 
                 <TextView
                     android:id="@+id/textView35"
@@ -228,7 +231,7 @@
                     android:layout_marginStart="32dp"
                     android:layout_marginEnd="32dp"
                     android:layout_marginTop="10dp"
-
+                    android:focusableInTouchMode="true"
                     android:hint="Masukkan Nama Orang Tua/Wali"
                     android:paddingStart="10dp"/>
 
@@ -248,6 +251,7 @@
                     android:layout_marginStart="32dp"
                     android:layout_marginEnd="32dp"
                     android:gravity="top"
+                    android:focusableInTouchMode="true"
                     android:paddingStart="10dp"
                     android:hint="Masukkan Alamat "
                     android:inputType="textMultiLine"
