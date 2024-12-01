@@ -2,6 +2,7 @@ package com.example.ngikngik.edit_profil;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -27,23 +28,23 @@ public class simpan extends AppCompatActivity {
         }
         binding.bottomNavigationSimpan.setBackground(null);
         binding.bottomNavigationSimpan.setOnItemSelectedListener(item -> {
-
+            Log.d("DEBUG", "Item ID: " + item.getItemId());
             if (item.getItemId() == R.id.simpann) {
                 Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.framelayoutsimpan);
-
+                Log.d("DEBUG", "Current Fragment: " + currentFragment);
                 if (currentFragment instanceof profil_edit) {
                     profil_edit profilEditFragment = (profil_edit) currentFragment;
-
-                    // Validasi input di fragment
                     if (profilEditFragment.validateFields()) {
+                        Log.d("DEBUG", "Validation successful!");
                         saveData();
+                        return true;
                     } else {
-                        Log.d("DEBUG", "Validasi gagal! Data tidak lengkap.");
+                        Log.d("DEBUG", "Validation failed.");
                         return false;
                     }
                 }
             }
-            return true;
+            return false;
         });
     }
 
