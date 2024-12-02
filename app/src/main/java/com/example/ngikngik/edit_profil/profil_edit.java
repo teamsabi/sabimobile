@@ -15,21 +15,31 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.ngikngik.Dashboard.dashboard;
 import com.example.ngikngik.R;
+import com.example.ngikngik.api.DbContract;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 public class profil_edit extends Fragment {
     private ImageView imageView;
-    private EditText etBirthdate, etNama, etNomorWhatsApp, etNamaOrangTua, etAlamat;
+    private EditText etBirthdate,etNama, etNomorWhatsApp, etNamaOrangTua, etAlamat;
+
     private Spinner spinnerJenisKelamin;
     private RecyclerView recyclerViewKelas, recyclerViewEmail;
     private ClassAdapter kelasAdapter;
@@ -103,7 +113,7 @@ public class profil_edit extends Fragment {
 
             DatePickerDialog datePickerDialog = new DatePickerDialog(requireContext(),
                     (datePicker, year1, month1, day1) ->
-                            etBirthdate.setText(day1 + "/" + (month1 + 1) + "/" + year1),
+                            etBirthdate.setText(year1 + "/" + (month1 + 1) + "/" + day1),
                     year, month, day);
             datePickerDialog.show();
         });
@@ -139,8 +149,6 @@ public class profil_edit extends Fragment {
                 hideKeyboard();
             }
         });
-
-
         etNamaOrangTua.setOnFocusChangeListener((v, hasFocus) -> {
             if (!hasFocus) {
                 hideKeyboard();
@@ -154,6 +162,66 @@ public class profil_edit extends Fragment {
 
 
         return view;
+    }
+
+    public void saveProfileData() {
+        Log.d("SAVE_PROFILE", "Memulai proses simpan data...");
+
+        if (validateFields()) {
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, DbContract.SERVER_EDIT_PROFIL_URL,
+                    response -> {
+                        Log.d("SAVE_PROFILE", "Respons server: " + response);
+                        Toast.makeText(requireContext(), "Data berhasil disimpan", Toast.LENGTH_SHORT).show();
+                    },
+                    error -> {
+                        Log.e("SAVE_PROFILE", "Error saat menyimpan data: " + error.getMessage());
+                        Toast.makeText(requireContext(), "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }) {
+                @Override
+                protected Map<String, String> getParams() {
+                    Map<String, String> params = new HashMap<>();
+                    String email = sharedPreferences.getString("email", null);
+                    if (email != null) {
+                        params.put("email", email);  // Gunakan email yang ada di SharedPreferences
+                    } else {
+                        Log.e("SAVE_PROFILE", "Email tidak ditemukan di SharedPreferences.");
+                    }
+
+                    // Mengambil nilai input dan menambahkannya ke map untuk dikirim ke server
+                    params.put("nama", etNama.getText().toString().trim());
+                    params.put("jenis_kelamin", selectedGender);
+                    params.put("nomor_whatsapp", etNomorWhatsApp.getText().toString().trim());
+                    params.put("tanggal_lahir", etBirthdate.getText().toString().trim());
+                    params.put("nama_orang_tua", etNamaOrangTua.getText().toString().trim());
+                    params.put("alamat", etAlamat.getText().toString().trim());
+
+                    // Log semua data yang akan dikirim
+                    Log.d("SAVE_PROFILE", "Data yang dikirim: " + params.toString());
+                    return params;
+                }
+            };
+
+            // Kirim request ke server menggunakan Volley
+            Volley.newRequestQueue(requireContext()).add(stringRequest);
+        } else {
+            Log.e("SAVE_PROFILE", "Validasi gagal. Tidak bisa menyimpan data.");
+            Toast.makeText(requireContext(), "Silahkan isi kolom yang belum terisi!", Toast.LENGTH_SHORT).show();
+        }
+
+        // Simpan data ke SharedPreferences untuk persistensi lokal
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("nama", etNama.getText().toString().trim());
+        editor.putString("jenis_kelamin", selectedGender);
+        editor.putString("nomor_whatsapp", etNomorWhatsApp.getText().toString().trim());
+        editor.putString("tanggal_lahir", etBirthdate.getText().toString().trim());
+        editor.putString("nama_orang_tua", etNamaOrangTua.getText().toString().trim());
+        editor.putString("alamat", etAlamat.getText().toString().trim());
+
+        // Commit perubahan ke SharedPreferences
+        editor.apply();
+
+        // Tampilkan pesan jika data berhasil disimpan
+        Toast.makeText(requireContext(), "Data berhasil disimpan!", Toast.LENGTH_SHORT).show();
     }
 
     // Fungsi untuk menyembunyikan keyboard
@@ -185,11 +253,10 @@ public class profil_edit extends Fragment {
             isValid = false;
         }
 
-//        String birthdate = etBirthdate.getText().toString().trim();
-//        if (birthdate.isEmpty() || birthdate.equals("Pilih Tanggal Lahir")) {  // Tambahkan pengecekan ini
-//            etBirthdate.setError("Tanggal lahir harus diisi!");
-//            isValid = false;
-//        }
+        String birthdate = etBirthdate.getText().toString().trim();
+        if (birthdate.isEmpty() || birthdate.equals("Pilih Tanggal Lahir")) {  // Tambahkan pengecekan ini
+            isValid = false;
+        }
         if (etNamaOrangTua.getText().toString().trim().isEmpty()) {
             etNamaOrangTua.setError("Nama orang tua harus diisi!");
             isValid = false;

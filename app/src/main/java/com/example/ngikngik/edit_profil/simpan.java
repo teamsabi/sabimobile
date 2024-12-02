@@ -1,5 +1,6 @@
 package com.example.ngikngik.edit_profil;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
@@ -7,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.example.ngikngik.R;
+import com.example.ngikngik.Dashboard.dashboard; // Pastikan ini sesuai dengan nama Activity Dashboard Anda
 
 public class simpan extends AppCompatActivity {
 
@@ -23,6 +25,7 @@ public class simpan extends AppCompatActivity {
             // Cari fragment yang aktif saat ini
             Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
 
+            // Periksa apakah fragment yang aktif adalah profil_edit
             if (currentFragment instanceof profil_edit) {
                 profil_edit fragment = (profil_edit) currentFragment;
 
@@ -31,14 +34,14 @@ public class simpan extends AppCompatActivity {
                     // Jika validasi berhasil, tampilkan Toast dan lakukan logika simpan
                     Toast.makeText(simpan.this, "Data berhasil disimpan!", Toast.LENGTH_SHORT).show();
 
-                    // Logika untuk menyimpan data, bisa berupa simpan ke database atau server
-                    // Misalnya, sharedPreferences untuk menyimpan data sementara
-                    // sharedPreferences.edit().putString("nama", fragment.getNama()).apply();
+                    // Simpan data ke SharedPreferences atau database
+                    fragment.saveProfileData(); // Panggil metode untuk menyimpan data yang ada di profil_edit
 
-                    System.out.println("Tombol Simpan diklik!");
+                    // Logika untuk melanjutkan setelah data berhasil disimpan
+                    goToDashboard(); // Navigasi ke halaman Dashboard atau halaman lain yang diinginkan
                 } else {
                     // Jika validasi gagal, tampilkan pesan kesalahan
-                    Toast.makeText(simpan.this, "silahkan isi kolom terlebih dahulu", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(simpan.this, "Silahkan isi kolom yang belum terisi", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -49,5 +52,15 @@ public class simpan extends AppCompatActivity {
         fragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, fragment)
                 .commit();
+    }
+
+    // Fungsi untuk kembali ke halaman Dashboard atau halaman lainnya
+    private void goToDashboard() {
+        // Menavigasi ke Activity Dashboard setelah data disimpan
+        Intent intent = new Intent(simpan.this, dashboard.class);
+        startActivity(intent);
+
+        // Jika Anda ingin menutup activity saat ini dan kembali ke activity sebelumnya
+        finish();
     }
 }

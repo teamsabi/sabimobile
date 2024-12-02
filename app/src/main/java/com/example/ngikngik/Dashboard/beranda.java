@@ -17,9 +17,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.ngikngik.Dashboard.Jadwal;
-import com.example.ngikngik.Dashboard.JadwalAdapter;
-import com.example.ngikngik.DbContract;
+import com.example.ngikngik.api.DbContract;
 import com.example.ngikngik.R;
 
 import org.json.JSONArray;
