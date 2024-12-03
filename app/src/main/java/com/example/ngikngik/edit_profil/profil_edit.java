@@ -159,6 +159,7 @@ public class profil_edit extends Fragment {
                 hideKeyboard();
             }
         });
+        loadProfileData();
 
 
         return view;
@@ -274,4 +275,31 @@ public class profil_edit extends Fragment {
 
         return isValid;
     }
+
+    private void loadProfileData() {
+        Log.d("LOAD_PROFILE", "Memulai proses muat data...");
+
+        // Ambil data dari SharedPreferences
+        String nama = sharedPreferences.getString("nama", "");
+        String gender = sharedPreferences.getString("jenis_kelamin", "Pilih Jenis Kelamin");
+        String nomorWhatsApp = sharedPreferences.getString("nomor_whatsapp", "");
+        String tanggalLahir = sharedPreferences.getString("tanggal_lahir", "");
+        String namaOrangTua = sharedPreferences.getString("nama_orang_tua", "");
+        String alamat = sharedPreferences.getString("alamat", "");
+
+        // Isi data ke elemen UI
+        etNama.setText(nama);
+        etNomorWhatsApp.setText(nomorWhatsApp);
+        etBirthdate.setText(tanggalLahir);
+        etNamaOrangTua.setText(namaOrangTua);
+        etAlamat.setText(alamat);
+
+        // Atur spinner jenis kelamin
+        ArrayAdapter<String> adapter = (ArrayAdapter<String>) spinnerJenisKelamin.getAdapter();
+        int spinnerPosition = adapter.getPosition(gender);
+        spinnerJenisKelamin.setSelection(spinnerPosition);
+
+        Log.d("LOAD_PROFILE", "Data berhasil dimuat.");
+    }
+
 }
