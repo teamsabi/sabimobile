@@ -38,7 +38,7 @@ import java.util.Map;
 
 public class profil_edit extends Fragment {
     private ImageView imageView;
-    private EditText etBirthdate,etNama, etNomorWhatsApp, etNamaOrangTua, etAlamat;
+    private EditText etBirthdate, etNama, etNomorWhatsApp, etNamaOrangTua, etAlamat;
 
     private Spinner spinnerJenisKelamin;
     private RecyclerView recyclerViewKelas, recyclerViewEmail;
@@ -243,7 +243,6 @@ public class profil_edit extends Fragment {
         }
 
 
-
         if (etAlamat.getText().toString().trim().isEmpty()) {
             etAlamat.setError("Alamat harus diisi!");
             isValid = false;
@@ -289,6 +288,9 @@ public class profil_edit extends Fragment {
 
         // Isi data ke elemen UI
         etNama.setText(nama);
+        if (!nama.isEmpty()) {
+            etNama.setSelection(nama.length()); // Set cursor di akhir teks
+        }
         etNomorWhatsApp.setText(nomorWhatsApp);
         etBirthdate.setText(tanggalLahir);
         etNamaOrangTua.setText(namaOrangTua);
@@ -301,5 +303,4 @@ public class profil_edit extends Fragment {
 
         Log.d("LOAD_PROFILE", "Data berhasil dimuat.");
     }
-
 }

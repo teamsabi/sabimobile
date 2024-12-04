@@ -1,6 +1,6 @@
 package com.example.ngikngik.edit_profil;
 
-public class item_class {
+public class    item_class {
     private String className;
 
     // Constructor
