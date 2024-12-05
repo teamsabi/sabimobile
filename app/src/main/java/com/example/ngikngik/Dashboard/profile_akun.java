@@ -17,7 +17,7 @@ import com.example.ngikngik.edit_profil.simpan;
 
 public class profile_akun extends Fragment {
     private ImageView imageView;
-    private TextView tvNamaAkun, tvKelasAkun;
+    private TextView rvNamaAkun, rvKelasAkun;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -33,8 +33,8 @@ public class profile_akun extends Fragment {
 
         // Inisialisasi View
         imageView = view.findViewById(R.id.btnEdit);
-        tvNamaAkun = view.findViewById(R.id.rvNamaAkun);
-        tvKelasAkun = view.findViewById(R.id.rvKelasAkun);
+        rvNamaAkun = view.findViewById(R.id.rvNamaAkun);
+        rvKelasAkun = view.findViewById(R.id.rvKelasAkun);
 
         // Mengambil data nama dan kelas dari SharedPreferences
         SharedPreferences sharedPreferences = requireContext().getSharedPreferences("MyPrefs", getContext().MODE_PRIVATE);
@@ -42,8 +42,8 @@ public class profile_akun extends Fragment {
         String kelas = sharedPreferences.getString("kelas", "Kelas tidak ditemukan");
 
         // Menampilkan data di TextView
-        tvNamaAkun.setText(nama);
-        tvKelasAkun.setText(kelas);
+        rvNamaAkun.setText(nama);
+        rvKelasAkun.setText(kelas);
 
         // Navigasi ke halaman edit profil
         imageView.setOnClickListener(v -> {
