@@ -30,7 +30,7 @@ public class dashboard extends AppCompatActivity {
             if (item.getItemId() == R.id.beranda) {
                 replaceFragment(new beranda());
             } else if (item.getItemId() == R.id.profil) {
-                replaceFragment(new ProfilDashboard());
+                replaceFragment(new profile_akun());
             }
             return true;
         });
