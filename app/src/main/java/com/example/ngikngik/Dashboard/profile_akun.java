@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +18,7 @@ import com.example.ngikngik.edit_profil.simpan;
 
 public class profile_akun extends Fragment {
     private ImageView imageView;
-    private TextView rvNamaAkun, rvKelasAkun;
+    private RecyclerView rvNamaAkun, rvKelasAkun;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -41,9 +42,6 @@ public class profile_akun extends Fragment {
         String nama = sharedPreferences.getString("nama", "Nama tidak ditemukan");
         String kelas = sharedPreferences.getString("kelas", "Kelas tidak ditemukan");
 
-        // Menampilkan data di TextView
-        rvNamaAkun.setText(nama);
-        rvKelasAkun.setText(kelas);
 
         // Navigasi ke halaman edit profil
         imageView.setOnClickListener(v -> {
