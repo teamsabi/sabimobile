@@ -78,6 +78,11 @@ public class profil_edit extends Fragment {
         sharedPreferences = requireContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         String email = sharedPreferences.getString("email", "Email tidak ditemukan");
         String kelas = sharedPreferences.getString("kelas", "Kelas tidak ditemukan");
+        // Simpan data ke SharedPreferences
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("nama", etNama.getText().toString().trim());
+        editor.apply();
+
 
         // Inisialisasi data email dan kelas
         emailList = new ArrayList<>();
