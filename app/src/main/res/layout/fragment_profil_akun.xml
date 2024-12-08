@@ -125,7 +125,7 @@
 
         <!-- Delete Account -->
         <TextView
-            android:id="@+id/Logout"
+            android:id="@+id/txtLogout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"

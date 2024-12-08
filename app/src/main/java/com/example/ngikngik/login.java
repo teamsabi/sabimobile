@@ -165,7 +165,7 @@ public class login extends AppCompatActivity {
                                     Toast.makeText(getApplicationContext(), "Login berhasil", Toast.LENGTH_SHORT).show();
                                     Intent dashboardIntent = new Intent(login.this, dashboard.class);
                                     startActivity(dashboardIntent);
-                                    finish();
+
                                 }
 
                                 else {

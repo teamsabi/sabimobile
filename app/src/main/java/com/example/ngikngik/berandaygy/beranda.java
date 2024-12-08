@@ -4,6 +4,7 @@ import static android.content.Context.MODE_PRIVATE;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,9 +21,12 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.ngikngik.Adapter.ClassAdapter;
 import com.example.ngikngik.Adapter.JadwalAdapter;
+import com.example.ngikngik.Adapter.NameAdapter;
 import com.example.ngikngik.api.DbContract;
 import com.example.ngikngik.R;
+import com.example.ngikngik.profil.item_name;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,6 +41,9 @@ public class beranda extends Fragment {
     private RecyclerView recyclerView;
     private JadwalAdapter adapter;
     private List<Jadwal> jadwalList;
+    private NameAdapter nameAdapter;
+    private ClassAdapter classAdapter;
+    private SharedPreferences sharedPreferences;
 
     @Nullable
     @Override
@@ -48,15 +55,18 @@ public class beranda extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         TextView tvNamaBeranda = view.findViewById(R.id.tvNamaBeranda);
 
+        // Inisialisasi sharedPreferences
+        sharedPreferences = requireContext().getSharedPreferences("MyPrefs", MODE_PRIVATE);
+
         // Load data kelas dan email dari SharedPreferences
-        SharedPreferences preferences = requireContext().getSharedPreferences("MyPrefs", getContext().MODE_PRIVATE);
-        String kelas = preferences.getString("kelas", "kelas tidak ditemukan"); // Ambil data kelas dari SharedPreferences
-        String email = preferences.getString("email", "Email tidak ditemukan");
-        String nama = preferences.getString("nama", ""); // Dapatkan nama, jika kosong berarti pengguna baru
+        String kelas = sharedPreferences.getString("kelas", "kelas tidak ditemukan"); // Ambil data kelas dari SharedPreferences
+        String email = sharedPreferences.getString("email", "Email tidak ditemukan");
+        String nama = sharedPreferences.getString("nama", ""); // Dapatkan nama, jika kosong berarti pengguna baru
 
         // Cek jika nama kosong, artinya pengguna baru
         if (nama.isEmpty()) {
             tvNamaBeranda.setText("Halo, pengguna baru!"); // Pesan untuk pengguna baru
+            loadProfileFromServer(email, tvNamaBeranda); // Ambil nama dari server
         } else {
             tvNamaBeranda.setText("Halo, " + nama + "!"); // Pesan untuk pengguna yang sudah memiliki nama
         }
@@ -103,5 +113,43 @@ public class beranda extends Fragment {
 
         queue.add(request);
     }
-}
 
+    private void loadProfileFromServer(String email, TextView tvNamaBeranda) {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, DbContract.SERVER_NAMA_URL,
+                response -> {
+                    try {
+                        JSONObject jsonResponse = new JSONObject(response);
+                        String status = jsonResponse.getString("status");
+
+                        if ("success".equals(status)) {
+                            String nama = jsonResponse.getString("nama");
+
+                            // Tampilkan nama ke UI
+                            tvNamaBeranda.setText("Halo, " + nama + "!");
+
+                            // Simpan nama ke SharedPreferences untuk cache lokal
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putString("nama", nama);
+                            editor.apply();
+                        } else {
+                            Log.e("PROFILE_LOAD", "Error: " + jsonResponse.getString("message"));
+                        }
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                },
+                error -> Log.e("PROFILE_LOAD", "Error: " + error.getMessage())
+        ) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("email", email); // Kirimkan email ke server untuk mendapatkan nama
+                return params;
+            }
+        };
+
+        // Menambahkan permintaan ke antrian Volley
+        Volley.newRequestQueue(requireContext()).add(stringRequest);
+    }
+}

@@ -1,5 +1,6 @@
 package com.example.ngikngik.profil;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,7 +14,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.toolbox.StringRequest;
@@ -24,6 +27,9 @@ import com.example.ngikngik.Adapter.ClassAdapter;
 import com.example.ngikngik.edit_profil.item_class;
 import com.example.ngikngik.edit_profil.simpan;
 import com.example.ngikngik.R;
+import com.example.ngikngik.login;
+import com.example.ngikngik.lupapassword;
+import com.example.ngikngik.masukkanOTP;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -39,16 +45,42 @@ public class profile_akun extends Fragment {
     private ClassAdapter classAdapter;
     private SharedPreferences sharedPreferences;
     private ImageView imageView;
+    private TextView txtlogout;
+    private Dialog dialog;
+    private Button btndialog;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profil_akun, container, false);
 
+        dialog = new Dialog(getActivity());
+        dialog.setContentView(R.layout.logout);
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        btndialog = dialog.findViewById(R.id.btndialoglogout);
+        btndialog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.clear(); // Menghapus semua data yang disimpan
+                editor.apply();
+                Intent intent = new Intent(getActivity(), login.class);
+                startActivity(intent);
+                dialog.dismiss();
 
+            }
+        });
+
+        txtlogout = view.findViewById(R.id.txtLogout);
+        txtlogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.show();
+            }
+        });
         rvNamaAkun = view.findViewById(R.id.rvNamaAkun);
         rvKelasAkun = view.findViewById(R.id.rvKelasAkun);
-
 
         sharedPreferences = requireContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
 
@@ -89,6 +121,7 @@ public class profile_akun extends Fragment {
                 startActivity(intent);
             }
         });
+
         loadProfileFromServer();
         return view;
     }
@@ -138,11 +171,10 @@ public class profile_akun extends Fragment {
     public void onResume() {
         super.onResume();
 
-        // Memastikan data yang ada di SharedPreferences tetap ditampilkan
-        String nama = sharedPreferences.getString("nama", "Default Nama");
-        Log.d("onResume", "Nama dari SharedPreferences: " + nama);
+        // Pastikan data dari SharedPreferences ditampilkan setelah login
+        String nama = sharedPreferences.getString("nama", "Nama Default");
 
-        // Memperbarui UI jika ada perubahan
+        // Perbarui RecyclerView dengan nama baru
         if (nameAdapter != null) {
             List<item_name> nameList = new ArrayList<>();
             nameList.add(new item_name(nama));
