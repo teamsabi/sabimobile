@@ -1,4 +1,4 @@
-package com.example.ngikngik.Dashboard;
+package com.example.ngikngik.berandaygy;
 
 public class Jadwal {
     private String hari;

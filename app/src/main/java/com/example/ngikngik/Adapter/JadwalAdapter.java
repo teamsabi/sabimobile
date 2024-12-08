@@ -1,4 +1,4 @@
-package com.example.ngikngik.Dashboard;
+package com.example.ngikngik.Adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +8,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.ngikngik.R;
+import com.example.ngikngik.berandaygy.Jadwal;
 
 import java.util.List;
 

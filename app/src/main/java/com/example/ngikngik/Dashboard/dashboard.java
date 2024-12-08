@@ -8,7 +8,10 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.ngikngik.R;
+import com.example.ngikngik.berandaygy.beranda;
+import com.example.ngikngik.berandaygy.raport;
 import com.example.ngikngik.databinding.ActivityDashboardBinding;
+import com.example.ngikngik.profil.profile_akun;
 
 public class dashboard extends AppCompatActivity {
 
@@ -31,6 +34,8 @@ public class dashboard extends AppCompatActivity {
                 replaceFragment(new beranda());
             } else if (item.getItemId() == R.id.profil) {
                 replaceFragment(new profile_akun());
+            } else if (item.getItemId() == R.id.raport) {
+                replaceFragment(new raport());
             }
             return true;
         });

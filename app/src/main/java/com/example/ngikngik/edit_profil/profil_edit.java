@@ -15,7 +15,6 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -23,10 +22,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.ngikngik.Adapter.ClassAdapter;
+import com.example.ngikngik.Adapter.EmailAdapter;
 import com.example.ngikngik.Dashboard.dashboard;
 import com.example.ngikngik.R;
 import com.example.ngikngik.api.DbContract;

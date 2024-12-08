@@ -1,4 +1,4 @@
-package com.example.ngikngik.Dashboard;
+package com.example.ngikngik.profil;
 
 import android.content.Context;
 import android.content.Intent;
@@ -18,8 +18,9 @@ import android.widget.ImageView;
 import com.android.volley.Request;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.ngikngik.Adapter.NameAdapter;
 import com.example.ngikngik.api.DbContract;
-import com.example.ngikngik.edit_profil.ClassAdapter;
+import com.example.ngikngik.Adapter.ClassAdapter;
 import com.example.ngikngik.edit_profil.item_class;
 import com.example.ngikngik.edit_profil.simpan;
 import com.example.ngikngik.R;

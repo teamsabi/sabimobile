@@ -1,4 +1,4 @@
-package com.example.ngikngik.Dashboard;
+package com.example.ngikngik.profil;
 
 public class item_name {
     private String name;
