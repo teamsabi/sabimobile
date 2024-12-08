@@ -56,7 +56,7 @@ public class beranda extends Fragment {
 
 
         RequestQueue queue = Volley.newRequestQueue(requireContext());
-        StringRequest request = new StringRequest(Request.Method.POST, DbContract.SERVER_DAFTAR_URL,
+        StringRequest request = new StringRequest(Request.Method.POST, DbContract.SERVER_JADWAL_URL,
                 response -> {
                     try {
                         JSONArray jadwalArray = new JSONArray(response);
