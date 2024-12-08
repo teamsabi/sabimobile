@@ -1,10 +1,13 @@
 package com.example.ngikngik.berandaygy;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -43,19 +46,27 @@ public class beranda extends Fragment {
         // Inisialisasi RecyclerView
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        TextView tvNamaBeranda = view.findViewById(R.id.tvNamaBeranda);
 
-        // Load data jadwal berdasarkan kelas
+        // Load data kelas dan email dari SharedPreferences
         SharedPreferences preferences = requireContext().getSharedPreferences("MyPrefs", getContext().MODE_PRIVATE);
         String kelas = preferences.getString("kelas", "kelas tidak ditemukan"); // Ambil data kelas dari SharedPreferences
         String email = preferences.getString("email", "Email tidak ditemukan");
+        String nama = preferences.getString("nama", ""); // Dapatkan nama, jika kosong berarti pengguna baru
+
+        // Cek jika nama kosong, artinya pengguna baru
+        if (nama.isEmpty()) {
+            tvNamaBeranda.setText("Halo, pengguna baru!"); // Pesan untuk pengguna baru
+        } else {
+            tvNamaBeranda.setText("Halo, " + nama + "!"); // Pesan untuk pengguna yang sudah memiliki nama
+        }
+
         loadJadwal(kelas); // Memuat jadwal
 
         return view;
     }
 
     private void loadJadwal(String kelas) {
-
-
         RequestQueue queue = Volley.newRequestQueue(requireContext());
         StringRequest request = new StringRequest(Request.Method.POST, DbContract.SERVER_JADWAL_URL,
                 response -> {
@@ -93,3 +104,4 @@ public class beranda extends Fragment {
         queue.add(request);
     }
 }
+

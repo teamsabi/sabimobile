@@ -28,6 +28,10 @@ public class dashboard extends AppCompatActivity {
             replaceFragment(new beranda()); // Menampilkan beranda pertama kali
         }
 
+        // Pilih item 'beranda' secara otomatis saat pertama kali aplikasi dijalankan
+        binding.bottomNavigation.setSelectedItemId(R.id.beranda);
+
+        // Set background to null and handle navigation item clicks
         binding.bottomNavigation.setBackground(null);
         binding.bottomNavigation.setOnItemSelectedListener(item -> {
             if (item.getItemId() == R.id.beranda) {
@@ -40,6 +44,7 @@ public class dashboard extends AppCompatActivity {
             return true;
         });
     }
+
 
     private void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
