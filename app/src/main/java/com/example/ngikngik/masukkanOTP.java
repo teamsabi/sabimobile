@@ -25,7 +25,6 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.ngikngik.databinding.ActivityDashboardBinding;
 import com.example.ngikngik.api.DbContract;
 
 import org.json.JSONException;
@@ -39,28 +38,34 @@ public class masukkanOTP extends AppCompatActivity {
     private EditText otp1, otp2, otp3, otp4, otp5;
     private TextView kirimulang;
     private ProgressBar progressBar;
-    ActivityDashboardBinding binding;
     private int resendTime = 60;
     private boolean resendEnabled = false;
     private int selectedEtPosition = 0;
     private String email;
+
 
     @SuppressLint("RestrictedApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        SharedPreferences preferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("email", email);  // Menyimpan email yang dimasukkan
+        editor.apply();
         // Menghilangkan status bar
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         // Menetapkan tampilan konten
-        binding = ActivityDashboardBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
         setContentView(R.layout.activity_masukkan_otp);
 
         email = getIntent().getStringExtra("email");
-        Log.d("masukkan otp", "Email yang diterima: " + email);
+        if (email != null && !email.isEmpty()) {
+            editor.putString("email", email);
+            editor.apply();
+        }
+
 
         btnbatal = findViewById(R.id.batalotp);
         lanjut = findViewById(R.id.lanjut);
@@ -79,18 +84,29 @@ public class masukkanOTP extends AppCompatActivity {
         otp4.addTextChangedListener(textWatcher);
         otp5.addTextChangedListener(textWatcher);
 
-        btnbatal.setOnClickListener(view ->{
+        btnbatal.setOnClickListener(view -> {
             Intent intent = new Intent(masukkanOTP.this, lupapassword.class);
             startActivity(intent);
         });
+
         kirimulang.setOnClickListener(view -> {
             if (resendEnabled) {
+                String email = preferences.getString("email", "");
+
+                if (email.isEmpty()) {
+                    Toast.makeText(getApplicationContext(), "Email tidak valid", Toast.LENGTH_SHORT).show();
+                    Log.e("kirimulang", "Email kosong atau tidak valid di SharedPreferences");
+                    return;
+                }
+
                 startCountDownTimer();
-                // Tambahkan logika pengiriman ulang OTP jika diperlukan.
+                kirimulang(email);  // Kirim email yang valid
             } else {
                 Toast.makeText(getApplicationContext(), "Tunggu beberapa saat untuk mengirim ulang", Toast.LENGTH_SHORT).show();
             }
         });
+
+
 
         lanjut.setOnClickListener(view -> {
             String otp = otp1.getText().toString().trim() +
@@ -105,54 +121,7 @@ public class masukkanOTP extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "OTP harus terdiri dari 5 digit", Toast.LENGTH_SHORT).show();
             } else {
                 progressBar.setVisibility(View.VISIBLE);
-
-                // Ambil PHPSESSID dari SharedPreferences
-                SharedPreferences preferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-                String phpsessid = preferences.getString("PHPSESSID", "");
-
-                RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-                StringRequest stringRequest = new StringRequest(Request.Method.POST, DbContract.SERVER_VERIF_OTP_URL,
-                        response -> {
-                            progressBar.setVisibility(View.GONE);
-                            try {
-                                JSONObject jsonResponse = new JSONObject(response);
-                                String status = jsonResponse.getString("status");
-                                String message = jsonResponse.getString("message");
-
-                                if ("success".equals(status)) {
-                                    Intent intent = new Intent(masukkanOTP.this, newpasswordpage.class);
-                                    startActivity(intent);
-                                    finish();
-                                } else {
-                                    Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                                Toast.makeText(getApplicationContext(), "Kesalahan dalam memproses respons server", Toast.LENGTH_SHORT).show();
-                            }
-                        },
-                        error -> {
-                            progressBar.setVisibility(View.GONE);
-                            Toast.makeText(getApplicationContext(), "Terjadi kesalahan jaringan", Toast.LENGTH_SHORT).show();
-                        }) {
-                    @Override
-                    protected Map<String, String> getParams() {
-                        Map<String, String> params = new HashMap<>();
-                        params.put("otp", otp);
-                        return params;
-                    }
-
-                    @Override
-                    public Map<String, String> getHeaders() {
-                        Map<String, String> headers = new HashMap<>();
-                        if (!phpsessid.isEmpty()) {
-                            headers.put("Cookie", "PHPSESSID=" + phpsessid); // Kirim PHPSESSID
-                        }
-                        return headers;
-                    }
-                };
-
-                queue.add(stringRequest);
+                verifyOTP(otp);
             }
         });
 
@@ -160,14 +129,107 @@ public class masukkanOTP extends AppCompatActivity {
         startCountDownTimer();
     }
 
+    private void verifyOTP(String otp) {
+        SharedPreferences preferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        String phpsessid = preferences.getString("PHPSESSID", "");
+
+        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, DbContract.SERVER_VERIF_OTP_URL,
+                response -> {
+                    progressBar.setVisibility(View.GONE);
+                    try {
+                        JSONObject jsonResponse = new JSONObject(response);
+                        String status = jsonResponse.getString("status");
+                        String message = jsonResponse.getString("message");
+
+                        if ("success".equals(status)) {
+                            Intent intent = new Intent(masukkanOTP.this, newpasswordpage.class);
+                            startActivity(intent);
+                            finish();
+                        } else {
+                            Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        Toast.makeText(getApplicationContext(), "Kesalahan dalam memproses respons server", Toast.LENGTH_SHORT).show();
+                    }
+                },
+                error -> {
+                    progressBar.setVisibility(View.GONE);
+                    Toast.makeText(getApplicationContext(), "Terjadi kesalahan jaringan", Toast.LENGTH_SHORT).show();
+                }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("otp", otp);
+                return params;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                if (!phpsessid.isEmpty()) {
+                    headers.put("Cookie", "PHPSESSID=" + phpsessid);
+                }
+                return headers;
+            }
+        };
+
+        queue.add(stringRequest);
+    }
+
+    private void kirimulang(String email) {
+        if (email == null || email.isEmpty()) {
+            Log.e("kirimulang", "Email tidak valid sebelum mengirim OTP ulang");
+            Toast.makeText(getApplicationContext(), "Email tidak valid", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Log.d("kirimulang", "Mengirim ulang OTP untuk email: " + email);
+
+        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, DbContract.SERVER_RESEND_OTP_URL,
+                response -> {
+                    Log.d("kirimulang", "Resend OTP response: " + response);
+                    try {
+                        JSONObject jsonResponse = new JSONObject(response);
+                        String status = jsonResponse.getString("status");
+                        String message = jsonResponse.getString("message");
+
+                        if ("success".equals(status)) {
+                            Toast.makeText(getApplicationContext(), "OTP berhasil dikirim ulang", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        Toast.makeText(getApplicationContext(), "Kesalahan dalam memproses respons server", Toast.LENGTH_SHORT).show();
+                    }
+                },
+                error -> {
+                    Log.e("kirimulang", "Error: " + error.getMessage());
+                    Toast.makeText(getApplicationContext(), "Gagal mengirim ulang OTP", Toast.LENGTH_SHORT).show();
+                }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("email", email);  // Kirim email yang valid
+                return params;
+            }
+        };
+
+        queue.add(stringRequest);
+    }
 
 
     private final TextWatcher textWatcher = new TextWatcher() {
         @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
 
         @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {}
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+        }
 
         @Override
         public void afterTextChanged(Editable s) {
@@ -190,7 +252,7 @@ public class masukkanOTP extends AppCompatActivity {
                         showKeyboard(otp5);
                         break;
                     case 4:
-                        lanjut.setEnabled(true);
+                        lanjut.setEnabled(true);  // Aktifkan tombol "Lanjut" hanya setelah semua digit diisi
                         break;
                 }
             }
