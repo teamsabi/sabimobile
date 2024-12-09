@@ -185,6 +185,7 @@ public class masukkanOTP extends AppCompatActivity {
             return;
         }
 
+        Toast.makeText(getApplicationContext(), "Otp berhasil dikirim", Toast.LENGTH_SHORT).show();
         Log.d("kirimulang", "Mengirim ulang OTP untuk email: " + email);
 
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
@@ -197,7 +198,7 @@ public class masukkanOTP extends AppCompatActivity {
                         String message = jsonResponse.getString("message");
 
                         if ("success".equals(status)) {
-                            Toast.makeText(getApplicationContext(), "OTP berhasil dikirim ulang", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(getApplicationContext(), "OTP berhasil dikirim ulang", Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
                         }
