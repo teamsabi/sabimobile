@@ -23,6 +23,7 @@ public class dashboard extends AppCompatActivity {
         binding = ActivityDashboardBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+
         // Langsung tampilkan fragment beranda saat pertama kali memasuki dashboard
         if (savedInstanceState == null) {
             replaceFragment(new beranda()); // Menampilkan beranda pertama kali

@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -17,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,6 +31,7 @@ import com.example.ngikngik.Adapter.EmailAdapter;
 import com.example.ngikngik.Dashboard.dashboard;
 import com.example.ngikngik.R;
 import com.example.ngikngik.api.DbContract;
+import com.example.ngikngik.databinding.FragmentProfilEditBinding;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -47,12 +50,20 @@ public class profil_edit extends Fragment {
     private ArrayList<item_class> kelasList;
     private SharedPreferences sharedPreferences;
     private String selectedGender = "";
+    private FragmentProfilEditBinding fragmentProfilEditBinding;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profil_edit, container, false);
         Log.d("DEBUG", "profil_edit fragment loaded.");
-
+//fullscreen fragment
+        requireActivity().getWindow().getDecorView().setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_FULLSCREEN |
+                        View.SYSTEM_UI_FLAG_HIDE_NAVIGATION |
+                        View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+        requireActivity().getWindow().setFlags(
+                WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         // Inisialisasi View
         imageView = view.findViewById(R.id.imgBack);
         etNama = view.findViewById(R.id.etnamaprofil);
