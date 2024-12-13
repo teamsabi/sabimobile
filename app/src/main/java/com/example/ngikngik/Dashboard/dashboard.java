@@ -1,6 +1,7 @@
 package com.example.ngikngik.Dashboard;
 
 import android.os.Bundle;
+import android.view.WindowManager;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -9,7 +10,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.ngikngik.R;
 import com.example.ngikngik.berandaygy.beranda;
-import com.example.ngikngik.berandaygy.raport;
+import com.example.ngikngik.Raport.raport;
 import com.example.ngikngik.databinding.ActivityDashboardBinding;
 import com.example.ngikngik.profil.profile_akun;
 
@@ -20,6 +21,8 @@ public class dashboard extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         binding = ActivityDashboardBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 

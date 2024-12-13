@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -50,12 +52,9 @@ public class profile_akun extends Fragment {
     private Dialog dialog;
     private Button btndialog;
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profil_akun, container, false);
 
-        //fullscreen fragment
         requireActivity().getWindow().getDecorView().setSystemUiVisibility(
                 View.SYSTEM_UI_FLAG_FULLSCREEN |
                         View.SYSTEM_UI_FLAG_HIDE_NAVIGATION |
@@ -115,14 +114,6 @@ public class profile_akun extends Fragment {
         rvKelasAkun.setAdapter(classAdapter);
         rvKelasAkun.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        // Memanggil fungsi untuk load data profil dari server
-
-        // Menghilangkan status bar
-        requireActivity().getWindow().getDecorView().setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_FULLSCREEN |
-                        View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-
-        );
         imageView = view.findViewById(R.id.btnEdit);
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override

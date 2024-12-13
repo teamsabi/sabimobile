@@ -1,10 +1,10 @@
 package com.example.ngikngik.berandaygy;
 
-public class Jadwal {
+public class item_Jadwal {
     private String hari;
     private String mataPelajaran;
 
-    public Jadwal(String hari, String mataPelajaran) {
+    public item_Jadwal(String hari, String mataPelajaran) {
         this.hari = hari;
         this.mataPelajaran = mataPelajaran;
     }

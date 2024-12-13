@@ -27,7 +27,6 @@ import com.example.ngikngik.Adapter.JadwalAdapter;
 import com.example.ngikngik.Adapter.NameAdapter;
 import com.example.ngikngik.api.DbContract;
 import com.example.ngikngik.R;
-import com.example.ngikngik.profil.item_name;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -41,7 +40,7 @@ import java.util.Map;
 public class beranda extends Fragment {
     private RecyclerView recyclerView;
     private JadwalAdapter adapter;
-    private List<Jadwal> jadwalList;
+    private List<item_Jadwal> jadwalList;
     private NameAdapter nameAdapter;
     private ClassAdapter classAdapter;
     private SharedPreferences sharedPreferences;
@@ -98,7 +97,7 @@ public class beranda extends Fragment {
                             String hari = obj.getString("hari");
                             String matkul = obj.getString("mata_pelajaran");
 
-                            jadwalList.add(new Jadwal(hari, matkul));
+                            jadwalList.add(new item_Jadwal(hari, matkul));
                         }
 
                         // Set data ke RecyclerView
