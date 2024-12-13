@@ -3,11 +3,10 @@
     <string name="loginhere"><u>Register</u></string>
     <string name="screen1">Latian Soal</string>
     <string name="screen2">Mata Pelajaran</string>
-    <string name="screen3">Go Live</string>
+    <string name="screen3">Nilai</string>
     <string name="screen1desc">Kerjakan Soal dengan baik dan benar Agar Mendapatkan nilai yang memuaskan dan Hasil yang bagus</string>
     <string name="screen2desc">Dapatkan Mata Pelajaran yang sesuai dengan jenjang yang kamu pilih </string>
-    <string name="screen3desc">YouTube live streaming allows you to reach your community in real time.
-    Go live on YouTube from webcam, mobile and encoder streaming.</string>
+    <string name="screen3desc">Setelah mengerjakan semua tugas akan muncul Nilai akan muncul</string>
     <string name="startDesc">Create a long video or shorts and upload on youtube. Interact with your subscribers on youtube live.</string>
 
     <!-- Gender Spinner Options -->
