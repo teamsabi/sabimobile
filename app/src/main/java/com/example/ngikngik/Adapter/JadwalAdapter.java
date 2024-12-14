@@ -1,4 +1,4 @@
-package com.example.ngikngik.Dashboard;
+package com.example.ngikngik.Adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,14 +8,15 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.ngikngik.R;
+import com.example.ngikngik.berandaygy.item_Jadwal;
 
 import java.util.List;
 
 public class JadwalAdapter extends RecyclerView.Adapter<JadwalAdapter.ViewHolder> {
 
-    private List<Jadwal> jadwalList;
+    private List<item_Jadwal> jadwalList;
 
-    public JadwalAdapter(List<Jadwal> jadwalList) {
+    public JadwalAdapter(List<item_Jadwal> jadwalList) {
         this.jadwalList = jadwalList;
     }
 
@@ -28,7 +29,7 @@ public class JadwalAdapter extends RecyclerView.Adapter<JadwalAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Jadwal jadwal = jadwalList.get(position);
+        item_Jadwal jadwal = jadwalList.get(position);
         holder.tvHari.setText(jadwal.getHari());
         holder.tvMatkul.setText(jadwal.getMataPelajaran());
     }

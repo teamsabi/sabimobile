@@ -17,8 +17,8 @@ public class ViewPagerAdapter extends PagerAdapter {
     Context context;
 
     int sliderAllImages[] = {
-            R.drawable.upload,
-            R.drawable.shorts,
+            R.drawable.latiansoal,
+            R.drawable.matapelajaran,
             R.drawable.live,
     };
 

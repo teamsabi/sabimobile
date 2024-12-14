@@ -32,7 +32,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Profil Akun"
+        android:text="Raport"
         android:textColor="#FFFFFF"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -61,7 +61,7 @@
                 android:layout_height="wrap_content">
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rvNamaAkun"
+                    android:id="@+id/rvNamaRaport"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
@@ -70,20 +70,12 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rvKelasAkun"
+                    android:id="@+id/rvKelasRaport"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/rvNamaAkun" />
-
-                <ImageView
-                    android:id="@+id/btnEdit"
-                    android:layout_width="38dp"
-                    android:layout_height="37dp"
-                    android:src="@drawable/ic_edit"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    tools:layout_editor_absoluteY="13dp" />
+                    app:layout_constraintTop_toBottomOf="@+id/rvNamaRaport" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -103,40 +95,97 @@
         app:layout_constraintEnd_toEndOf="parent">
 
         <!-- Two-Factor Verification -->
-        <TextView
-            android:id="@+id/tvVerification"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:padding="16dp"
-            android:background="@drawable/ambismetershape"
-            android:text="Verifikasi Dua Langkah"
-            android:textColor="#000000"
-            android:textSize="16sp" />
 
         <!-- Help Center -->
-        <TextView
-            android:id="@+id/tvHelpCenter"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:background="#FFFFFF"
+            android:orientation="vertical"
             android:padding="16dp"
-            android:background="@drawable/ambismetershape"
-            android:text="Pusat Bantuan"
-            android:textColor="#000000"
-            android:textSize="16sp" />
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout3"
+            tools:layout_editor_absoluteX="0dp">
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/background_raport"
+                android:stretchColumns="1">
+
+                <!-- Table Header -->
+                <TableRow>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="8dp"
+                        android:text="No"
+                        android:textColor="#000000"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="8dp"
+                        android:text="Mata Pelajaran"
+                        android:textColor="#000000"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="8dp"
+                        android:text="Nilai"
+                        android:textColor="#000000"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="8dp"
+                        android:text="Predikat"
+                        android:textColor="#000000"
+                        android:textStyle="bold" />
+                </TableRow>
+
+                <!-- Table Content -->
+                <TableRow>
+
+                </TableRow>
+
+                <!-- Additional Rows -->
+                <TableRow>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvMapelRaport"
+                        android:layout_width="match_parent"
+                        android:textColor="#000000"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="10dp" />
+
+                </TableRow>
+            </TableLayout>
+
+            <!-- Teacher Notes -->
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/background_raport"
+                android:gravity="top"
+                android:hint="Catatan Guru:"
+                android:padding="8dp"
+                android:textColor="#000000" />
+        </LinearLayout>
 
         <!-- Delete Account -->
-        <TextView
-            android:id="@+id/txtLogout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:padding="16dp"
-            android:background="@drawable/ambismetershape"
-            android:text="Logout"
-            android:textColor="#FF0000"
-            android:textSize="16sp" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

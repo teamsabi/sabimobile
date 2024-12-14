@@ -1,4 +1,4 @@
-package com.example.ngikngik.Dashboard;
+package com.example.ngikngik.Adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,8 +7,8 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.ngikngik.Dashboard.item_name;
 import com.example.ngikngik.R;
+import com.example.ngikngik.profil.item_name;
 
 import java.util.List;
 
@@ -54,5 +54,11 @@ public class NameAdapter extends RecyclerView.Adapter<NameAdapter.NameViewHolder
     // Interface for item click listener
     public interface OnItemClickListener {
         void onItemClick(item_name nameItem);
+    }
+
+    // Method to update the data in the adapter
+    public void updateData(List<item_name> newData) {
+        this.nameList = newData;
+        notifyDataSetChanged(); // Notify the adapter that data has changed
     }
 }

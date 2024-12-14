@@ -40,6 +40,7 @@ public class lupapassword extends AppCompatActivity {
     Dialog dialog;
     ActivityDashboardBinding binding;
     Button btnmengerti;
+    private String email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,12 +69,18 @@ public class lupapassword extends AppCompatActivity {
         btnmengerti.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(lupapassword.this, masukkanOTP.class);
-                startActivity(intent);
-                dialog.dismiss();
-                finish();
+                if (email != null && !email.isEmpty()) { // Pastikan nilai email tersedia
+                    Intent intent = new Intent(lupapassword.this, masukkanOTP.class);
+                    intent.putExtra("email", email); // Kirim email melalui intent
+                    startActivity(intent);
+                    dialog.dismiss();
+                    finish();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Email tidak valid atau belum diisi.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
+
 
         EditText editText = findViewById(R.id.etEmailLupaPw);
         Button buttonlanjut = findViewById(R.id.lanjut);
@@ -92,7 +99,7 @@ public class lupapassword extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                String email = editText.getText().toString().trim();
+                email = editText.getText().toString().trim();
 
                 if (email.isEmpty()) {
                     // Tampilkan Toast jika kolom kosong

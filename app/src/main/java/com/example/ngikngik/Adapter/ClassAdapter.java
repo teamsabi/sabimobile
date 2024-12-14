@@ -1,4 +1,4 @@
-package com.example.ngikngik.edit_profil;
+package com.example.ngikngik.Adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +8,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ngikngik.R;
+import com.example.ngikngik.edit_profil.item_class;
 
 import java.util.List;
 
