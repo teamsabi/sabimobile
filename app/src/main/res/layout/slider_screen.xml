@@ -10,7 +10,7 @@
     <ImageView
         android:id="@+id/sliderImage"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="350dp"
         android:layout_marginTop="10dp"
         android:scaleType="centerCrop"
         android:src="@drawable/latiansoal"/>
@@ -23,7 +23,7 @@
         android:fontFamily="@font/poppins_semibold"
         android:text="@string/screen1"
         android:textAlignment="center"
-        android:textColor="@color/lavender"
+        android:textColor="@color/white"
         android:textSize="30sp"
         android:textStyle="bold" />
 
@@ -36,7 +36,7 @@
         android:fontFamily="@font/poppins_semibold"
         android:layout_marginTop="20dp"
         android:textAlignment="center"
-        android:textColor="@color/lavender"
+        android:textColor="@color/white"
         android:textSize="20sp"/>
 
 </LinearLayout>

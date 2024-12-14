@@ -21,7 +21,7 @@
         android:fontFamily="@font/poppins_semibold"
         android:text="Explore YouTube"
         android:textAlignment="center"
-        android:textColor="@color/lavender"
+        android:textColor="@color/white"
         android:textSize="30sp"
         android:textStyle="bold" />
 
@@ -33,19 +33,19 @@
         android:fontFamily="@font/poppins_semibold"
         android:layout_marginTop="20dp"
         android:textAlignment="center"
-        android:textColor="@color/lavender"
+        android:textColor="@color/white"
         android:textSize="20sp"/>
 
     <Button
         android:id="@+id/startButton"
         android:layout_width="180dp"
         android:layout_height="60dp"
-        android:text="Get Started"
-        android:padding="8dp"
-        android:fontFamily="@font/poppins_semibold"
-        android:textSize="20sp"
-        android:layout_marginTop="20dp"
         android:layout_gravity="center"
-        app:cornerRadius = "12dp"/>
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/poppins_semibold"
+        android:padding="8dp"
+        android:text="Get Started"
+        android:textSize="20sp"
+        app:cornerRadius="12dp" />
 
 </LinearLayout>
