@@ -13,7 +13,7 @@
         android:layout_height="300dp"
         android:layout_marginTop="10dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/upload"/>
+        android:src="@drawable/latiansoal"/>
 
     <TextView
         android:id="@+id/sliderTitle"

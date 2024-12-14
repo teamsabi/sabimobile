@@ -19,7 +19,7 @@ public class ViewPagerAdapter extends PagerAdapter {
     int sliderAllImages[] = {
             R.drawable.latiansoal,
             R.drawable.matapelajaran,
-            R.drawable.live,
+            R.drawable.penilaian,
     };
 
     int sliderAllTitle[] = {

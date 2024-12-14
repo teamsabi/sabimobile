@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.ngikngik.R;
 import com.example.ngikngik.edit_profil.item_class;
 
+import org.w3c.dom.Text;
+
 import java.util.List;
 
 public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ClassViewHolder> {
@@ -44,10 +46,13 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ClassViewHol
 
     public class ClassViewHolder extends RecyclerView.ViewHolder {
         private TextView classNameTextView;
+        private TextView txtkelas;
 
         public ClassViewHolder(View itemView) {
             super(itemView);
+            txtkelas = itemView.findViewById(R.id.txtkelasygy);
             classNameTextView = itemView.findViewById(R.id.getclass);
+
         }
     }
 

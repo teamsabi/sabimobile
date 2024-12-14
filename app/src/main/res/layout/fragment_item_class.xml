@@ -4,20 +4,28 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="16dp"
     android:background="@android:color/white"
-    android:elevation="2dp"
     android:layout_marginBottom="8dp">
 
     <!-- TextView untuk nama kelas -->
     <TextView
-        android:id="@+id/getclass"
-        android:layout_width="match_parent"
+        android:id="@+id/txtkelasygy"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Kelas"
         android:textSize="16sp"
-        android:textColor="@android:color/black"
+        android:padding="1dp"
+
         android:gravity="center_vertical"
-        android:padding="8dp" />
+        android:text="Kelas:" />
+
+    <TextView
+        android:id="@+id/getclass"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:padding="8dp"
+        android:text="Kelas"
+        android:textColor="@android:color/black"
+        android:textSize="16sp" />
 
 </LinearLayout>
