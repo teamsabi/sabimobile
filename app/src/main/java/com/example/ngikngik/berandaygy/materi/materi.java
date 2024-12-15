@@ -3,6 +3,9 @@ package com.example.ngikngik.berandaygy.materi;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +26,8 @@ import com.example.ngikngik.Adapter.MapelMateriAdapter;
 import com.example.ngikngik.R;
 import com.example.ngikngik.Raport.item_mapel;
 import com.example.ngikngik.api.DbContract;
+import com.example.ngikngik.databinding.ActivityDashboardBinding;
+import com.example.ngikngik.databinding.ActivityMateriBinding;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,19 +44,24 @@ public class materi extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     private List<item_mapelmateri> mapelmateriList; // Daftar data jadwal atau materi
     private MapelMateriAdapter materimapelAdapter; // Adapter untuk RecyclerView
-
+    private ActivityDashboardBinding binding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_materi);
-
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        binding = ActivityDashboardBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+        setContentView(R.layout.activity_materi);
         // Mengatur padding sistem bar
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
 
         // Inisialisasi SharedPreferences
         sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
