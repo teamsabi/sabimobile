@@ -81,6 +81,12 @@ public class profile_akun extends Fragment {
             }
         });
 
+        Button btnCancel = dialog.findViewById(R.id.btndialogcancel);
+        btnCancel.setOnClickListener(v -> dialog.dismiss());
+
+        txtlogout = view.findViewById(R.id.txtLogout);
+        txtlogout.setOnClickListener(v -> dialog.show());
+
         txtlogout = view.findViewById(R.id.txtLogout);
         txtlogout.setOnClickListener(new View.OnClickListener() {
             @Override

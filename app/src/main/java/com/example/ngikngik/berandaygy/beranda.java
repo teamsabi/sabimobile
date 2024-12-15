@@ -67,9 +67,9 @@ public class beranda extends Fragment {
         sharedPreferences = requireContext().getSharedPreferences("MyPrefs", MODE_PRIVATE);
 
         // Load data kelas dan email dari SharedPreferences
-        String kelas = sharedPreferences.getString("kelas", "kelas tidak ditemukan"); // Ambil data kelas dari SharedPreferences
+        String kelas = sharedPreferences.getString("kelas", "kelas tidak ditemukan");
         String email = sharedPreferences.getString("email", "Email tidak ditemukan");
-        String nama = sharedPreferences.getString("nama", ""); // Dapatkan nama, jika kosong berarti pengguna baru
+        String nama = sharedPreferences.getString("nama", "");
 
         // Cek jika nama kosong, artinya pengguna baru
         if (nama.isEmpty()) {
@@ -79,7 +79,7 @@ public class beranda extends Fragment {
             tvNamaBeranda.setText("Halo, " + nama + "!"); // Pesan untuk pengguna yang sudah memiliki nama
         }
 
-        loadJadwal(kelas); // Memuat jadwal
+        loadJadwal(kelas);
 
         return view;
     }
@@ -100,7 +100,6 @@ public class beranda extends Fragment {
                             jadwalList.add(new item_Jadwal(hari, matkul));
                         }
 
-                        // Set data ke RecyclerView
                         adapter = new JadwalAdapter(jadwalList);
                         recyclerView.setAdapter(adapter);
                     } catch (JSONException e) {
@@ -114,7 +113,7 @@ public class beranda extends Fragment {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                params.put("kelas", kelas); // Kirim kelas user
+                params.put("kelas", kelas);
                 return params;
             }
         };
@@ -133,7 +132,7 @@ public class beranda extends Fragment {
                             String nama = jsonResponse.getString("nama");
 
                             // Tampilkan nama ke UI
-                            tvNamaBeranda.setText("Halo, " + nama + "!");
+                            tvNamaBeranda.setText("Halo " + nama + "!");
 
                             // Simpan nama ke SharedPreferences untuk cache lokal
                             SharedPreferences.Editor editor = sharedPreferences.edit();

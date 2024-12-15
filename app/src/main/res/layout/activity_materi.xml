@@ -17,7 +17,14 @@
         android:orientation="vertical"
         tools:layout_editor_absoluteX="1dp"
         tools:layout_editor_absoluteY="1dp">
-
+        <TextView
+            android:id="@+id/tvNamaMateri"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="8dp"
+            android:text="Selamat datang, User"
+            android:textSize="18sp"
+            android:textStyle="bold" />
     </LinearLayout>
 
     <LinearLayout
@@ -29,7 +36,8 @@
         tools:layout_editor_absoluteY="114dp" >
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:id="@+id/btnBackMateri"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
