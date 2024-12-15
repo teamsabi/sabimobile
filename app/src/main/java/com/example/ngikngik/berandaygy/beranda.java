@@ -2,6 +2,7 @@ package com.example.ngikngik.berandaygy;
 
 import static android.content.Context.MODE_PRIVATE;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +29,8 @@ import com.example.ngikngik.Adapter.JadwalAdapter;
 import com.example.ngikngik.Adapter.NameAdapter;
 import com.example.ngikngik.api.DbContract;
 import com.example.ngikngik.R;
+import com.example.ngikngik.berandaygy.materi.materi;
+import com.example.ngikngik.edit_profil.simpan;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -44,6 +48,7 @@ public class beranda extends Fragment {
     private NameAdapter nameAdapter;
     private ClassAdapter classAdapter;
     private SharedPreferences sharedPreferences;
+    private ImageView imageView;
 
     @Nullable
     @Override
@@ -63,6 +68,15 @@ public class beranda extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         TextView tvNamaBeranda = view.findViewById(R.id.tvNamaBeranda);
 
+
+        ImageView viewMateri = view.findViewById(R.id.ImgMateri);
+        viewMateri.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), materi.class);
+                startActivity(intent);
+            }
+        });
         // Inisialisasi sharedPreferences
         sharedPreferences = requireContext().getSharedPreferences("MyPrefs", MODE_PRIVATE);
 

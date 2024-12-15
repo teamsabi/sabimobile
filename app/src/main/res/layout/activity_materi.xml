@@ -9,6 +9,13 @@
     tools:context=".profil.profile_akun">
 
     <!-- Header Title -->
+    <LinearLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <!-- Isi layout lainnya di sini -->
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
