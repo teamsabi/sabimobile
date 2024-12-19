@@ -58,6 +58,19 @@ public class register extends AppCompatActivity {
         progressDialog.setMessage("Memproses...");
         progressDialog.setCancelable(false);
 
+        // Listener untuk checkbox agar hanya satu kelas bisa dipilih
+        checkBoxKelas11.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                checkBoxKelas12.setChecked(false);
+            }
+        });
+
+        checkBoxKelas12.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                checkBoxKelas11.setChecked(false);
+            }
+        });
+
         // Aksi tombol masuk
         txtMasuk.setOnClickListener(view -> {
             Intent intent = new Intent(register.this, login.class);
@@ -91,17 +104,6 @@ public class register extends AppCompatActivity {
                 return;
             }
 
-            checkBoxKelas11.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                if (isChecked) {
-                    checkBoxKelas12.setChecked(false);
-                }
-            });
-
-            checkBoxKelas12.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                if (isChecked) {
-                    checkBoxKelas11.setChecked(false);
-                }
-            });
             // Ambil data dari checkbox
             String jenjang = checkBoxJenjang.isChecked() ? "SMA" : "";
             String kelas = checkBoxKelas11.isChecked() ? "11" : checkBoxKelas12.isChecked() ? "12" : "";

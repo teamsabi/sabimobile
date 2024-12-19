@@ -26,7 +26,6 @@ public class dashboard extends AppCompatActivity {
         binding = ActivityDashboardBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-
         // Langsung tampilkan fragment beranda saat pertama kali memasuki dashboard
         if (savedInstanceState == null) {
             replaceFragment(new beranda()); // Menampilkan beranda pertama kali
@@ -35,7 +34,6 @@ public class dashboard extends AppCompatActivity {
         // Pilih item 'beranda' secara otomatis saat pertama kali aplikasi dijalankan
         binding.bottomNavigation.setSelectedItemId(R.id.beranda);
 
-        // Set background to null and handle navigation item clicks
         binding.bottomNavigation.setBackground(null);
         binding.bottomNavigation.setOnItemSelectedListener(item -> {
             if (item.getItemId() == R.id.beranda) {
