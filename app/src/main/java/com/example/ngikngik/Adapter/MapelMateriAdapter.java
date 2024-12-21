@@ -59,4 +59,3 @@ public class MapelMateriAdapter extends RecyclerView.Adapter<MapelMateriAdapter.
         }
     }
 }
-

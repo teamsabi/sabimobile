@@ -88,17 +88,15 @@
         android:id="@+id/btn_login2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="176dp"
-        android:layout_marginEnd="32dp"
+        android:layout_marginTop="96dp"
         android:backgroundTint="#229799"
         android:text="Masuk"
         android:textSize="16sp"
         android:textStyle="bold"
         app:cornerRadius="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/etPasswordLogin"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/etPasswordLogin"
         app:layout_constraintTop_toBottomOf="@+id/etPasswordLogin" />
 
     <ImageView
@@ -133,11 +131,11 @@
         android:ems="10"
         android:inputType="text"
         android:text="@string/loginhere"
-        android:textAlignment="textEnd"
 
+        android:textAlignment="textEnd"
         android:textColor="#0080FF"
         android:textSize="3mm"
-        app:layout_constraintStart_toStartOf="@+id/txtLogin"
+        app:layout_constraintStart_toStartOf="@+id/txt_belumpunyakun"
         app:layout_constraintTop_toBottomOf="@+id/txtLogin" />
 
     <TextView

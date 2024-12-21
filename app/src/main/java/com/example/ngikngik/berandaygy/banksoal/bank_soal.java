@@ -97,7 +97,7 @@ public class bank_soal extends AppCompatActivity {
                         }
 
                         // Pasang data ke RecyclerView melalui adapter
-                        materimapelAdapter = new MapelMateriAdapter(mapelmateriList); // Gunakan mapelmateriList
+//                        materimapelAdapter = new MapelMateriAdapter(mapelmateriList); // Gunakan mapelmateriList
                         rvMateri.setAdapter(materimapelAdapter);
 
                     } catch (JSONException e) {

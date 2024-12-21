@@ -50,235 +50,227 @@
         app:layout_constraintTop_toBottomOf="@+id/imageView24"
         app:srcCompat="@drawable/sabichamps" />
 
-    <ScrollView
-        android:id="@+id/scrollView2"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@+id/imageView26"
-        android:layout_marginTop="10dp">
+        tools:layout_editor_absoluteX="0dp">
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:fontFamily="sans-serif-condensed-medium"
+            android:text="Registrasi"
+            android:textColor="#090908"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textView15"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="8dp"
+            android:text="Sudah Punya Akun?"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txt_masuk"
+            android:layout_width="74dp"
+            android:layout_height="19dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="8dp"
+            android:text="Masuk"
+            android:textColor="#0080FF"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/textView18"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="32dp"
+            android:text="Email"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/etEmailRegister"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:background="@drawable/edit_text_background"
+            android:ems="10"
+            android:hint="Masukkan email"
+            android:inputType="textEmailAddress"
+            android:paddingStart="8dp" />
+
+        <TextView
+            android:id="@+id/textView19"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="32dp"
+            android:text="Kata Sandi"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/tvTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:fontFamily="sans-serif-condensed-medium"
-                android:text="Registrasi"
-                android:textColor="#090908"
-                android:textSize="24sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/textView15"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="8dp"
-                android:text="Sudah Punya Akun?"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/txt_masuk"
-                android:layout_width="74dp"
-                android:layout_height="19dp"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="8dp"
-                android:text="Masuk"
-                android:textColor="#0080FF"
-                android:textSize="14sp" />
-
-            <TextView
-                android:id="@+id/textView18"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="12dp"
-                android:layout_marginEnd="32dp"
-                android:text="Email"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:layout_height="wrap_content">
 
-            <EditText
-                android:id="@+id/etEmailRegister"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:layout_marginStart="32dp"
-                android:layout_marginEnd="32dp"
-                android:ems="10"
-                android:hint="Masukkan email"
-                android:inputType="textEmailAddress"
-                android:background="@drawable/edit_text_background"
-                android:paddingStart="8dp" />
-
-            <TextView
-                android:id="@+id/textView19"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="32dp"
-                android:text="Kata Sandi"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginEnd="32dp"
-                android:orientation="horizontal">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <EditText
+                    android:id="@+id/etPasswordRegister"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="45dp"
 
-                    <EditText
-                        android:id="@+id/etPasswordRegister"
-                        android:layout_width="match_parent"
-                        android:layout_height="45dp"
+                    android:background="@drawable/edit_text_background"
+                    android:hint="Masukkan Kata Sandi"
+                    android:inputType="textPassword"
+                    android:paddingStart="8dp"
+                    tools:layout_editor_absoluteX="0dp"
+                    tools:layout_editor_absoluteY="0dp" />
 
-                        android:background="@drawable/edit_text_background"
-                        android:hint="Masukkan Kata Sandi"
-                        android:inputType="textPassword"
-                        android:paddingStart="8dp"
-                        tools:layout_editor_absoluteX="0dp"
-                        tools:layout_editor_absoluteY="0dp" />
+                <ImageView
+                    android:id="@+id/imageView_show_hide_pw"
+                    android:layout_width="29dp"
+                    android:layout_height="32dp"
 
-                    <ImageView
-                        android:id="@+id/imageView_show_hide_pw"
-                        android:layout_width="29dp"
-                        android:layout_height="32dp"
+                    android:layout_marginEnd="10dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
 
-                        android:layout_marginEnd="10dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </LinearLayout>
+        <TextView
+            android:id="@+id/textView20"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="32dp"
+            android:text="Konfirmasi Kata Sandi"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/textView20"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:orientation="horizontal">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="32dp"
-                android:text="Konfirmasi Kata Sandi"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:layout_height="match_parent">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="32dp"
-                android:layout_marginEnd="32dp"
-                android:orientation="horizontal">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <EditText
+                    android:id="@+id/etVerificationPassword"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="45dp"
+                    android:background="@drawable/edit_text_background"
+                    android:hint="Masukkan Kata Sandi"
+                    android:inputType="textPassword"
+                    android:paddingStart="8dp"
+                    tools:layout_editor_absoluteX="0dp"
+                    tools:layout_editor_absoluteY="0dp" />
 
-                    <EditText
-                        android:id="@+id/etVerificationPassword"
-                        android:layout_width="match_parent"
-                        android:layout_height="45dp"
-                        android:background="@drawable/edit_text_background"
-                        android:hint="Masukkan Kata Sandi"
-                        android:inputType="textPassword"
-                        android:paddingStart="8dp"
-                        tools:layout_editor_absoluteX="0dp"
-                        tools:layout_editor_absoluteY="0dp" />
-
-                    <ImageView
-                        android:id="@+id/showhideverif"
-                        android:layout_width="29dp"
-                        android:layout_height="32dp"
-                        android:layout_gravity="right"
-                        android:layout_marginEnd="10dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/textView28"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginEnd="32dp"
-                android:text="Kata Sandi harus berisi 6 karakter yang terdiri dari huruf dan angka!" />
-
-            <TextView
-                android:id="@+id/textView24"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="20dp"
-                android:text="Jenjang *"
-                android:textStyle="bold" />
-
-            <CheckBox
-                android:id="@+id/jenjangcheck2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:text="SMA" />
-
-            <TextView
-                android:id="@+id/textView27"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:text="Kelas *"
-
-                android:textStyle="bold"
-
-                />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="32dp"
-                android:layout_marginEnd="32dp"
-                android:orientation="horizontal">
-
-                <CheckBox
-                    android:id="@+id/kelas"
-                    android:layout_width="63dp"
-                    android:layout_height="match_parent"
-                    android:text="11" />
-
-                <CheckBox
-                    android:id="@+id/kelas2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="32dp"
-                    android:text="12" />
-            </LinearLayout>
+                <ImageView
+                    android:id="@+id/showhideverif"
+                    android:layout_width="29dp"
+                    android:layout_height="32dp"
+                    android:layout_gravity="right"
+                    android:layout_marginEnd="10dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>
-    </ScrollView>
 
-    <Button
-        android:id="@+id/btnRegister"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_marginTop="12dp"
-        android:backgroundTint="@color/purple_500"
-        android:text="Daftar"
-        android:layout_marginEnd="32dp"
-        android:layout_marginStart="32dp"
-        android:textColor="@android:color/white"
-        app:cornerRadius="10dp"
-        app:layout_constraintTop_toBottomOf="@+id/scrollView2"
-        tools:layout_editor_absoluteX="16dp" />
+        <TextView
+            android:id="@+id/textView28"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:text="Kata Sandi harus berisi 6 karakter yang terdiri dari huruf dan angka!" />
+
+        <TextView
+            android:id="@+id/textView24"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="20dp"
+            android:text="Jenjang *"
+            android:textStyle="bold" />
+
+        <CheckBox
+            android:id="@+id/jenjangcheck2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:text="SMA" />
+
+        <TextView
+            android:id="@+id/textView27"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:text="Kelas *"
+
+            android:textStyle="bold"
+
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:id="@+id/kelas"
+                android:layout_width="63dp"
+                android:layout_height="match_parent"
+                android:text="11" />
+
+            <CheckBox
+                android:id="@+id/kelas2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:text="12" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnRegister"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="32dp"
+            android:backgroundTint="@color/purple_500"
+            android:text="Daftar"
+            android:textColor="@android:color/white"
+            app:cornerRadius="10dp" />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

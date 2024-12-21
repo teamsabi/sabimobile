@@ -1,11 +1,14 @@
 package com.example.ngikngik.berandaygy.materi;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +26,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.ngikngik.Adapter.MapelAdapter;
 import com.example.ngikngik.Adapter.MapelMateriAdapter;
+import com.example.ngikngik.Dashboard.dashboard;
 import com.example.ngikngik.R;
 import com.example.ngikngik.Raport.item_mapel;
 import com.example.ngikngik.api.DbContract;
@@ -39,12 +43,13 @@ import java.util.List;
 import java.util.Map;
 
 public class materi extends AppCompatActivity {
-    private TextView tvNamaMateri; // TextView untuk menampilkan nama
+    private TextView tvNamaMateri, txt_materi; // TextView untuk menampilkan nama
     private RecyclerView rvMateri; // RecyclerView untuk menampilkan daftar jadwal atau materi
     private SharedPreferences sharedPreferences;
     private List<item_mapelmateri> mapelmateriList; // Daftar data jadwal atau materi
     private MapelMateriAdapter materimapelAdapter; // Adapter untuk RecyclerView
     private ActivityDashboardBinding binding;
+    private ImageView imgback;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,7 +67,23 @@ public class materi extends AppCompatActivity {
             return insets;
         });
 
+        imgback = findViewById(R.id.img_materi);
+        imgback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(materi.this, dashboard.class);
+                startActivity(intent);
+            }
+        });
 
+        txt_materi = findViewById(R.id.txt_materi);
+        txt_materi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(materi.this, dashboard.class);
+                startActivity(intent);
+            }
+        });
         // Inisialisasi SharedPreferences
         sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         String nama = sharedPreferences.getString("nama", "Nama tidak ditemukan");
@@ -118,4 +139,3 @@ public class materi extends AppCompatActivity {
         queue.add(request);
     }
 }
-
