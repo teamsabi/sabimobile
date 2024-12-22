@@ -1,6 +1,7 @@
 package com.example.ngikngik.Raport;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,6 +25,7 @@ import com.example.ngikngik.Adapter.MapelAdapter;
 import com.example.ngikngik.Adapter.NameAdapter;
 import com.example.ngikngik.R;
 import com.example.ngikngik.api.DbContract;
+import com.example.ngikngik.berandaygy.materi.materi;
 import com.example.ngikngik.edit_profil.item_class;
 import com.example.ngikngik.profil.item_name;
 
@@ -99,9 +101,17 @@ public class raport extends Fragment {
                             mapelList.add(new item_mapel(matkul));
                         }
 
-                        // Set data ke RecyclerView hanya setelah data berhasil dimuat
-                        mapelAdapter = new MapelAdapter(mapelList);
-                        rvMapelRaport.setAdapter(mapelAdapter); // Pasang adapter setelah data berhasil dimuat
+                        mapelAdapter = new MapelAdapter(mapelList, mapel -> {
+                            // Ambil mata pelajaran yang dipilih
+                            String selectedMapel = mapel.getMataPelajaran();
+
+                            // Pindah ke tampilan materi
+                            Intent intent = new Intent(getContext(), materi.class);
+                            intent.putExtra("MATA_PELAJARAN", selectedMapel); // Kirim data mapel ke aktivitas tujuan
+                            startActivity(intent);
+                        });
+                        rvMapelRaport.setAdapter(mapelAdapter);
+                        // Pasang adapter setelah data berhasil dimuat
 
                     } catch (JSONException e) {
                         e.printStackTrace();

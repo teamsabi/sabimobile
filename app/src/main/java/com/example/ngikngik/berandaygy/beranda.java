@@ -30,7 +30,6 @@ import com.example.ngikngik.Adapter.NameAdapter;
 import com.example.ngikngik.api.DbContract;
 import com.example.ngikngik.R;
 import com.example.ngikngik.berandaygy.materi.materi;
-import com.example.ngikngik.edit_profil.simpan;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -48,7 +47,7 @@ public class beranda extends Fragment {
     private NameAdapter nameAdapter;
     private ClassAdapter classAdapter;
     private SharedPreferences sharedPreferences;
-    private ImageView imageView;
+    private ImageView imageView, ImgBanksoal;
 
     @Nullable
     @Override
@@ -67,7 +66,6 @@ public class beranda extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         TextView tvNamaBeranda = view.findViewById(R.id.tvNamaBeranda);
-
 
         ImageView viewMateri = view.findViewById(R.id.ImgMateri);
         viewMateri.setOnClickListener(new View.OnClickListener() {

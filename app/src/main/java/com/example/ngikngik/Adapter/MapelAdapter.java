@@ -1,50 +1,57 @@
-    package com.example.ngikngik.Adapter;
+package com.example.ngikngik.Adapter;
 
-    import android.view.LayoutInflater;
-    import android.view.View;
-    import android.view.ViewGroup;
-    import android.widget.TextView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
-    import androidx.annotation.NonNull;
-    import androidx.recyclerview.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
-    import com.example.ngikngik.R;
-    import com.example.ngikngik.Raport.item_mapel;
+import com.example.ngikngik.R;
+import com.example.ngikngik.Raport.item_mapel;
 
-    import java.util.List;
+import java.util.List;
 
-    public class MapelAdapter extends RecyclerView.Adapter<MapelAdapter.ViewHolder> {
+public class MapelAdapter extends RecyclerView.Adapter<MapelAdapter.ViewHolder> {
 
-        private List<item_mapel> mapelList;
+    private final List<item_mapel> mapelList;
+    private final OnItemClickListener listener;
 
-        public MapelAdapter(List<item_mapel> mapelList) {
-            this.mapelList = mapelList;
-        }
+    public interface OnItemClickListener {
+        void onItemClick(item_mapel mapel);
+    }
 
-        @NonNull
-        @Override
-        public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_mapel, parent, false);
-            return new ViewHolder(view);
-        }
+    public MapelAdapter(List<item_mapel> mapelList, OnItemClickListener listener) {
+        this.mapelList = mapelList;
+        this.listener = listener;
+    }
 
-        @Override
-        public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-            item_mapel mapel = mapelList.get(position);
-            holder.tvMapel.setText(mapel.getMataPelajaran());
-        }
+    @NonNull
+    @Override
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_mapel, parent, false);
+        return new ViewHolder(view);
+    }
 
-        @Override
-        public int getItemCount() {
-            return mapelList.size();
-        }
+    @Override
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        item_mapel mapel = mapelList.get(position);
+        holder.tvMapel.setText(mapel.getMataPelajaran());
+        holder.itemView.setOnClickListener(v -> listener.onItemClick(mapel));
+    }
 
-        public static class ViewHolder extends RecyclerView.ViewHolder {
-            TextView tvMapel;
+    @Override
+    public int getItemCount() {
+        return mapelList.size();
+    }
 
-            public ViewHolder(@NonNull View itemView) {
-                super(itemView);
-                tvMapel = itemView.findViewById(R.id.tvMapel);
-            }
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        TextView tvMapel;
+
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+            tvMapel = itemView.findViewById(R.id.tvMapel);
         }
     }
+}

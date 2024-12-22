@@ -18,15 +18,21 @@ import java.util.List;
 public class MapelMateriAdapter extends RecyclerView.Adapter<MapelMateriAdapter.ViewHolder> {
 
     private List<item_mapelmateri> mapelmateriList;
+    private final OnItemClickListener listener;
 
-    public MapelMateriAdapter(List<item_mapelmateri> mapelmateriList) {
+    public interface OnItemClickListener {
+        void onItemClick(item_mapelmateri mapelmateri);
+    }
+
+    // Tambahkan parameter listener
+    public MapelMateriAdapter(List<item_mapelmateri> mapelmateriList, OnItemClickListener listener) {
         this.mapelmateriList = mapelmateriList;
+        this.listener = listener;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        // Menyiapkan layout item_mapel untuk setiap item
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_mapelmateri, parent, false);
         return new ViewHolder(view);
     }
@@ -34,12 +40,11 @@ public class MapelMateriAdapter extends RecyclerView.Adapter<MapelMateriAdapter.
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         item_mapelmateri mapel = mapelmateriList.get(position);
-
-        // Set mata pelajaran pada TextView
         holder.tvMapelMateri.setText(mapel.getMataPelajaran());
+        holder.imageView28.setImageResource(R.drawable.baseline_arrow_forward_ios_24);
 
-        // Set icon panah pada ImageView (misalnya)
-        holder.imageView28.setImageResource(R.drawable.baseline_arrow_forward_ios_24); // Gambar panah
+        // Set click listener
+        holder.itemView.setOnClickListener(v -> listener.onItemClick(mapel));
     }
 
     @Override
@@ -47,7 +52,6 @@ public class MapelMateriAdapter extends RecyclerView.Adapter<MapelMateriAdapter.
         return mapelmateriList.size();
     }
 
-    // ViewHolder untuk item_mapel
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvMapelMateri;
         ImageView imageView28;
