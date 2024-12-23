@@ -12,7 +12,6 @@ public class item_Jadwal {
     public String getHari() {
         return hari;
     }
-    
 
     public String getMataPelajaran() {
         return mataPelajaran;
