@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:id="@+id/main"
     android:background="#333333"
-    tools:context=".berandaygy.materi.materi">
+    tools:context=".berandaygy.materi.fisika.fisika">
 
     <!-- Header Title -->
 
@@ -45,7 +45,7 @@
         app:layout_constraintTop_toTopOf="@+id/linearLayout2">
 
         <LinearLayout
-            android:id="@+id/btnBackMTK"
+            android:id="@+id/btnBackFisika"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -95,7 +95,7 @@
 
                     <LinearLayout
                         android:id="@+id/linearLayout4"
-                        android:layout_width="368dp"
+                        android:layout_width="0dp"
                         android:layout_height="50dp"
                         android:layout_marginTop="20dp"
                         android:background="@drawable/background_raport"
@@ -105,7 +105,7 @@
                         app:layout_constraintTop_toBottomOf="@+id/textView23">
 
                         <TextView
-                            android:id="@+id/textView30"
+                            android:id="@+id/txt_fisikadasar"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="10dp"
@@ -114,10 +114,10 @@
 
                             android:fontFamily="@font/poppins_semibold"
 
-                            android:text="Aljabar" />
+                            android:text="Fisika Dasar" />
 
                         <ImageView
-                            android:id="@+id/imageView29"
+                            android:id="@+id/downloadfisikadasar"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_marginEnd="5dp"
@@ -128,59 +128,62 @@
 
                     <LinearLayout
                         android:id="@+id/linearLayout6"
-                        android:layout_width="368dp"
-                        android:layout_height="50dp"
+                        android:layout_width="0dp"
+                        android:layout_height="46dp"
                         android:layout_marginTop="16dp"
                         android:layout_weight="1"
                         android:background="@drawable/background_raport"
                         android:orientation="horizontal"
-                        app:layout_constraintTop_toBottomOf="@+id/linearLayout4"
-                        tools:layout_editor_absoluteX="1dp">
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/linearLayout4">
 
                         <TextView
-                            android:id="@+id/textView29"
+                            android:id="@+id/txt_atom"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
                             android:layout_marginStart="10dp"
+                            android:layout_marginTop="5dp"
 
-                            android:fontFamily="@font/poppins_semibold"
                             android:layout_weight="1"
-                            android:text="Algoritma" />
+                            android:fontFamily="@font/poppins_semibold"
+                            android:text="Atom" />
 
                         <ImageView
-                            android:id="@+id/imageView34"
+                            android:id="@+id/downloadatom"
                             android:layout_width="wrap_content"
-                            android:layout_height="match_parent"                            android:layout_marginEnd="5dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="5dp"
 
-                            app:srcCompat="@drawable/baseline_download_24"/>
+                            app:srcCompat="@drawable/baseline_download_24" />
 
 
                     </LinearLayout>
 
                     <LinearLayout
-                        android:layout_width="368dp"
+                        android:layout_width="0dp"
                         android:layout_height="50dp"
                         android:layout_marginTop="16dp"
                         android:layout_weight="1"
                         android:background="@drawable/background_raport"
                         android:orientation="horizontal"
-                        app:layout_constraintTop_toBottomOf="@+id/linearLayout6"
-                        tools:layout_editor_absoluteX="0dp">
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/linearLayout6">
 
                         <TextView
-                            android:id="@+id/textView32"
+                            android:id="@+id/txt_sifatunsur"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="10dp"
                             android:layout_marginTop="5dp"
 
-                            android:fontFamily="@font/poppins_semibold"
                             android:layout_weight="1"
-                            android:text="Penjumlahan" />
+                            android:fontFamily="@font/poppins_semibold"
+                            android:text="Sifat Periodik Unsur" />
 
                         <ImageView
-                            android:id="@+id/imageView31"
+                            android:id="@+id/downloadsifatunsur"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_marginEnd="5dp"

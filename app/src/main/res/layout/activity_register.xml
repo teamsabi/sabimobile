@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
-    tools:context=".register"
+    tools:context=".register.register"
     tools:layout_editor_absoluteX="0dp"
     tools:layout_editor_absoluteY="-25dp">
 
@@ -56,6 +56,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView26"
         tools:layout_editor_absoluteX="0dp">
 
         <TextView
@@ -204,60 +205,28 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/textView28"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginEnd="32dp"
-            android:text="Kata Sandi harus berisi 6 karakter yang terdiri dari huruf dan angka!" />
-
-        <TextView
-            android:id="@+id/textView24"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="20dp"
-            android:text="Jenjang *"
-            android:textStyle="bold" />
-
-        <CheckBox
-            android:id="@+id/jenjangcheck2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:text="SMA" />
-
-        <TextView
             android:id="@+id/textView27"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
+            android:layout_marginTop="20dp"
             android:text="Kelas *"
+            android:textStyle="bold" />
 
-            android:textStyle="bold"
-
-            />
+        <Spinner
+            android:id="@+id/spinnerKelas"
+            android:layout_width="match_parent"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="32dp"
+            android:layout_height="wrap_content" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="32dp"
             android:layout_marginEnd="32dp"
-            android:orientation="horizontal">
-
-            <CheckBox
-                android:id="@+id/kelas"
-                android:layout_width="63dp"
-                android:layout_height="match_parent"
-                android:text="11" />
-
-            <CheckBox
-                android:id="@+id/kelas2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:text="12" />
-        </LinearLayout>
+            android:orientation="horizontal"/>
 
         <Button
             android:id="@+id/btnRegister"
@@ -265,7 +234,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="30dp"
             android:layout_marginEnd="32dp"
             android:backgroundTint="@color/purple_500"
             android:text="Daftar"

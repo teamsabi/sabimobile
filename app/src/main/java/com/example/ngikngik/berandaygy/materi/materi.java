@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -22,6 +23,8 @@ import com.example.ngikngik.Dashboard.dashboard;
 import com.example.ngikngik.R;
 
 import com.example.ngikngik.berandaygy.materi.Matematika.judul_Matematika;
+import com.example.ngikngik.berandaygy.materi.fisika.fisika;
+import com.example.ngikngik.berandaygy.materi.kimia.kimia;
 import com.example.ngikngik.databinding.ActivityDashboardBinding;
 
 import java.util.List;
@@ -45,6 +48,11 @@ public class materi extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
+        linearMatematika = findViewById(R.id.linearLayoutMatematika);
+        linearkimia = findViewById(R.id.linearLayoutkimia);
+        linearfisika = findViewById(R.id.linearLayoutfisika);
+
+
         // Setel padding hanya untuk system bars satu kali
         View mainView = findViewById(R.id.main);
         if (mainView != null) {
@@ -55,15 +63,6 @@ public class materi extends AppCompatActivity {
             });
         }
 
-        linearMatematika = findViewById(R.id.linearLayoutMatematika);
-        linearMatematika.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent (materi.this, judul_Matematika.class);
-                startActivity(intent);
-            }
-        });
-        linearMatematika = findViewById(R.id.linearLayoutKimia);
         linearMatematika.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,12 +71,21 @@ public class materi extends AppCompatActivity {
             }
         });
 
-        linearMatematika = findViewById(R.id.linearLayoutFisika);
-        linearMatematika.setOnClickListener(new View.OnClickListener() {
+        linearkimia.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent (materi.this, judul_Matematika.class);
+                Intent intent = new Intent(materi.this, kimia.class);
                 startActivity(intent);
+                Log.d("materi", "Klik kimia");
+            }
+        });
+
+        linearfisika.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(materi.this, fisika.class);
+                startActivity(intent);
+                Log.d("materi", "Klik fisika");
             }
         });
 

@@ -23,6 +23,12 @@
             android:name=".berandaygy.materi.kimia.kimia"
             android:exported="false" />
         <activity
+            android:name=".berandaygy.materi.fisika.fisika"
+            android:exported="false" />
+        <activity
+            android:name=".berandaygy.materi.kimia.kimia"
+            android:exported="false" />
+        <activity
             android:name=".berandaygy.materi.Matematika.judul_Matematika"
             android:exported="false" />
         <activity
@@ -51,7 +57,7 @@
             android:name=".login"
             android:exported="false" />
         <activity
-            android:name=".register"
+            android:name=".register.register"
             android:exported="false" />
         <activity
             android:name=".Dashboard.dashboard"

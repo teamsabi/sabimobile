@@ -95,7 +95,7 @@
 
                     <LinearLayout
                         android:id="@+id/linearLayoutMatematika"
-                        android:layout_width="368dp"
+                        android:layout_width="0dp"
                         android:layout_height="50dp"
                         android:layout_marginTop="20dp"
                         android:background="@drawable/background_raport"
@@ -126,15 +126,16 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/linearLayoutKimia"
-                        android:layout_width="368dp"
+                        android:id="@+id/linearLayoutkimia"
+                        android:layout_width="0dp"
                         android:layout_height="50dp"
                         android:layout_marginTop="16dp"
                         android:layout_weight="1"
                         android:background="@drawable/background_raport"
                         android:orientation="horizontal"
-                        app:layout_constraintTop_toBottomOf="@+id/linearLayoutMatematika"
-                        tools:layout_editor_absoluteX="1dp">
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/linearLayoutMatematika">
 
                         <TextView
                             android:id="@+id/textView29"
@@ -143,8 +144,8 @@
                             android:layout_marginStart="10dp"
                             android:layout_marginTop="5dp"
 
-                            android:fontFamily="@font/poppins_semibold"
                             android:layout_weight="1"
+                            android:fontFamily="@font/poppins_semibold"
                             android:text="Kimia" />
 
                         <ImageView
@@ -157,15 +158,16 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/linearLayoutFisika"
-                        android:layout_width="368dp"
+                        android:id="@+id/linearLayoutfisika"
+                        android:layout_width="0dp"
                         android:layout_height="50dp"
                         android:layout_marginTop="16dp"
                         android:layout_weight="1"
                         android:background="@drawable/background_raport"
                         android:orientation="horizontal"
-                        app:layout_constraintTop_toBottomOf="@+id/linearLayoutKimia"
-                        tools:layout_editor_absoluteX="0dp">
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/linearLayoutkimia">
 
                         <TextView
                             android:id="@+id/textView32"
@@ -174,8 +176,8 @@
                             android:layout_marginStart="10dp"
                             android:layout_marginTop="5dp"
 
-                            android:fontFamily="@font/poppins_semibold"
                             android:layout_weight="1"
+                            android:fontFamily="@font/poppins_semibold"
                             android:text="Fisika" />
 
                         <ImageView
