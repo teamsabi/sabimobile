@@ -1,19 +1,13 @@
 package com.example.ngikngik.register;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.View;
 import android.view.WindowManager;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -21,8 +15,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.toolbox.StringRequest;
 import com.example.ngikngik.R;
@@ -42,160 +34,151 @@ import java.util.Map;
 public class register extends AppCompatActivity {
 
     private EditText etEmail, etPassRegister, etVerificationPassword;
-    private ProgressDialog progressDialog;
     private Spinner spinnerKelas;
+    private ProgressDialog progressDialog;
+    private Map<String, String> kelasMap; // Untuk menyimpan nama_kelas -> kode_kelas
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // Hide the status bar
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_register);
 
-        // Initialize views
+        // Initialize Views
         etEmail = findViewById(R.id.etEmailRegister);
         etPassRegister = findViewById(R.id.etPasswordRegister);
         etVerificationPassword = findViewById(R.id.etVerificationPassword);
+        spinnerKelas = findViewById(R.id.spinnerKelas);
         Button btnRegister = findViewById(R.id.btnRegister);
         TextView txtMasuk = findViewById(R.id.txt_masuk);
-        spinnerKelas = findViewById(R.id.spinnerKelas);
 
-
-        // Action for login button
+        // Move to Login
         txtMasuk.setOnClickListener(view -> {
             Intent intent = new Intent(register.this, login.class);
             startActivity(intent);
         });
 
-        // Fetch class data from the server when the page loads
+        // Fetch class data
         fetchKelasData();
 
-        // Action for register button
+        // Register Button Click
         btnRegister.setOnClickListener(view -> {
             String email = etEmail.getText().toString().trim();
             String password = etPassRegister.getText().toString().trim();
             String verifyPassword = etVerificationPassword.getText().toString().trim();
-
-            // Validate input data
-            if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password) || TextUtils.isEmpty(verifyPassword)) {
-                Toast.makeText(register.this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                Toast.makeText(register.this, "Invalid email", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            if (password.length() < 6) {
-                Toast.makeText(register.this, "Password must be at least 6 characters", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            if (!password.equals(verifyPassword)) {
-                Toast.makeText(register.this, "Passwords do not match", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            // Get selected class
             String selectedKelas = spinnerKelas.getSelectedItem() != null ? spinnerKelas.getSelectedItem().toString() : "";
-            if (TextUtils.isEmpty(selectedKelas)) {
-                Toast.makeText(register.this, "Harap pilih kelas", Toast.LENGTH_SHORT).show();
-                return;
+
+            if (validateInput(email, password, verifyPassword, selectedKelas)) {
+                // Dapatkan kode kelas berdasarkan nama kelas
+                String kodeKelas = kelasMap.get(selectedKelas);
+                createDataToServer(email, password, kodeKelas);
             }
-
-
-            // Send data to the server
-            CreateDataToServer(email, password);
         });
     }
 
+    private boolean validateInput(String email, String password, String verifyPassword, String selectedKelas) {
+        if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password) || TextUtils.isEmpty(verifyPassword)) {
+            Toast.makeText(this, "Silahkan Isi semua kolom", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            Toast.makeText(this, "Email tidak valid", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (password.length() < 6) {
+            Toast.makeText(this, "Kata sandi minimal harus 6 karakter", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (!password.equals(verifyPassword)) {
+            Toast.makeText(this, "Password Tidak Sama", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (TextUtils.isEmpty(selectedKelas)) {
+            Toast.makeText(this, "Harap pilih kelas", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+    }
+
     private void fetchKelasData() {
-        if (checkNetworkConnection()) {
-            progressDialog = new ProgressDialog(this);
-            progressDialog.setMessage("Loading data...");
-            progressDialog.show();
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Memuat data...");
+        progressDialog.show();
 
-            StringRequest stringRequest = new StringRequest(Request.Method.GET, DbContract.SERVER_GET_KELAS,
-                    response -> {
-                        progressDialog.dismiss();
-                        try {
-                            JSONObject jsonObject = new JSONObject(response);
-                            String status = jsonObject.getString("status");
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, DbContract.SERVER_GET_KELAS,
+                response -> {
+                    progressDialog.dismiss();
+                    try {
+                        JSONObject jsonObject = new JSONObject(response);
+                        String status = jsonObject.optString("status", "error");
 
-                            if ("success".equals(status)) {
-                                JSONArray kelasArray = jsonObject.getJSONArray("kelas");
+                        if ("success".equals(status)) {
+                            JSONArray kelasArray = jsonObject.optJSONArray("kelas");
+                            if (kelasArray != null) {
                                 List<String> kelasList = new ArrayList<>();
-
+                                kelasMap = new HashMap<>();
                                 for (int i = 0; i < kelasArray.length(); i++) {
-                                    kelasList.add(kelasArray.getString(i));
+                                    JSONObject kelas = kelasArray.optJSONObject(i);
+                                    String kodeKelas = kelas.optString("kode_kelas", "Unknown");
+                                    String namaKelas = kelas.optString("nama_kelas", "Unknown");
+                                    kelasMap.put(namaKelas, kodeKelas);
+                                    kelasList.add(namaKelas);
                                 }
 
-                                // Update Spinner with data
-                                ArrayAdapter<String> kelasAdapter = new ArrayAdapter<>(this,
+                                ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                                         android.R.layout.simple_spinner_item, kelasList);
-                                kelasAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                                spinnerKelas.setAdapter(kelasAdapter);
-                            } else {
-                                Toast.makeText(this, "Gagal mendapatkan data kelas", Toast.LENGTH_SHORT).show();
+                                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                spinnerKelas.setAdapter(adapter);
                             }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            Toast.makeText(this, "Error parsing JSON: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
-                    },
-                    error -> {
-                        progressDialog.dismiss();
-                        Toast.makeText(this, "Error fetching data: " + error.getMessage(), Toast.LENGTH_SHORT).show();
-                    });
+                    } catch (JSONException e) {
+                        Toast.makeText(this, "Gagal parsing JSON: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                },
+                error -> {
+                    progressDialog.dismiss();
+                    Toast.makeText(this, "Gagal memuat data kelas", Toast.LENGTH_SHORT).show();
+                });
 
-            VolleyConnection.getInstance(this).addToRequestQue(stringRequest);
-        } else {
-            Toast.makeText(this, "No internet connection", Toast.LENGTH_SHORT).show();
-        }
+        VolleyConnection.getInstance(this).addToRequestQue(stringRequest);
     }
 
+    private void createDataToServer(String email, String password, String kodeKelas) {
+        progressDialog.setMessage("Mendaftarkan...");
+        progressDialog.show();
 
-    private void CreateDataToServer(final String email, final String password) {
-                if (checkNetworkConnection()) {
-                    progressDialog.show();
-                    StringRequest stringRequest = new StringRequest(Request.Method.POST, DbContract.SERVER_REGISTER_URL,
-                            response -> {
-                                // Handle successful response
-                            },
-                            error -> {
-                                // Handle error response
-                                Toast.makeText(register.this, "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
-                            }) {
-                        @Override
-                        protected Map<String, String> getParams() throws AuthFailureError {
-                            Map<String, String> params = new HashMap<>();
-                            params.put("email", email);
-                            params.put("password", password);
-                            return params;
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, DbContract.SERVER_REGISTER_URL,
+                response -> {
+                    progressDialog.dismiss();
+                    try {
+                        JSONObject jsonResponse = new JSONObject(response);
+                        String status = jsonResponse.getString("status");
+                        String message = jsonResponse.getString("message");
+
+                        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+
+                        if ("success".equals(status)) {
+                            startActivity(new Intent(register.this, login.class));
+                            finish();
                         }
-                    };
+                    } catch (JSONException e) {
+                        Toast.makeText(this, "Gagal parsing respons: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                },
+                error -> {
+                    progressDialog.dismiss();
+                    Toast.makeText(this, "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("email", email);
+                params.put("password", password);
+                params.put("kode_kelas", kodeKelas);
+                return params;
+            }
+        };
 
-// Set timeout for the request
-                    stringRequest.setRetryPolicy(new DefaultRetryPolicy(
-                            5000, // Timeout in milliseconds
-                            DefaultRetryPolicy.DEFAULT_MAX_RETRIES, // Number of retries
-                            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT // Multiplier for backoff
-                    ));
-
-                    VolleyConnection.getInstance(this).addToRequestQue(stringRequest);
-
-                } else {
-            Toast.makeText(this, "No internet connection", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    private boolean checkNetworkConnection() {
-        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-        return networkInfo != null && networkInfo.isConnected();
+        VolleyConnection.getInstance(this).addToRequestQue(stringRequest);
     }
 }

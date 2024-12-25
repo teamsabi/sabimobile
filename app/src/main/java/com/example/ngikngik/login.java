@@ -9,6 +9,7 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -104,17 +105,19 @@ public class login extends AppCompatActivity {
             progressDialog.show();
             StringRequest stringRequest = new StringRequest(Request.Method.POST, DbContract.SERVER_LOGIN_URL,
                     response -> {
+                        // Debug log untuk melihat respon server
+                        Log.d("LoginResponse", "Server Response: " + response);
+
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             String serverResponse = jsonObject.getString("server_response");
-
                             if (serverResponse.equals("login berhasil")) {
-                                String kelas = jsonObject.getString("kelas");
+                                String userId = jsonObject.getString("user_id");
+                                // Simpan user_id atau lakukan sesuatu dengan data lainnya
                                 SharedPreferences preferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
                                 SharedPreferences.Editor editor = preferences.edit();
                                 editor.putBoolean(KEY_IS_LOGGED_IN, true);
-                                editor.putString("kelas", kelas);
-                                editor.putString("email", email);
+                                editor.putString("user_id", userId);
                                 editor.apply();
 
                                 Toast.makeText(getApplicationContext(), "Login berhasil", Toast.LENGTH_SHORT).show();
@@ -122,6 +125,7 @@ public class login extends AppCompatActivity {
                             } else {
                                 Toast.makeText(getApplicationContext(), "Email dan password salah", Toast.LENGTH_SHORT).show();
                             }
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                             Toast.makeText(getApplicationContext(), "Terjadi kesalahan dalam parsing respon server", Toast.LENGTH_SHORT).show();
@@ -140,6 +144,7 @@ public class login extends AppCompatActivity {
                     return params;
                 }
             };
+
 
             VolleyConnection.getInstance(login.this).addToRequestQue(stringRequest);
         } else {
