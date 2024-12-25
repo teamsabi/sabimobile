@@ -86,13 +86,12 @@
         android:id="@+id/lanjut"
         android:layout_width="121dp"
         android:layout_height="59dp"
-        android:layout_marginTop="256dp"
         android:layout_marginEnd="60dp"
-        android:text="Lanjut"
         android:backgroundTint="@color/purple_500"
+        android:text="Lanjut"
 
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView16" />
+        tools:layout_editor_absoluteY="791dp" />
 
     <Button
         android:id="@+id/batalotp"
@@ -105,16 +104,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/lanjut" />
 
-
-    <TextView
-        android:id="@+id/textView16"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginStart="32dp"
-        android:text="Belum menerima kode OTP?"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
