@@ -12,11 +12,11 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.ngikngik.databinding.ActivityDashboardBinding;
 import com.example.ngikngik.api.DbContract;
 
 import org.json.JSONException;
@@ -28,7 +28,6 @@ import java.util.Map;
 public class newpasswordpage extends AppCompatActivity {
     private EditText newPassword, confirmPassword;
     private Button savePasswordButton;
-    ActivityDashboardBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,8 +38,6 @@ public class newpasswordpage extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         // Menetapkan tampilan konten
-        binding = ActivityDashboardBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
         setContentView(R.layout.activity_newpasswordpage);
 
         newPassword = findViewById(R.id.sandi_baru);
@@ -68,9 +65,11 @@ public class newpasswordpage extends AppCompatActivity {
                     String phpsessid = preferences.getString("PHPSESSID", "");
 
                     // Melakukan request untuk mengganti password
-                    RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+                    RequestQueue queue = Volley.newRequestQueue(newpasswordpage.this); // Menggunakan 'this' sebagai context
+
                     StringRequest stringRequest = new StringRequest(Request.Method.POST, DbContract.SERVER_NEWPASSWORD_URL,
                             response -> {
+                                // Tangani respons dari server
                                 Log.d("Server Response", response);
                                 try {
                                     JSONObject jsonResponse = new JSONObject(response);
@@ -78,10 +77,11 @@ public class newpasswordpage extends AppCompatActivity {
                                     String message = jsonResponse.getString("message");
 
                                     if ("success".equals(status)) {
+                                        // Password berhasil diubah
+                                        Toast.makeText(getApplicationContext(), "Password berhasil diganti", Toast.LENGTH_SHORT).show();
                                         Intent intent = new Intent(newpasswordpage.this, login.class);
                                         startActivity(intent);
-                                        Toast.makeText(getApplicationContext(), "Password berhasil diganti", Toast.LENGTH_SHORT).show();
-                                        finish();  // Tutup halaman setelah berhasil
+                                        finish();
                                     } else {
                                         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
                                     }
@@ -95,26 +95,47 @@ public class newpasswordpage extends AppCompatActivity {
                                 Toast.makeText(getApplicationContext(), "Network error", Toast.LENGTH_SHORT).show();
                             }) {
                         @Override
-                        protected Map<String, String> getParams() {
+                        public Map<String, String> getParams() {
+                            // Kirimkan data sebagai JSON
                             Map<String, String> params = new HashMap<>();
-                            params.put("password", newPass); // Kirimkan password baru
+                            params.put("new_password", newPass);
                             return params;
+                        }
+
+                        @Override
+                        public String getBodyContentType() {
+                            // Tentukan tipe konten yang benar
+                            return "application/json; charset=utf-8";
+                        }
+
+                        @Override
+                        public byte[] getBody() throws AuthFailureError {
+                            // Ubah parameter menjadi JSON string
+                            JSONObject jsonObject = new JSONObject();
+                            try {
+                                jsonObject.put("new_password", newPass);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            return jsonObject.toString().getBytes();
                         }
 
                         @Override
                         public Map<String, String> getHeaders() {
                             Map<String, String> headers = new HashMap<>();
+                            // Sertakan PHPSESSID jika ada
+                            String phpsessid = preferences.getString("PHPSESSID", "");
                             if (!phpsessid.isEmpty()) {
-                                headers.put("Cookie", "PHPSESSID=" + phpsessid); // Sertakan PHPSESSID
+                                headers.put("Cookie", "PHPSESSID=" + phpsessid);
                             }
                             return headers;
                         }
                     };
 
+                    // Menambahkan request ke queue
                     queue.add(stringRequest);
                 }
             }
         });
     }
 }
-

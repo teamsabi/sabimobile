@@ -43,7 +43,6 @@ public class masukkanOTP extends AppCompatActivity {
     private int selectedEtPosition = 0;
     private String email;
 
-
     @SuppressLint("RestrictedApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +64,6 @@ public class masukkanOTP extends AppCompatActivity {
             editor.putString("email", email);
             editor.apply();
         }
-
 
         btnbatal = findViewById(R.id.batalotp);
         lanjut = findViewById(R.id.lanjut);
@@ -105,8 +103,6 @@ public class masukkanOTP extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Tunggu beberapa saat untuk mengirim ulang", Toast.LENGTH_SHORT).show();
             }
         });
-
-
 
         lanjut.setOnClickListener(view -> {
             String otp = otp1.getText().toString().trim() +
@@ -161,7 +157,7 @@ public class masukkanOTP extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                params.put("otp", otp);
+                params.put("otp", otp); // Mengirimkan OTP menggunakan x-www-form-urlencoded
                 return params;
             }
 
@@ -198,7 +194,7 @@ public class masukkanOTP extends AppCompatActivity {
                         String message = jsonResponse.getString("message");
 
                         if ("success".equals(status)) {
-//                            Toast.makeText(getApplicationContext(), "OTP berhasil dikirim ulang", Toast.LENGTH_SHORT).show();
+                            // Optionally show success message
                         } else {
                             Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
                         }
@@ -214,14 +210,13 @@ public class masukkanOTP extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                params.put("email", email);  // Kirim email yang valid
+                params.put("email", email);  // Kirim email yang valid dalam x-www-form-urlencoded
                 return params;
             }
         };
 
         queue.add(stringRequest);
     }
-
 
     private final TextWatcher textWatcher = new TextWatcher() {
         @Override
@@ -234,27 +229,44 @@ public class masukkanOTP extends AppCompatActivity {
 
         @Override
         public void afterTextChanged(Editable s) {
-            if (s.length() > 0) {
+            // Mengelola pengalihan fokus saat karakter dihapus (backspace)
+            if (s.length() == 0) {
                 switch (selectedEtPosition) {
-                    case 0:
-                        selectedEtPosition = 1;
-                        showKeyboard(otp2);
-                        break;
                     case 1:
-                        selectedEtPosition = 2;
-                        showKeyboard(otp3);
+                        selectedEtPosition = 0;
+                        otp1.requestFocus();  // Fokus kembali ke otp1
                         break;
                     case 2:
-                        selectedEtPosition = 3;
-                        showKeyboard(otp4);
+                        selectedEtPosition = 1;
+                        otp2.requestFocus();  // Fokus kembali ke otp2
                         break;
                     case 3:
-                        selectedEtPosition = 4;
-                        showKeyboard(otp5);
+                        selectedEtPosition = 2;
+                        otp3.requestFocus();  // Fokus kembali ke otp3
                         break;
                     case 4:
-                        lanjut.setEnabled(true);  // Aktifkan tombol "Lanjut" hanya setelah semua digit diisi
+                        selectedEtPosition = 3;
+                        otp4.requestFocus();  // Fokus kembali ke otp4
                         break;
+                }
+            } else { // Jika teks dimasukkan
+                if (selectedEtPosition < 4) {
+                    selectedEtPosition++;
+                    // Menampilkan keyboard untuk EditText berikutnya
+                    switch (selectedEtPosition) {
+                        case 1:
+                            otp2.requestFocus();
+                            break;
+                        case 2:
+                            otp3.requestFocus();
+                            break;
+                        case 3:
+                            otp4.requestFocus();
+                            break;
+                        case 4:
+                            otp5.requestFocus();
+                            break;
+                    }
                 }
             }
         }
