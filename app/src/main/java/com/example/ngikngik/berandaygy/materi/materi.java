@@ -34,6 +34,7 @@ public class materi extends AppCompatActivity {
     private LinearLayout linearLayoutMapel;
     private SharedPreferences sharedPreferences;
     private ImageView imgback;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +56,7 @@ public class materi extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
         // Set welcome message
         tvNamaMateri.setText("Selamat datang, " + nama);
 
@@ -80,9 +82,10 @@ public class materi extends AppCompatActivity {
                             for (int i = 0; i < mapelsArray.length(); i++) {
                                 JSONObject mapelObject = mapelsArray.getJSONObject(i);
                                 String mapelName = mapelObject.getString("nama_mapel");
+                                String kodeMapel = mapelObject.getString("kode_mapel"); // Ambil kode_mapel
 
                                 // Create dynamic CardView
-                                createCardView(mapelName);
+                                createCardView(mapelName, kodeMapel); // Pass kodeMapel as well
                             }
                         } else {
                             Toast.makeText(materi.this, "Tidak ada data mapel", Toast.LENGTH_SHORT).show();
@@ -105,8 +108,9 @@ public class materi extends AppCompatActivity {
      * Membuat CardView secara dinamis untuk setiap mata pelajaran
      *
      * @param mapelName Nama mata pelajaran
+     * @param kodeMapel Kode mata pelajaran
      */
-    private void createCardView(String mapelName) {
+    private void createCardView(String mapelName, String kodeMapel) {
         // Create CardView
         CardView cardView = new CardView(this);
         LinearLayout.LayoutParams cardLayoutParams = new LinearLayout.LayoutParams(
@@ -144,28 +148,26 @@ public class materi extends AppCompatActivity {
         mapelTextView.setTextColor(getResources().getColor(android.R.color.black));
         mapelTextView.setTypeface(null, Typeface.BOLD);
 
+        // Create TextView for kode mapel
+        TextView kodeMapelTextView = new TextView(this);
+        kodeMapelTextView.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        ));
+        kodeMapelTextView.setText("Kode Mapel: " + kodeMapel);
+        kodeMapelTextView.setTextSize(14);
+        kodeMapelTextView.setTextColor(getResources().getColor(android.R.color.darker_gray));
+
         // Add views to CardView
         cardContent.addView(mapelIcon);
         cardContent.addView(mapelTextView);
+        cardContent.addView(kodeMapelTextView); // Add kodeMapelTextView here
         cardView.addView(cardContent);
 
         // Set click listener
         cardView.setOnClickListener(v -> {
-            Intent intent;
-            switch (mapelName) {
-                case "Matematika":
-                    intent = new Intent(materi.this, judul_Matematika.class);
-                    break;
-                case "Kimia":
-                    intent = new Intent(materi.this, kimia.class);
-                    break;
-                case "Fisika":
-                    intent = new Intent(materi.this, fisika.class);
-                    break;
-                default:
-                    Toast.makeText(materi.this, "Materi tidak dikenali", Toast.LENGTH_SHORT).show();
-                    return;
-            }
+            Intent intent = new Intent(materi.this, DetailMateriActivity.class);
+            intent.putExtra("kode_mapel", kodeMapel);  // Mengirimkan kode_mapel ke Activity detail materi
             startActivity(intent);
         });
 
