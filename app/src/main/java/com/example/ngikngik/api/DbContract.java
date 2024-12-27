@@ -13,7 +13,7 @@ public class DbContract {
     public static final String SERVER_JADWAL_URL = "http://" + IP + "/api/JadwalKelas.php";
     public static final String SERVER_EDIT_PROFIL_URL = "http://" + IP + "/api/editprofil.php";
     public static final String SERVER_NAMA_URL = "http://" + IP + "/api/namaAPI.php";
-    public static final String SERVER_MAPEL_URL = "http://" + IP + "/db_sabiproject/JustMapel.php";
+    public static final String SERVER_MAPEL_URL = "http://" + IP + "/api/JustMapel.php";
     public static final String SERVER_GET_KELAS = "http://" + IP + "/api/get_user_classes.php";
     public static final String SERVER_LOGOUTSERVICE_URL = "http://" + IP + "/api/apilogout.php";
 

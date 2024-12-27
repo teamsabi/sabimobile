@@ -3,114 +3,173 @@ package com.example.ngikngik.berandaygy.materi;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.cardview.widget.CardView;
 
-import com.example.ngikngik.Adapter.MapelMateriAdapter;
-import com.example.ngikngik.Dashboard.dashboard;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.ngikngik.R;
-
+import com.example.ngikngik.Dashboard.dashboard;
 import com.example.ngikngik.berandaygy.materi.Matematika.judul_Matematika;
 import com.example.ngikngik.berandaygy.materi.fisika.fisika;
 import com.example.ngikngik.berandaygy.materi.kimia.kimia;
-import com.example.ngikngik.databinding.ActivityDashboardBinding;
 
-import java.util.List;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class materi extends AppCompatActivity {
-    private TextView tvNamaMateri, txt_materi; // TextView untuk menampilkan nama
-    private RecyclerView rvMateri; // RecyclerView untuk menampilkan daftar jadwal atau materi
+    private TextView tvNamaMateri;
+    private LinearLayout linearLayoutMapel;
     private SharedPreferences sharedPreferences;
-    private List<item_mapelmateri> mapelmateriList; // Daftar data jadwal atau materi
-    private MapelMateriAdapter materimapelAdapter; // Adapter untuk RecyclerView
-    private ActivityDashboardBinding binding;
     private ImageView imgback;
-    private LinearLayout linearMatematika,linearkimia, linearfisika;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_materi);
 
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
-        linearMatematika = findViewById(R.id.linearLayoutMatematika);
-        linearkimia = findViewById(R.id.linearLayoutkimia);
-        linearfisika = findViewById(R.id.linearLayoutfisika);
-
-
-        // Setel padding hanya untuk system bars satu kali
-        View mainView = findViewById(R.id.main);
-        if (mainView != null) {
-            ViewCompat.setOnApplyWindowInsetsListener(mainView, (v, insets) -> {
-                Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-                v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-                return insets;
-            });
-        }
-
-        linearMatematika.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent (materi.this, judul_Matematika.class);
-                startActivity(intent);
-            }
-        });
-
-        linearkimia.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(materi.this, kimia.class);
-                startActivity(intent);
-                Log.d("materi", "Klik kimia");
-            }
-        });
-
-        linearfisika.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(materi.this, fisika.class);
-                startActivity(intent);
-                Log.d("materi", "Klik fisika");
-            }
-        });
-
-
-        imgback = findViewById(R.id.img_materi);
-        imgback.setOnClickListener(v -> {
-            Intent intent = new Intent(materi.this, dashboard.class);
-            startActivity(intent);
-        });
-
-        txt_materi = findViewById(R.id.txt_materi);
-        txt_materi.setOnClickListener(v -> {
-            Intent intent = new Intent(materi.this, dashboard.class);
-            startActivity(intent);
-        });
-
-        // Inisialisasi SharedPreferences
+        // Initialize SharedPreferences
         sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         String nama = sharedPreferences.getString("nama", "Nama tidak ditemukan");
-        String kelas = sharedPreferences.getString("kelas", "Kelas tidak ditemukan");
 
-        // Inisialisasi TextView dan RecyclerView
+        // Initialize views
         tvNamaMateri = findViewById(R.id.tvNamaMateri);
+        linearLayoutMapel = findViewById(R.id.linearLayoutMapel);
 
-        // Tampilkan nama pengguna di TextView
-        tvNamaMateri.setText("Halo, " + nama);
+        imgback = findViewById(R.id.imgBack);
+        imgback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(materi.this, dashboard.class);
+                startActivity(intent);
+            }
+        });
+        // Set welcome message
+        tvNamaMateri.setText("Selamat datang, " + nama);
+
+        // Get id_user from SharedPreferences
+        String id_user = sharedPreferences.getString("id_user", "0");
+
+        // Fetch mata pelajaran data
+        fetchMapelData(id_user);
+    }
+
+    private void fetchMapelData(String id_user) {
+        String url = "http://192.168.1.12/api/JustMapel.php?id_user=" + id_user; // Ganti dengan URL API Anda
+        Log.d("materi", "Request URL: " + url);
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                response -> {
+                    Log.d("materi", "Response: " + response);
+                    try {
+                        JSONObject jsonResponse = new JSONObject(response);
+                        if (jsonResponse.has("data")) {
+                            JSONArray mapelsArray = jsonResponse.getJSONArray("data");
+
+                            for (int i = 0; i < mapelsArray.length(); i++) {
+                                JSONObject mapelObject = mapelsArray.getJSONObject(i);
+                                String mapelName = mapelObject.getString("nama_mapel");
+
+                                // Create dynamic CardView
+                                createCardView(mapelName);
+                            }
+                        } else {
+                            Toast.makeText(materi.this, "Tidak ada data mapel", Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        Toast.makeText(materi.this, "Error parsing response", Toast.LENGTH_SHORT).show();
+                    }
+                },
+                error -> {
+                    Log.e("materi", "Error fetching data", error);
+                    Toast.makeText(materi.this, "Error fetching data", Toast.LENGTH_SHORT).show();
+                });
+
+        // Add request to Volley queue
+        Volley.newRequestQueue(this).add(stringRequest);
+    }
+
+    /**
+     * Membuat CardView secara dinamis untuk setiap mata pelajaran
+     *
+     * @param mapelName Nama mata pelajaran
+     */
+    private void createCardView(String mapelName) {
+        // Create CardView
+        CardView cardView = new CardView(this);
+        LinearLayout.LayoutParams cardLayoutParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        cardLayoutParams.setMargins(16, 8, 16, 8); // Margin untuk tiap CardView
+        cardView.setLayoutParams(cardLayoutParams);
+        cardView.setRadius(16);
+        cardView.setElevation(8);
+        cardView.setCardBackgroundColor(getResources().getColor(android.R.color.white));
+        cardView.setUseCompatPadding(true);
+
+        // Create LinearLayout inside CardView
+        LinearLayout cardContent = new LinearLayout(this);
+        cardContent.setOrientation(LinearLayout.HORIZONTAL);
+        cardContent.setPadding(16, 16, 16, 16);
+
+        // Add Icon ImageView
+        ImageView mapelIcon = new ImageView(this);
+        mapelIcon.setLayoutParams(new LinearLayout.LayoutParams(100, 100));
+        mapelIcon.setImageResource(R.drawable.baseline_book_24); // Ganti dengan ikon spesifik jika ada
+        mapelIcon.setPadding(8, 8, 8, 8);
+
+        // Create TextView for mapel name
+        TextView mapelTextView = new TextView(this);
+        LinearLayout.LayoutParams textLayoutParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        textLayoutParams.setMargins(16, 0, 0, 0); // Jarak antara ikon dan teks
+        mapelTextView.setLayoutParams(textLayoutParams);
+        mapelTextView.setText(mapelName);
+        mapelTextView.setTextSize(18);
+        mapelTextView.setTextColor(getResources().getColor(android.R.color.black));
+        mapelTextView.setTypeface(null, Typeface.BOLD);
+
+        // Add views to CardView
+        cardContent.addView(mapelIcon);
+        cardContent.addView(mapelTextView);
+        cardView.addView(cardContent);
+
+        // Set click listener
+        cardView.setOnClickListener(v -> {
+            Intent intent;
+            switch (mapelName) {
+                case "Matematika":
+                    intent = new Intent(materi.this, judul_Matematika.class);
+                    break;
+                case "Kimia":
+                    intent = new Intent(materi.this, kimia.class);
+                    break;
+                case "Fisika":
+                    intent = new Intent(materi.this, fisika.class);
+                    break;
+                default:
+                    Toast.makeText(materi.this, "Materi tidak dikenali", Toast.LENGTH_SHORT).show();
+                    return;
+            }
+            startActivity(intent);
+        });
+
+        // Add CardView to parent layout
+        linearLayoutMapel.addView(cardView);
     }
 }
