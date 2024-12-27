@@ -1,7 +1,9 @@
 package com.example.ngikngik.profil;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -17,44 +19,32 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.volley.Request;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.example.ngikngik.Adapter.NameAdapter;
-import com.example.ngikngik.api.DbContract;
 import com.example.ngikngik.Adapter.ClassAdapter;
 import com.example.ngikngik.edit_profil.item_class;
-import com.example.ngikngik.edit_profil.simpan;
 import com.example.ngikngik.R;
+import com.example.ngikngik.edit_profil.profil_edit; // Pastikan import ini benar
 import com.example.ngikngik.login;
-import com.example.ngikngik.lupapassword;
-import com.example.ngikngik.masukkanOTP;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class profile_akun extends Fragment {
     private RecyclerView rvNamaAkun, rvKelasAkun;
     private NameAdapter nameAdapter;
     private ClassAdapter classAdapter;
-    private SharedPreferences sharedPreferences;
     private ImageView imageView;
     private TextView txtlogout;
-    private Dialog dialog;
-    private Button btndialog;
+    private SharedPreferences sharedPreferences;
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profil_akun, container, false);
 
+        // Menyembunyikan sistem UI untuk pengalaman fullscreen
         requireActivity().getWindow().getDecorView().setSystemUiVisibility(
                 View.SYSTEM_UI_FLAG_FULLSCREEN |
                         View.SYSTEM_UI_FLAG_HIDE_NAVIGATION |
@@ -63,129 +53,100 @@ public class profile_akun extends Fragment {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        dialog = new Dialog(getActivity());
-        dialog.setContentView(R.layout.logout);
-        dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-        btndialog = dialog.findViewById(R.id.btndialoglogout);
-        btndialog.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.clear(); // Menghapus semua data yang disimpan
-                editor.apply();
-                Intent intent = new Intent(getActivity(), login.class);
-                startActivity(intent);
-                dialog.dismiss();
-
-            }
-        });
-
-        Button btnCancel = dialog.findViewById(R.id.btndialogcancel);
-        btnCancel.setOnClickListener(v -> dialog.dismiss());
-
-        txtlogout = view.findViewById(R.id.txtLogout);
-        txtlogout.setOnClickListener(v -> dialog.show());
-
-        txtlogout = view.findViewById(R.id.txtLogout);
-        txtlogout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.show();
-            }
-        });
-        rvNamaAkun = view.findViewById(R.id.rvNamaAkun);
-        rvKelasAkun = view.findViewById(R.id.rvKelasAkun);
-
+        // Inisialisasi SharedPreferences
         sharedPreferences = requireContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-
-        // Mengambil data nama dan kelas dari SharedPreferences
         String nama = sharedPreferences.getString("nama", "Nama tidak ditemukan");
         String kelas = sharedPreferences.getString("kelas", "Kelas tidak ditemukan");
 
+        // Inisialisasi RecyclerView untuk nama dan kelas
+        rvNamaAkun = view.findViewById(R.id.rvNamaAkun);
+        rvKelasAkun = view.findViewById(R.id.rvKelasAkun);
+
+        // Membuat dan mengatur adapter untuk nama dan kelas
         List<item_name> nameList = new ArrayList<>();
         nameList.add(new item_name(nama));
-
-
-        nameAdapter = new NameAdapter(nameList, nameItem -> {
-            Log.d("NameAdapter", "Nama: " + nameItem.getClassName());
-        });
+        nameAdapter = new NameAdapter(nameList);
         rvNamaAkun.setAdapter(nameAdapter);
         rvNamaAkun.setLayoutManager(new LinearLayoutManager(getContext()));
+
+
         List<item_class> classList = new ArrayList<>();
         classList.add(new item_class(kelas));
         classAdapter = new ClassAdapter(classList, classItem -> {
-            Log.d("ClassAdapter", "Kelas: " + classItem.getClassName());
+            Log.d("ClassAdapter", "Class clicked: " + classItem.getClassName());
         });
         rvKelasAkun.setAdapter(classAdapter);
         rvKelasAkun.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        // Menangani klik tombol edit profil
         imageView = view.findViewById(R.id.btnEdit);
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), simpan.class);
-                startActivity(intent);
-            }
+        imageView.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), profil_edit.class);
+            startActivity(intent);
         });
 
-        loadProfileFromServer();
+        // Menangani klik tombol logout
+        txtlogout = view.findViewById(R.id.txtLogout);
+        txtlogout.setOnClickListener(v -> {
+            showLogoutDialog();
+        });
+
         return view;
     }
-    private void loadProfileFromServer() {
-        String email = sharedPreferences.getString("email", ""); // Ambil email yang sudah tersimpan
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, DbContract.SERVER_NAMA_URL,
-                response -> {
-                    try {
-                        JSONObject jsonResponse = new JSONObject(response);
-                        String status = jsonResponse.getString("status");
 
-                        if ("success".equals(status)) {
-                            String nama = jsonResponse.getString("nama");
-
-                            // Tampilkan nama ke UI
-                            List<item_name> nameList = new ArrayList<>();
-                            nameList.add(new item_name(nama));
-                            nameAdapter.updateData(nameList);
-
-                            // Simpan nama ke SharedPreferences untuk cache lokal
-                            SharedPreferences.Editor editor = sharedPreferences.edit();
-                            editor.putString("nama", nama);
-                            editor.apply();
-                        } else {
-                            Log.e("PROFILE_LOAD", "Error: " + jsonResponse.getString("message"));
-                        }
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+    private void showLogoutDialog() {
+        // Membuat dan menampilkan dialog konfirmasi logout
+        new AlertDialog.Builder(getContext())
+                .setTitle("Konfirmasi Logout")
+                .setMessage("Apakah Anda yakin ingin logout?")
+                .setCancelable(false)
+                .setPositiveButton("Ya", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        performLogout(); // Menjalankan logout setelah konfirmasi
                     }
-                },
-                error -> Log.e("PROFILE_LOAD", "Error: " + error.getMessage())
-        ) {
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-                params.put("email", email); // Kirimkan email ke server untuk mendapatkan nama
-                return params;
-            }
-        };
+                })
+                .setNegativeButton("Tidak", null)
+                .show();
+    }
 
-        // Menambahkan permintaan ke antrian Volley
-        Volley.newRequestQueue(requireContext()).add(stringRequest);
+    private void performLogout() {
+        // Mengambil SharedPreferences
+        SharedPreferences sharedPreferences = requireContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        // Menghapus semua data yang tersimpan (seperti nama, kelas, dll)
+        editor.clear();  // Menghapus semua data
+        editor.apply();   // Menerapkan perubahan
+
+        // Redirect ke halaman login
+        Intent intent = new Intent(getActivity(), login.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK); // Menghapus semua aktivitas sebelumnya
+        startActivity(intent);
+
+        // Menyelesaikan aktivitas ini (agar tidak kembali ke halaman sebelumnya)
+        requireActivity().finish();
     }
 
     @Override
     public void onResume() {
         super.onResume();
 
-        // Pastikan data dari SharedPreferences ditampilkan setelah login
+        // Memperbarui data saat fragment resume
         String nama = sharedPreferences.getString("nama", "Nama Default");
+        String kelas = sharedPreferences.getString("kelas", "Kelas Default");
 
-        // Perbarui RecyclerView dengan nama baru
+        // Memperbarui data RecyclerView dengan nilai terbaru
         if (nameAdapter != null) {
             List<item_name> nameList = new ArrayList<>();
             nameList.add(new item_name(nama));
             nameAdapter.updateData(nameList);
+        }
+
+        if (classAdapter != null) {
+            List<item_class> classList = new ArrayList<>();
+            classList.add(new item_class(kelas));
+            classAdapter.updateData(classList);
         }
     }
 }

@@ -32,9 +32,10 @@ public class EmailAdapter extends RecyclerView.Adapter<EmailAdapter.EmailViewHol
         item_email currentEmail = emailList.get(position);
         holder.emailNameText.setText(currentEmail.getEmailName());
 
-        // Set click emaillistener
+        // Set click listener for email item
         holder.itemView.setOnClickListener(v -> emaillistener.onItemClick(currentEmail));
     }
+
 
     @Override
     public int getItemCount() {

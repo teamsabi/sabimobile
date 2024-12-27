@@ -1,40 +1,35 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_marginTop="5dp"
-    android:background="@color/purple_500"
-    android:orientation="horizontal">
+    android:orientation="vertical"
+    android:padding="16dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:background="@drawable/hijauradius">
+    <TextView
+        android:id="@+id/tvTanggal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tanggal"
+        android:textStyle="bold"
+        android:textSize="16sp" />
 
-        <TextView
-            android:id="@+id/tvHari"
-            android:layout_width="0dp"
-            android:layout_height="32dp"
-            android:layout_gravity="center"
-            android:layout_marginStart="22dp"
-            android:layout_weight="1"
-            android:text="Hari"
-            android:gravity="center_vertical"
-            android:textColor="#FFFFFF"
-            android:textSize="16sp" />
+    <TextView
+        android:id="@+id/tvNamaKelas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nama Kelas"
+        android:textSize="14sp" />
 
-        <TextView
-            android:id="@+id/tvMatkul"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:layout_gravity="center"
-            android:text="Mata Pelajaran"
-            android:textColor="#FFFFFF"
-            android:textSize="16sp" />
-    </LinearLayout>
+    <TextView
+        android:id="@+id/tvNamaMapel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nama Mapel"
+        android:textSize="14sp" />
 
-</androidx.cardview.widget.CardView>
+    <TextView
+        android:id="@+id/tvNamaLengkap"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nama Lengkap"
+        android:textSize="14sp" />
+</LinearLayout>

@@ -5,38 +5,35 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ngikngik.R;
 import com.example.ngikngik.edit_profil.item_class;
 
-import org.w3c.dom.Text;
-
 import java.util.List;
 
 public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ClassViewHolder> {
     private List<item_class> classList;
-    private OnItemClickListener listener;
+    private OnClassClickListener onClassClickListener;
 
-    // Constructor
-    public ClassAdapter(List<item_class> classList, OnItemClickListener listener) {
+    public ClassAdapter(List<item_class> classList, OnClassClickListener onClassClickListener) {
         this.classList = classList;
-        this.listener = listener;
+        this.onClassClickListener = onClassClickListener;
     }
 
+    @NonNull
     @Override
-    public ClassViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ClassViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_item_class, parent, false);
         return new ClassViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(ClassViewHolder holder, int position) {
-        item_class currentClass = classList.get(position);
-        holder.classNameTextView.setText(currentClass.getClassName());
-
-        // Set click listener
-        holder.itemView.setOnClickListener(v -> listener.onItemClick(currentClass));
+    public void onBindViewHolder(@NonNull ClassViewHolder holder, int position) {
+        item_class item = classList.get(position);
+        holder.classTextView.setText(item.getClassName());
+        holder.itemView.setOnClickListener(v -> onClassClickListener.onClassClick(item));
     }
 
     @Override
@@ -44,20 +41,21 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ClassViewHol
         return classList.size();
     }
 
-    public class ClassViewHolder extends RecyclerView.ViewHolder {
-        private TextView classNameTextView;
-        private TextView txtkelas;
+    public void updateData(List<item_class> newClassList) {
+        this.classList = newClassList;
+        notifyDataSetChanged();
+    }
+
+    public static class ClassViewHolder extends RecyclerView.ViewHolder {
+        TextView classTextView;
 
         public ClassViewHolder(View itemView) {
             super(itemView);
-            txtkelas = itemView.findViewById(R.id.txtkelasygy);
-            classNameTextView = itemView.findViewById(R.id.getclass);
-
+            classTextView = itemView.findViewById(R.id.classTextView);
         }
     }
 
-    // Interface for item click listener
-    public interface OnItemClickListener {
-        void onItemClick(item_class classItem);
+    public interface OnClassClickListener {
+        void onClassClick(item_class classItem);
     }
 }

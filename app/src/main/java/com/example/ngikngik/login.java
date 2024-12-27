@@ -26,11 +26,15 @@ import com.android.volley.toolbox.StringRequest;
 import com.example.ngikngik.Dashboard.dashboard;
 import com.example.ngikngik.api.DbContract;
 import com.example.ngikngik.register.register;
+import com.google.gson.Gson;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class login extends AppCompatActivity {
@@ -68,19 +72,16 @@ public class login extends AppCompatActivity {
 
         ImageView imageViewShowHidePw = findViewById(R.id.imageView_show_hide_pw);
         imageViewShowHidePw.setImageResource(R.drawable.tutupmatapw);
-        imageViewShowHidePw.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                int cursorPosition = etPassword.getSelectionStart();
-                if (etPassword.getTransformationMethod().equals(HideReturnsTransformationMethod.getInstance())) {
-                    etPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                    imageViewShowHidePw.setImageResource(R.drawable.tutupmatapw);
-                } else {
-                    etPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                    imageViewShowHidePw.setImageResource(R.drawable.tampilmatapw);
-                }
-                etPassword.setSelection(cursorPosition);
+        imageViewShowHidePw.setOnClickListener(view -> {
+            int cursorPosition = etPassword.getSelectionStart();
+            if (etPassword.getTransformationMethod().equals(HideReturnsTransformationMethod.getInstance())) {
+                etPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                imageViewShowHidePw.setImageResource(R.drawable.tutupmatapw);
+            } else {
+                etPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                imageViewShowHidePw.setImageResource(R.drawable.tampilmatapw);
             }
+            etPassword.setSelection(cursorPosition);
         });
 
         textViewLogin.setOnClickListener(v -> {
@@ -94,38 +95,64 @@ public class login extends AppCompatActivity {
         });
 
         btnLogin.setOnClickListener(v -> {
-            String email = etEmail.getText().toString();
-            String password = etPassword.getText().toString();
+            String email = etEmail.getText().toString().trim();
+            String password = etPassword.getText().toString().trim();
+
+            // Validasi input
+            if (email.isEmpty() || password.isEmpty()) {
+                Toast.makeText(this, "Email atau password tidak boleh kosong", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             CheckLogin(email, password);
         });
     }
 
     public void CheckLogin(final String email, final String password) {
         if (checkNetworkConnection()) {
+            progressDialog.setMessage("Sedang login...");
             progressDialog.show();
+
             StringRequest stringRequest = new StringRequest(Request.Method.POST, DbContract.SERVER_LOGIN_URL,
                     response -> {
-                        // Debug log untuk melihat respon server
                         Log.d("LoginResponse", "Server Response: " + response);
 
                         try {
                             JSONObject jsonObject = new JSONObject(response);
-                            String serverResponse = jsonObject.getString("server_response");
-                            if (serverResponse.equals("login berhasil")) {
-                                String userId = jsonObject.getString("user_id");
-                                // Simpan user_id atau lakukan sesuatu dengan data lainnya
-                                SharedPreferences preferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
-                                SharedPreferences.Editor editor = preferences.edit();
-                                editor.putBoolean(KEY_IS_LOGGED_IN, true);
-                                editor.putString("user_id", userId);
-                                editor.apply();
+                            String status = jsonObject.getString("status");
 
-                                Toast.makeText(getApplicationContext(), "Login berhasil", Toast.LENGTH_SHORT).show();
-                                navigateToDashboard();
+                            if (status.equals("success")) {
+                                String serverResponse = jsonObject.getString("server_response");
+                                if (serverResponse.equals("login berhasil")) {
+                                    String userId = jsonObject.getString("user_id");
+
+                                    // Ambil daftar kelas dari respons server
+                                    JSONArray classesArray = jsonObject.getJSONArray("classes");
+                                    List<String> kelasList = new ArrayList<>();
+                                    for (int i = 0; i < classesArray.length(); i++) {
+                                        JSONObject classObject = classesArray.getJSONObject(i);
+                                        String className = classObject.getString("nama_kelas");
+                                        kelasList.add(className);
+                                    }
+
+                                    // Simpan email, kelas, dan user_id ke SharedPreferences
+                                    // In CheckLogin method of login activity
+                                    SharedPreferences preferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+                                    SharedPreferences.Editor editor = preferences.edit();
+                                    editor.putBoolean(KEY_IS_LOGGED_IN, true);
+                                    editor.putString("email", email);  // Store email
+                                    editor.putString("id_user", userId); // Store user_id
+                                    editor.putString("kelas", new Gson().toJson(kelasList)); // Store class list
+                                    editor.apply();
+
+
+                                    Toast.makeText(getApplicationContext(), "Login berhasil", Toast.LENGTH_SHORT).show();
+                                    navigateToDashboard();
+                                }
                             } else {
-                                Toast.makeText(getApplicationContext(), "Email dan password salah", Toast.LENGTH_SHORT).show();
+                                String errorMessage = jsonObject.getString("message");
+                                Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_SHORT).show();
                             }
-
                         } catch (JSONException e) {
                             e.printStackTrace();
                             Toast.makeText(getApplicationContext(), "Terjadi kesalahan dalam parsing respon server", Toast.LENGTH_SHORT).show();
@@ -145,12 +172,12 @@ public class login extends AppCompatActivity {
                 }
             };
 
-
             VolleyConnection.getInstance(login.this).addToRequestQue(stringRequest);
         } else {
             Toast.makeText(getApplicationContext(), "Tidak ada koneksi internet", Toast.LENGTH_SHORT).show();
         }
     }
+
 
     private void navigateToDashboard() {
         Intent dashboardIntent = new Intent(login.this, dashboard.class);

@@ -10,8 +10,4 @@ public class item_name {
     public String getName() {
         return name;
     }
-
-    public String getClassName() {
-        return name;
-    }
 }

@@ -3,16 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="8dp">
+    android:padding="20dp">
 
     <TextView
-        android:id="@+id/getnama"
+        android:id="@+id/nameTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Nama"
-        android:textSize="16sp"
+        android:textSize="20dp"
+        android:text="Name" />
 
-        android:textColor="@android:color/black"
-        android:textStyle="bold" />
 
 </LinearLayout>

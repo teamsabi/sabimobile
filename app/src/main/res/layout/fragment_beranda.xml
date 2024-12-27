@@ -5,29 +5,27 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <!-- Section 1: RecyclerView for "Nama Pengguna" -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
         android:background="@color/purple_500"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tvNamaBeranda"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvNamaBeranda"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="32dp"
-            android:textColor="@color/white"
             android:layout_marginBottom="20dp"
-            android:fontFamily="@font/poppins_semibold"
-            android:text="Nama Pengguna"
-            android:textSize="18sp" />
+            android:fontFamily="@font/poppins_semibold" />
     </LinearLayout>
 
+    <!-- Section 2: CardView with RecyclerView for "Jadwal Belajar" -->
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -50,13 +48,14 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="wrap_content" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
+    <!-- Section 3: CardView with GridLayout for Menu -->
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"

@@ -14,18 +14,16 @@
         android:layout_height="wrap_content"
         android:textSize="16sp"
         android:padding="1dp"
-
         android:gravity="center_vertical"
         android:text="Kelas:" />
 
     <TextView
-        android:id="@+id/getclass"
+        android:id="@+id/classTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:padding="8dp"
-        android:text="Kelas"
         android:textColor="@android:color/black"
-        android:textSize="16sp" />
+        android:text="Class" />
 
 </LinearLayout>

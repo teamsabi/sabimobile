@@ -12,8 +12,7 @@ import com.example.ngikngik.berandaygy.item_Jadwal;
 
 import java.util.List;
 
-public class JadwalAdapter extends RecyclerView.Adapter<JadwalAdapter.ViewHolder> {
-
+public class JadwalAdapter extends RecyclerView.Adapter<JadwalAdapter.JadwalViewHolder> {
     private List<item_Jadwal> jadwalList;
 
     public JadwalAdapter(List<item_Jadwal> jadwalList) {
@@ -22,16 +21,18 @@ public class JadwalAdapter extends RecyclerView.Adapter<JadwalAdapter.ViewHolder
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public JadwalViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_jadwal, parent, false);
-        return new ViewHolder(view);
+        return new JadwalViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull JadwalViewHolder holder, int position) {
         item_Jadwal jadwal = jadwalList.get(position);
-        holder.tvHari.setText(jadwal.getHari());
-        holder.tvMatkul.setText(jadwal.getMataPelajaran());
+        holder.tvTanggal.setText(jadwal.getTanggal());
+        holder.tvNamaKelas.setText(jadwal.getNamaKelas());
+        holder.tvNamaMapel.setText(jadwal.getNamaMapel());
+        holder.tvNamaLengkap.setText(jadwal.getNamaLengkap());
     }
 
     @Override
@@ -39,13 +40,15 @@ public class JadwalAdapter extends RecyclerView.Adapter<JadwalAdapter.ViewHolder
         return jadwalList.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tvHari, tvMatkul;
+    public static class JadwalViewHolder extends RecyclerView.ViewHolder {
+        TextView tvTanggal, tvNamaKelas, tvNamaMapel, tvNamaLengkap;
 
-        public ViewHolder(@NonNull View itemView) {
+        public JadwalViewHolder(View itemView) {
             super(itemView);
-            tvHari = itemView.findViewById(R.id.tvHari);
-            tvMatkul = itemView.findViewById(R.id.tvMatkul);
+            tvTanggal = itemView.findViewById(R.id.tvTanggal);
+            tvNamaKelas = itemView.findViewById(R.id.tvNamaKelas);
+            tvNamaMapel = itemView.findViewById(R.id.tvNamaMapel);
+            tvNamaLengkap = itemView.findViewById(R.id.tvNamaLengkap);
         }
     }
 }

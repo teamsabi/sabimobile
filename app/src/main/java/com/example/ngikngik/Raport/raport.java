@@ -48,7 +48,7 @@ public class raport extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_raport   , container, false);
+        View view = inflater.inflate(R.layout.fragment_raport, container, false);
 
         sharedPreferences = requireContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         String nama = sharedPreferences.getString("nama", "Nama tidak ditemukan");
@@ -59,11 +59,11 @@ public class raport extends Fragment {
         rvKelasRaport = view.findViewById(R.id.rvKelasRaport);
         rvMapelRaport = view.findViewById(R.id.rvMapelRaport);
 
-        // Inisialisasi Adapter untuk RecyclerView Nama
+        // Inisialisasi Adapter untuk RecyclerView Nama dengan listener
         List<item_name> nameList = new ArrayList<>();
         nameList.add(new item_name(nama));
         nameAdapter = new NameAdapter(nameList, nameItem -> {
-            Log.d("NameAdapter", "Nama: " + nameItem.getClassName());
+            Log.d("NameAdapter", "Nama: " + nameItem.getName());
         });
         rvNamaRaport.setAdapter(nameAdapter);
         rvNamaRaport.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -111,7 +111,6 @@ public class raport extends Fragment {
                             startActivity(intent);
                         });
                         rvMapelRaport.setAdapter(mapelAdapter);
-                        // Pasang adapter setelah data berhasil dimuat
 
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -130,49 +129,6 @@ public class raport extends Fragment {
 
         // Menambahkan permintaan ke antrian Volley
         queue.add(request);
-    }
-
-    // Memuat profile user dari server
-    private void loadProfileFromServer() {
-        String email = sharedPreferences.getString("email", ""); // Ambil email yang sudah tersimpan
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, DbContract.SERVER_NAMA_URL,
-                response -> {
-                    try {
-                        JSONObject jsonResponse = new JSONObject(response);
-                        String status = jsonResponse.getString("status");
-
-                        if ("success".equals(status)) {
-                            String nama = jsonResponse.getString("nama");
-
-                            // Tampilkan nama ke UI
-                            List<item_name> nameList = new ArrayList<>();
-                            nameList.add(new item_name(nama));
-                            nameAdapter.updateData(nameList);
-
-                            // Simpan nama ke SharedPreferences untuk cache lokal
-                            SharedPreferences.Editor editor = sharedPreferences.edit();
-                            editor.putString("nama", nama);
-                            editor.apply();
-                        } else {
-                            Log.e("PROFILE_LOAD", "Error: " + jsonResponse.getString("message"));
-                        }
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                },
-                error -> Log.e("PROFILE_LOAD", "Error: " + error.getMessage())
-        ) {
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-                params.put("email", email); // Kirimkan email ke server untuk mendapatkan nama
-                return params;
-            }
-        };
-
-        // Menambahkan permintaan ke antrian Volley
-        Volley.newRequestQueue(requireContext()).add(stringRequest);
     }
 
     @Override

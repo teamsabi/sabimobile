@@ -17,10 +17,7 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".berandaygy.materi.fisika.fisika"
-            android:exported="false" />
-        <activity
-            android:name=".berandaygy.materi.kimia.kimia"
+            android:name=".LogoutService"
             android:exported="false" />
         <activity
             android:name=".berandaygy.materi.fisika.fisika"
@@ -32,17 +29,13 @@
             android:name=".berandaygy.materi.Matematika.judul_Matematika"
             android:exported="false" />
         <activity
-            android:name=".berandaygy.banksoal.bank_soal"
-            android:exported="false" />
-        <activity
             android:name=".berandaygy.materi.materi"
             android:exported="false" />
         <activity
-            android:name=".edit_profil.simpan"
-            android:exported="false"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
-        <activity
             android:name=".masukkanOTP"
+            android:exported="false" />
+        <activity
+            android:name=".edit_profil.profil_edit"
             android:exported="false" />
         <activity
             android:name=".lupapassword"

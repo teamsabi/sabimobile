@@ -2,6 +2,7 @@ package com.example.ngikngik.berandaygy;
 
 import static android.content.Context.MODE_PRIVATE;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -11,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -24,11 +24,10 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.ngikngik.Adapter.ClassAdapter;
 import com.example.ngikngik.Adapter.JadwalAdapter;
-import com.example.ngikngik.Adapter.NameAdapter;
-import com.example.ngikngik.api.DbContract;
+import com.example.ngikngik.Adapter.NamaAdapter;
 import com.example.ngikngik.R;
+import com.example.ngikngik.api.DbContract;
 import com.example.ngikngik.berandaygy.materi.materi;
 
 import org.json.JSONArray;
@@ -36,25 +35,34 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class beranda extends Fragment {
     private RecyclerView recyclerView;
     private JadwalAdapter adapter;
     private List<item_Jadwal> jadwalList;
-    private NameAdapter nameAdapter;
-    private ClassAdapter classAdapter;
     private SharedPreferences sharedPreferences;
-    private ImageView imageView, ImgBanksoal;
+    private static final String TAG = "BerandaFragment";
+    private RecyclerView rvNamaBeranda;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_beranda, container, false);
 
-        //fullscreen fragment
+        // Inisialisasi sharedPreferences
+        sharedPreferences = requireActivity().getSharedPreferences("MyPrefs", MODE_PRIVATE);
+        String nama = sharedPreferences.getString("nama", "Nama Default");
+
+        // Ambil ID user dari SharedPreferences
+        String userId = sharedPreferences.getString("id_user", "");
+        if (userId.isEmpty()) {
+            Log.e(TAG, "Error: id_user tidak ditemukan di SharedPreferences.");
+            Toast.makeText(getContext(), "ID User tidak ditemukan. Silakan login kembali.", Toast.LENGTH_SHORT).show();
+            return view; // Berhenti jika id_user tidak ditemukan
+        }
+
+        // Fullscreen fragment
         requireActivity().getWindow().getDecorView().setSystemUiVisibility(
                 View.SYSTEM_UI_FLAG_FULLSCREEN |
                         View.SYSTEM_UI_FLAG_HIDE_NAVIGATION |
@@ -62,113 +70,86 @@ public class beranda extends Fragment {
         requireActivity().getWindow().setFlags(
                 WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         // Inisialisasi RecyclerView
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        TextView tvNamaBeranda = view.findViewById(R.id.tvNamaBeranda);
 
+        // Menampilkan nama di RecyclerView menggunakan TextView
+        rvNamaBeranda = view.findViewById(R.id.rvNamaBeranda);
+        rvNamaBeranda.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        // Membuat list data (misalnya list nama pengguna)
+        List<String> namaList = new ArrayList<>();
+        namaList.add(nama); // Menambahkan nama pengguna yang sudah disimpan di SharedPreferences ke dalam list
+
+        // Membuat adapter untuk menampilkan nama di RecyclerView
+        NamaAdapter namaAdapter = new NamaAdapter(namaList);
+        rvNamaBeranda.setAdapter(namaAdapter);
+
+        // Klik gambar materi
         ImageView viewMateri = view.findViewById(R.id.ImgMateri);
-        viewMateri.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), materi.class);
-                startActivity(intent);
-            }
+        viewMateri.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), materi.class);
+            startActivity(intent);
         });
-        // Inisialisasi sharedPreferences
-        sharedPreferences = requireContext().getSharedPreferences("MyPrefs", MODE_PRIVATE);
 
-        // Load data kelas dan email dari SharedPreferences
-        String kelas = sharedPreferences.getString("kelas", "kelas tidak ditemukan");
-        String email = sharedPreferences.getString("email", "Email tidak ditemukan");
-        String nama = sharedPreferences.getString("nama", "");
-
-        // Cek jika nama kosong, artinya pengguna baru
-        if (nama.isEmpty()) {
-            tvNamaBeranda.setText("Halo, pengguna baru!"); // Pesan untuk pengguna baru
-            loadProfileFromServer(email, tvNamaBeranda); // Ambil nama dari server
-        } else {
-            tvNamaBeranda.setText("Halo, " + nama + "!"); // Pesan untuk pengguna yang sudah memiliki nama
-        }
-
-        loadJadwal(kelas);
+        // Load jadwal berdasarkan id_user
+        loadJadwal(userId);
 
         return view;
     }
 
-    private void loadJadwal(String kelas) {
+    private void loadJadwal(String id_user) {
         RequestQueue queue = Volley.newRequestQueue(requireContext());
-        StringRequest request = new StringRequest(Request.Method.POST, DbContract.SERVER_JADWAL_URL,
+        String url = DbContract.SERVER_JADWAL_URL + "?id_user=" + id_user;
+
+        // Log URL untuk debug
+        Log.d(TAG, "Request URL: " + url);
+
+        // Membuat permintaan GET
+        StringRequest request = new StringRequest(Request.Method.GET, url,
                 response -> {
                     try {
-                        JSONArray jadwalArray = new JSONArray(response);
+                        JSONObject jsonResponse = new JSONObject(response);
+                        if (jsonResponse.has("message")) {
+                            String message = jsonResponse.getString("message");
+                            Log.e(TAG, "Error from server: " + message);
+                            Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        JSONArray jadwalArray = jsonResponse.getJSONArray("data");
                         jadwalList = new ArrayList<>();
 
                         for (int i = 0; i < jadwalArray.length(); i++) {
                             JSONObject obj = jadwalArray.getJSONObject(i);
-                            String hari = obj.getString("hari");
-                            String matkul = obj.getString("mata_pelajaran");
+                            String tanggal = obj.getString("tanggal");
+                            String namaKelas = obj.getString("nama_kelas");
+                            String namaMapel = obj.getString("nama_mapel");
+                            String namaLengkap = obj.getString("nama_lengkap");
 
-                            jadwalList.add(new item_Jadwal(hari, matkul));
+                            item_Jadwal item = new item_Jadwal(tanggal, namaKelas, namaMapel, namaLengkap);
+                            jadwalList.add(item);
+                        }
+
+                        if (jadwalList.isEmpty()) {
+                            Toast.makeText(requireContext(), "Tidak ada jadwal tersedia.", Toast.LENGTH_SHORT).show();
                         }
 
                         adapter = new JadwalAdapter(jadwalList);
                         recyclerView.setAdapter(adapter);
+
                     } catch (JSONException e) {
-                        e.printStackTrace();
-                        Toast.makeText(getContext(), "Error parsing data", Toast.LENGTH_SHORT).show();
+                        Log.e(TAG, "Error parsing data: " + e.getMessage());
+                        Toast.makeText(requireContext(), "Error parsing data.", Toast.LENGTH_SHORT).show();
                     }
                 },
                 error -> {
-                    Toast.makeText(getContext(), "Network error", Toast.LENGTH_SHORT).show();
-                }) {
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-                params.put("kelas", kelas);
-                return params;
-            }
-        };
+                    Log.e(TAG, "Error: " + error.getMessage());
+                    Toast.makeText(requireContext(), "Gagal memuat jadwal. Periksa koneksi internet Anda.", Toast.LENGTH_SHORT).show();
+                });
 
         queue.add(request);
-    }
-
-    private void loadProfileFromServer(String email, TextView tvNamaBeranda) {
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, DbContract.SERVER_NAMA_URL,
-                response -> {
-                    try {
-                        JSONObject jsonResponse = new JSONObject(response);
-                        String status = jsonResponse.getString("status");
-
-                        if ("success".equals(status)) {
-                            String nama = jsonResponse.getString("nama");
-
-                            // Tampilkan nama ke UI
-                            tvNamaBeranda.setText("Halo " + nama + "!");
-
-                            // Simpan nama ke SharedPreferences untuk cache lokal
-                            SharedPreferences.Editor editor = sharedPreferences.edit();
-                            editor.putString("nama", nama);
-                            editor.apply();
-                        } else {
-                            Log.e("PROFILE_LOAD", "Error: " + jsonResponse.getString("message"));
-                        }
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                },
-                error -> Log.e("PROFILE_LOAD", "Error: " + error.getMessage())
-        ) {
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-                params.put("email", email); // Kirimkan email ke server untuk mendapatkan nama
-                return params;
-            }
-        };
-
-        // Menambahkan permintaan ke antrian Volley
-        Volley.newRequestQueue(requireContext()).add(stringRequest);
     }
 }

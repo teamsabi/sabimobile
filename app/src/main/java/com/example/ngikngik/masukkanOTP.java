@@ -68,7 +68,7 @@ public class masukkanOTP extends AppCompatActivity {
         btnbatal = findViewById(R.id.batalotp);
         lanjut = findViewById(R.id.lanjut);
         progressBar = findViewById(R.id.progressBar2);
-        kirimulang = findViewById(R.id.kirimulang);
+//        kirimulang = findViewById(R.id.kirimulang);
 
         otp1 = findViewById(R.id.otp1);
         otp2 = findViewById(R.id.otp2);

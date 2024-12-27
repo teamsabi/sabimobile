@@ -1,19 +1,21 @@
 package com.example.ngikngik.berandaygy;
 
 public class item_Jadwal {
-    private String hari;
-    private String mataPelajaran;
+    private String tanggal;
+    private String namaKelas;
+    private String namaMapel;
+    private String namaLengkap;
 
-    public item_Jadwal(String hari, String mataPelajaran) {
-        this.hari = hari;
-        this.mataPelajaran = mataPelajaran;
+    public item_Jadwal(String tanggal, String namaKelas, String namaMapel, String namaLengkap) {
+        this.tanggal = tanggal;
+        this.namaKelas = namaKelas;
+        this.namaMapel = namaMapel;
+        this.namaLengkap = namaLengkap;
     }
 
-    public String getHari() {
-        return hari;
-    }
-
-    public String getMataPelajaran() {
-        return mataPelajaran;
-    }
+    // Getter dan setter
+    public String getTanggal() { return tanggal; }
+    public String getNamaKelas() { return namaKelas; }
+    public String getNamaMapel() { return namaMapel; }
+    public String getNamaLengkap() { return namaLengkap; }
 }
