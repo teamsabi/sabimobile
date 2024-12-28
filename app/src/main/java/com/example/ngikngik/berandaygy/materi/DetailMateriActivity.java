@@ -1,6 +1,7 @@
 package com.example.ngikngik.berandaygy.materi;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -44,6 +45,7 @@ public class DetailMateriActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
         // Mengambil kode_mapel dari Intent
         Intent intent = getIntent();
         String kodeMapel = intent.getStringExtra("kode_mapel");
@@ -53,7 +55,7 @@ public class DetailMateriActivity extends AppCompatActivity {
     }
 
     private void fetchMateriData(String kodeMapel) {
-        String url = "http://192.168.1.12/api/materi.php?kode_mapel=" + kodeMapel; // Ganti dengan URL API Anda
+        String url = "http://192.168.1.4/api/materi.php?kode_mapel=" + kodeMapel;
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 response -> {
@@ -67,13 +69,27 @@ public class DetailMateriActivity extends AppCompatActivity {
                                 String judulMateri = materiObject.getString("judul_materi");
                                 String fileMateri = materiObject.getString("file_materi");
 
+                                // Menambahkan link file materi ke dalam array
+                                String materiLink = "http://192.168.1.4/" + fileMateri;
+
                                 // Menambahkan materi ke list
-                                materiList.add(new Materid(judulMateri, fileMateri));
+                                materiList.add(new Materid(judulMateri, materiLink));
                             }
 
                             // Menyusun data ke dalam ListView
                             materiAdapter = new MateriAdapter(DetailMateriActivity.this, materiList);
                             listViewMateri.setAdapter(materiAdapter);
+
+                            // Menambahkan listener untuk membuka file materi saat item di klik
+                            listViewMateri.setOnItemClickListener((parent, view, position, id) -> {
+                                Materid materi = materiList.get(position);
+                                String fileUrl = materi.getFileMateri();
+
+                                // Membuka file materi menggunakan Intent
+                                Intent intent = new Intent(Intent.ACTION_VIEW);
+                                intent.setDataAndType(Uri.parse(fileUrl), "application/pdf"); // Ganti dengan tipe file yang sesuai
+                                startActivity(intent);
+                            });
 
                         } else {
                             Toast.makeText(DetailMateriActivity.this, "Materi tidak ditemukan", Toast.LENGTH_SHORT).show();

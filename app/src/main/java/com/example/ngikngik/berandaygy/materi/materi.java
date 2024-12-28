@@ -68,7 +68,7 @@ public class materi extends AppCompatActivity {
     }
 
     private void fetchMapelData(String id_user) {
-        String url = "http://192.168.1.12/api/JustMapel.php?id_user=" + id_user; // Ganti dengan URL API Anda
+        String url = "http://192.168.1.4/api/JustMapel.php?id_user=" + id_user; // Ganti dengan URL API Anda
         Log.d("materi", "Request URL: " + url);
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,

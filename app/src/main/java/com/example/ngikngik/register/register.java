@@ -151,9 +151,12 @@ public class register extends AppCompatActivity {
                 response -> {
                     progressDialog.dismiss();
                     try {
+                        // Log respons untuk debugging
+                        Log.d("Register Response", response);
+
                         JSONObject jsonResponse = new JSONObject(response);
-                        String status = jsonResponse.getString("status");
-                        String message = jsonResponse.getString("message");
+                        String status = jsonResponse.optString("status", "error");
+                        String message = jsonResponse.optString("message", "Terjadi kesalahan");
 
                         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
 
@@ -162,11 +165,13 @@ public class register extends AppCompatActivity {
                             finish();
                         }
                     } catch (JSONException e) {
+                        Log.e("Register Error", "Parsing JSON gagal: " + e.getMessage());
                         Toast.makeText(this, "Gagal parsing respons: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 },
                 error -> {
                     progressDialog.dismiss();
+                    Log.e("Register Error", "Volley error: " + error.getMessage());
                     Toast.makeText(this, "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
                 }) {
             @Override
@@ -181,4 +186,5 @@ public class register extends AppCompatActivity {
 
         VolleyConnection.getInstance(this).addToRequestQue(stringRequest);
     }
+
 }

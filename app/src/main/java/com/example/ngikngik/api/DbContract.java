@@ -1,9 +1,9 @@
 package com.example.ngikngik.api;
 
 public class DbContract {
-//    static final String IP = "192.168.18.231";
+    static final String IP = "192.168.1.4";
 //    static final String IP = "192.168.1.11";
-    static final String IP = "192.168.1.12";
+//    static final String IP = "192.168.1.12";
     public static final String SERVER_LOGIN_URL = "http://" + IP + "/api/apilogin.php";
     public static final String SERVER_REGISTER_URL = "http://" + IP + "/api/apiregister.php";
     public static final String SERVER_LUPA_PASSWORD_URL = "http://" + IP + "/api/lupapassword.php";
